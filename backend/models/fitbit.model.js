@@ -31,6 +31,6 @@ const fitbitSchema=new mongoose.Schema({
         required:true
     }
 
-},{timestamps:true})
+})
 
 export const Fitbit=mongoose.model("Fitbit",fitbitSchema);

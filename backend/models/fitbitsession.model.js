@@ -19,6 +19,6 @@ const fitbitSessionSchema=new mongoose.Schema({
             return new Date(Date.now()+10*60*1000)
         }
     }
-},{timestamps:true})
+})
 fitbitSessionSchema.index({expiresAt:1},{expireAfterSeconds:0});
 export const FitbitSession=mongoose.model("FitbitSession",fitbitSessionSchema);

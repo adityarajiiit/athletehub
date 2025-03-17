@@ -1,0 +1,60 @@
+import mongoose from "mongoose";
+import { tasksforrecovery } from "../constants/injurydata.js";
+ const clinicalNotesSchema=new mongoose.Schema({
+    appointmentId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Appointment",
+        required:true
+    },
+    date:{
+        type:Date,
+        default:Date.now
+    },
+    time:{
+        type:String,
+        required:true
+    },
+    duration:{
+        type:Number,
+        required:true
+    },
+    notes:{
+        type:String,
+        required:true
+    },
+    tasks:[{
+        type:String,
+        enum:tasksforrecovery
+    }],
+    painlevel:{
+        type:Number,
+        min:1,
+        max:10,
+        required:true
+    },
+    painSensation:{
+        type:String,
+        enum:["Sharp","Dull","Ache","Radiating"],
+        required:true
+    },
+    soapnote:{
+        subjective:{
+            type:String,
+            required:true
+        },
+        objective:{
+            type:String,
+            required:true
+        },
+        assessment:{
+            type:String,
+            required:true
+        },
+        plan:{
+            type:String,
+            required:true
+        }
+    }
+});
+export const ClinicalNotes=mongoose.model("ClinicalNotes",clinicalNotesSchema)
+    

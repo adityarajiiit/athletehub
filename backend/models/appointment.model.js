@@ -1,0 +1,41 @@
+import mongoose from "mongoose";
+export const appointmentSchema=new mongoose.Schema({
+    patientId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Athlete",
+        required:true
+    },
+    doctorId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Doctor",
+        required:true
+    },
+    date:{
+        type:Date,
+        required:true
+    },
+    startTime:{
+        type:String,
+        required:true
+    },
+    endTime:{
+        type:String,
+        required:true
+    },
+    status:{
+        type:String,
+        enum:["Scheduled","Completed","Cancelled"],
+        default:"Scheduled"
+    },
+    injuryId:{
+type:mongoose.Schema.Types.ObjectId,
+ref:"Injury"
+    },
+    illnessId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Illness"
+    },
+    notes:{
+        type:String
+    }});
+    export const Appointment=mongoose.model("Appointment",appointmentSchema)

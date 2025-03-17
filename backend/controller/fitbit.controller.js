@@ -9,11 +9,11 @@ export const initiateAuth=async(req,res)=>{
         const state=generateState();
         await FitbitSession.create({userId,codeVerifier,state});
         const url=await getFitbitUrl(codeVerifier,state);
-        res.status(200).json({url});
+        res.json({url});
     }
     catch(error){
         console.error("Error in initiating auth:",error);
-        res.status(500).json({message:"server error"});
+        res.status(500).json({message:error.message});
     }
 }
 
@@ -22,11 +22,11 @@ export const handleCallback=async(req,res)=>{
         const {code,state}=req.query;
         const userId=req.userId;
         if(!code||!state){
-            return res.status(400).json({message:"Invalid request"});
+            return res.json({message:"Invalid request"});
         }
         const session=await FitbitSession.findOne({userId,state});
         if(!session){
-            return res.status(400).json({message:"Invalid or expired"})
+            return res.json({message:"Invalid or expired"})
         }
         const tokenData=await exchangeCodeForToken(code,session.codeVerifier);
         await Fitbit.findOneAndUpdate(
@@ -42,11 +42,10 @@ export const handleCallback=async(req,res)=>{
             {upsert:true,new:true}
         )
         await FitbitSession.deleteOne({_id:session._id});
-        res.status(200).json({message:"Fitbit connected successfully"});
+        res.json({message:"Fitbit connected successfully"});
     }
     catch(error){
-        console.error("callback error",error);
-        res.status(500).json({message:"callback error"});
+        res.status(500).json({message:error.message});
     }
 }
 
@@ -55,13 +54,13 @@ export const getConnectionStatus=async(req,res)=>{
         const userId=req.userId;
         const connection=await Fitbit.findOne({userId});
         if(!connection){
-            return res.status(200).json({connected:false,lastSync:null,scopes:[]});
+            return res.json({connected:false,lastSync:null,scopes:[]});
         }
-        res.status(200).json({connected:true,lastSync:connection.lastSync,scopes:connection.scope.split(' ')});
+        res.json({connected:true,lastSync:connection.lastSync,scopes:connection.scope.split(' ')});
 
     }
     catch(error){
-        res.status(500).json({message:"server error"});
+        res.status(500).json({message:error.message});
     }
 }
 
@@ -69,10 +68,10 @@ export const disconnectyourFitbit=async(req,res)=>{
     try{
         const userId=req.userId;
         await Fitbit.deleteOne({userId});
-        res.status(200).json({message:"Fitbit disconnected successfully"});
+        res.json({message:"Fitbit disconnected successfully"});
     }
     catch(error){
-        res.status(500).json({message:"server error"});
+        res.status(500).json({message:error.message});
     }
 }
 
@@ -80,9 +79,9 @@ export const getFitbitProfile=async(req,res)=>{
     try{
 const userId=req.userId;
 const profile=await getFitbitData(userId,'profile.json');
-res.status(200).json(profile);
+res.json(profile);
     }
     catch(error){
-        res.status(500).json({message:"server error"});
+        res.status(500).json({message:error.message});
     }
 }

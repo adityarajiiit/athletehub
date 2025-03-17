@@ -27,6 +27,10 @@ const userSchema=new mongoose.Schema({
         type:Boolean,
         default:false
     },
+    isOnboarded:{
+        type:Boolean,
+        default:false
+    },
     verificationToken:{
         type:String
     },
@@ -34,6 +38,6 @@ const userSchema=new mongoose.Schema({
         type:Date
     },
     
-},{timestamps:true});
+});
 
 export const User=mongoose.model("User",userSchema);

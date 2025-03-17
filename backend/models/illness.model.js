@@ -1,0 +1,64 @@
+import mongoose from "mongoose";
+import { illnessCategory } from "../injurydata.js";
+const IllnessSchema=new mongoose.Schema({
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true
+    },
+    category:{
+        enum:Object.keys(illnessCategory),
+        type:String,
+        required:true
+    },
+    illnessName:{
+        type:String,
+        required:true
+    },
+    newInjury:{
+        type:Boolean,
+        required:true
+    },
+    Priority:{
+        enum:["High","Medium","Low"],
+        type:String,
+        required:true
+    },
+    dateofIllness:{
+        type:Date,
+        default:Date.now()
+    },
+    returntopartialtraining:{
+        type:Date,
+        default:Date.now()
+    },
+returntofulltraining:{
+    type:Date,
+    default:Date.now()
+},
+returntocompetition:{
+    type:Date,
+    default:Date.now()
+},
+healthproblemresolved:{
+    type:Date,
+    default:Date.now()
+},
+trainingstatus:{
+    enum:["Full Participation","Reduced Participation","No Participation"],
+    type:String,
+    required:true
+},
+trainingrestriction:{
+    type:String,
+},
+details:{
+    type:String},
+    personnalprogram:{
+        type:String
+    },
+    comments:{
+        type:String
+    }
+})    
+export const Illness=mongoose.model("Illness",IllnessSchema);
