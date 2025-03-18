@@ -5,6 +5,7 @@ dotenv.config()
 import { connectDB } from "./database/connectdb.js"
 import { connect } from "mongoose"
 import authRoutes from "./routes/auth.routes.js"
+import fitbitRoutes from "./routes/fitbit.routes.js"
 const app=express()
 const PORT=process.env.PORT||5000
 
@@ -12,6 +13,7 @@ const PORT=process.env.PORT||5000
 app.use(express.json())
 app.use(cookieParser())
 app.use("/api/auth",authRoutes)
+app.use("/api/fitbit",fitbitRoutes)
 app.listen(PORT,()=>{
     connectDB();
     console.log("Server is running on port : ",PORT)
