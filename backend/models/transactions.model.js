@@ -1,0 +1,64 @@
+import mongoose from "mongoose";
+const TransactionSchema=new mongoose.Schema({
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true
+    },
+    type:{
+        type:String,
+        enum:["income","expense"],
+        required:true
+    },
+    amount:{
+        type:Number,
+        required:true
+    },
+    description:{
+        type:String
+    },
+    date:{
+        type:Date,
+        required:true
+    },
+    category:{
+        type:String,
+enum:["Contract","Sponsorship","Prize","Merchandise","Appearance Fee","Training","Equipment","Competition Fees","Travel","Accommodation","Nutrition","Medical","Therapy","Coaching Fees","Management Fees","Insurance","Transport","Uniform","Other Income","Other Expense"]
+    },
+receiptUrl:{
+    type:String
+},
+isRecurring:{
+    type:Boolean,
+    default:false
+},
+recurringInterval:{
+    type:String,
+    enum:["daily","weekly","monthly","yearly"]
+},
+nextRecurringDate:{
+    type:Date
+},
+lastProcessed:{
+    type:Date
+},
+status:{
+    type:String,
+    enum:["pending","completed"],
+    default:"completed"
+},
+accountId:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Account",
+    required:true
+},
+createdAt:{
+    type:Date,
+    default:Date.now
+},
+updatedAt:{
+    type:Date,
+    default:Date.now
+}
+})
+export const Transaction=mongoose.model("Transaction",TransactionSchema);

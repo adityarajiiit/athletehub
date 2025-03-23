@@ -50,8 +50,6 @@ export const exchangeCodeForToken=async(code,codeVerifier)=>{
                     code:code,
                     code_verifier:codeVerifier
                 }
-
-                
         });
         return {
             accessToken:response.data.access_token,

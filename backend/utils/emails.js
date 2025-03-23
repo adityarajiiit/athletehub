@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
-
+import dotenv from 'dotenv'
+dotenv.config();
 var transport = nodemailer.createTransport({
     host: process.env.MAIL_HOST,
     port: process.env.MAIL_PORT,
@@ -8,21 +9,48 @@ var transport = nodemailer.createTransport({
       pass: process.env.MAIL_PASS
     }
   });
-
+  
 export const sendVerificationEmail=async(email,verificationToken)=>{
     try{
         const mailOptions={
-            from:'Athlete Hub <noreply@trial-z86org8p00zlew13.mlsender.net>',
+            from:'Athlete Hub <0405.adityaraj@gmail.com>',
             to:email,
             subject:"Email verification",
-            text:`Your verification code is ${verificationToken}`
+            text:`Your verification link is http://localhost:5000/api/auth/verify-email/${verificationToken}`
         };
         const result=await transport.sendMail(mailOptions);
         console.log("Email sent:",result);
-        return true;
     }  
     catch(error){
-        console.error("Email sending error:",error);
-        return false;
+        console.error(error.message);
+    }
+}
+
+export const sendBudgetReminder=async(data,email)=>{
+    try{
+        const mailOptions={
+            from:'Athlete Hub <0405.adityaraj@gmail.com>',
+            to:email,
+            subject:"Budget alert",
+            data:data
+        }
+
+    }
+    catch(error){
+        console.log(error.message)
+    }
+}
+export const sendMonthlyReport=async(data,email)=>{
+    try{
+        const mailOptions={
+            from:'Athlete Hub <0405.adityaraj@gmail.com>',
+            to:email,
+            subject:"Your Monthly Report",
+            data:data
+        }
+
+    }
+    catch(error){
+        console.log(error.message)
     }
 }

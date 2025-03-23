@@ -73,8 +73,8 @@ export default function App() {
           </div>
         </div>
       </div>
-      <div className="grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4 place-content-center w-11/12 p-3 relative bottom-6">
-        <Card className="bg-accent shadow-lg shadow-slate-50/20 p-1 flex flex-col justify-center items-center">
+      <div className="grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4 place-content-center w-11/12 p-3 xl:w-10/12">
+        <Card className="bg-accent/60 shadow-lg shadow-slate-50/10 p-1 flex flex-col justify-center items-center">
           <CardHeader>
             <CardTitle className="flex items-center justify-center text-2xl gap-x-4 font-bold">
               {" "}
@@ -92,61 +92,57 @@ export default function App() {
               Achieve Your Peak Potential!
             </CardDescription>
           </CardHeader>
-          <CardContent className=" bg-destructive rounded-lg flex justify-center items-center h-full">
-            <p className="text-accent pt-2 text-base ">
+          <CardContent className=" bg-blue-600/50 rounded-lg flex justify- items-center h-full">
+            <p className="text-white pt-2 text-base ">
               Track your daily progress effortlessly, monitor your step count,
               heart rate, and overall performance with real-time insights.
               Connect with Google Fit to seamlessly sync your data, analyze
               trends, and take your fitness journey to the next level. Achieve
               your peak potential with expert-driven analytics and personalized
-              performance tracking
+              performance tracking.
             </p>
           </CardContent>
         </Card>
-        <Card className="bg-foreground shadow-lg shadow-slate-50/20 p-1 flex flex-col justify-center items-center">
+        <Card className="bg-[#EB8317]/80 shadow-lg shadow-slate-50/10 p-1 flex flex-col justify-center items-center">
           <CardHeader>
             <CardTitle className="flex items-center justify-center text-2xl gap-x-4 font-bold">
               {" "}
               <img src={coach} alt="graph" className="h-12 " />
-              <p className="w-fit h-fit pt-2 text-accent-foreground">
-                Expert guidance
-              </p>
+              <p className="w-fit h-fit pt-2 text-white">Expert guidance</p>
             </CardTitle>
             <CardDescription className="text-destructive text-center">
               Connect with Expert Coaches & Players to Take Your Performance to
               the Next Level!
             </CardDescription>
           </CardHeader>
-          <CardContent className=" bg-destructive rounded-lg h-full flex justify-center items-center">
-            <p className="text-accent pt-2 text-base ">
+          <CardContent className=" bg-[#F3C623]/85 rounded-lg h-full flex justify-center items-center">
+            <p className="text-white pt-2 text-base ">
               Connect with top expert coaches and professional players to refine
               your skills, enhance your strategy, and push your performance to
               new heights. Get personalized guidance, insider tips, and
               real-time feedback to accelerate your growth and dominate your
-              game. Elevate your performance with expert-driven insights and
+              game. Elevate your performance with expert-driven insights
             </p>
           </CardContent>
         </Card>
-        <Card className="bg-accent shadow-lg shadow-slate-50/20 p-1 flex flex-col justify-center items-center">
+        <Card className="bg-[#2b6759]/80 shadow-lg shadow-slate-50/10 p-1 flex flex-col justify-center items-center">
           <CardHeader>
             <CardTitle className="flex items-center justify-center text-2xl gap-x-4 font-bold">
               {" "}
               <img
                 src={injury}
                 alt="injury"
-                className="h-12  bg-sky-200/20 p-1 rounded-md"
+                className="h-12  bg-sky-100/60 p-1 rounded-md"
               />
-              <p className="w-fit h-fit pt-2 text-accent-foreground">
-                Medical Assistance
-              </p>
+              <p className="w-fit h-fit pt-2 text-white">Medical Assistance</p>
             </CardTitle>
-            <CardDescription className="text-destructive text-center">
+            <CardDescription className="text-white text-center">
               Get Expert Medical Assistance & Personalized Diet Plans for a
               Healthier You!
             </CardDescription>
           </CardHeader>
-          <CardContent className=" bg-destructive rounded-lg flex justify-center items-center h-full">
-            <p className="text-accent pt-2 text-base ">
+          <CardContent className=" bg-[#B3D8A8]/50 rounded-lg flex justify-center items-center h-full">
+            <p className="text-white pt-2 text-base ">
               Access expert medical assistance and personalized diet plans
               tailored to your needs. Track your injuries, manage your diet
               effectively, and discover the best recovery strategies to heal

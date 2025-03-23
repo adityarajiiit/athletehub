@@ -7,12 +7,12 @@ export const signup=async(req,res)=>{
     const {email,password,name,role}=req.body;
     try{
         if(!email||!password||!name||!role){
-            return res.json({error:"All fields are required"});
+            return res.status(400).json({error:"All fields are required"});
         }
         const user=await User.findOne({email});
         if(user){
             console.log(user)
-            return res.json({error:"User already exists"});
+            return res.status(400).json({error:"User already exists"});
         }
         const hashedPassword=await bcryptjs.hash(password,10);
         const verificationToken=generateVerificationToken();
@@ -26,29 +26,31 @@ export const signup=async(req,res)=>{
         });await newUser.save();
        generateTokenandSetCookie(res,newUser._id);
        await sendVerificationEmail(newUser.email,verificationToken);
-res.json({message:"User created successfully"});
+res.status(200).json({message:"User created successfully"});
     }
     catch(error){
         res.status(500).json({message:error.message});
     }
 }
 export const verifyEmail=async(req,res)=>{
-    const {code}=req.body;
+    const {token}=req.params;
     try{
         const user=await User.findOne({
-            verificationToken:code,
+            verificationToken:token,
             verificationTokenExpires:{$gt:Date.now()}
         })
 
         if(!user){
-            return res.json({error:"Invalid or expired verification token"});
+            return res.status(400).send('<h1>Invalid or expired link</h1>');
         }
         user.isVerified=true;
         user.verificationToken=undefined;
         user.verificationTokenExpires=undefined;
         await user.save();
+        return res.status(200).send('<h1>Email verified successfully</h1>');
     }
     catch(error){
+        
         res.status(500).json({message:error.message});
     }
 }
@@ -90,3 +92,19 @@ res.json({user});
         res.status(500).json({message:error.message});
     }
 }
+export const verify=async(req,res)=>{
+    try{
+        const user=await User.findById(req.userId);
+        if(!user){
+            return res.json({success:false});
+        }
+        if(!user.isVerified){
+            return res.json({success:false});
+        }
+        res.json({success:true,name:user.name,category:user.role});
+    }
+    catch(error){
+    res.status(500).json({message:error.message});
+}
+}
+

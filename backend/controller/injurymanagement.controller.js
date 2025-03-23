@@ -6,7 +6,6 @@ export const createInjury=async(req,res)=>{
     try{
 const userId=req.userId;
 const injury=await Injury.create({userId,...req.body});
-
 res.json({message:"Injury created successfully"});
 }
     

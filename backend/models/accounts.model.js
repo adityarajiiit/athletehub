@@ -1,0 +1,39 @@
+import mongoose from "mongoose";
+const AccountSchema=new mongoose.Schema({
+    name:{
+        type:String,
+        required:true
+    },
+    type:{
+        type:String,
+        enum:["saving","current","fixed"],
+        required:true
+    },
+    balance:{
+        type:Number,
+        required:true
+    },
+    isDefault:{
+        type:Boolean,
+        default:false
+    },
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true
+    },
+    status:{
+        type:String,
+        enum:["active","inactive"],
+        default:"active"
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now
+    },
+    updatedAt:{
+        type:Date,
+        default:Date.now
+    }
+});
+export const Account=mongoose.model("Account",AccountSchema);
