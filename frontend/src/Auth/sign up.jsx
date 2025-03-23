@@ -10,7 +10,7 @@ const SignUp = () => {
   const [category, setcategory] = useState("");
   const [gender, setgender] = useState("");
   const [sport, setsport] = useState("");
-
+  const [specialization, setspecialization] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Email:", email);
@@ -140,8 +140,8 @@ const SignUp = () => {
                   Specialization:
                 </label>
                 <select
-                  value={sport}
-                  onChange={(e) => setsport(e.target.value)}
+                  value={specialization}
+                  onChange={(e) => setspecialization(e.target.value)}
                   required
                   className="border-2 border-[#687EFF] p-2 rounded-md bg-white"
                 >
@@ -155,7 +155,7 @@ const SignUp = () => {
             {category === "Coach" && (
               <div className="flex flex-col sm:w-full">
                 <label className="relative top-3 bg-white w-fit left-2 p-1">
-                  Experience Level:
+                  Sport :
                 </label>
                 <select
                   value={sport}
@@ -164,9 +164,12 @@ const SignUp = () => {
                   className="border-2 border-[#687EFF] p-2 rounded-md bg-white"
                 >
                   <option value="">Select any option</option>
-                  <option value="Beginner">Beginner</option>
-                  <option value="Intermediate">Intermediate</option>
-                  <option value="Expert">Expert</option>
+                  <option value="Cricket">Cricket</option>
+                  <option value="Football">Football</option>
+                  <option value="Volleyball">Volleyball</option>
+                  <option value="Basketball">Basketball</option>
+                  <option value="Hockey">Hockey</option>
+                  <option value="Tennis">Tennis</option>
                 </select>
               </div>
             )}

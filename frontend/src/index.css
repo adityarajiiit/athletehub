@@ -10,7 +10,7 @@
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
+    --primary: 196 100% 80%;
     --primary-foreground: 0 0% 98%;
     --secondary: 216 100% 75%;
     --secondary-foreground: 0 0% 9%;
@@ -56,6 +56,20 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #2d3748;
+  border-radius: 10px;
 }
 
 @layer base {
