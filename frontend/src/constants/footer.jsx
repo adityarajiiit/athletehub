@@ -4,7 +4,7 @@ import { Instagram, Github, Linkedin } from "lucide-react";
 function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="flex flex-col md:flex-row justify-center md:justify-between lg:justify-around items-center  w-full h-full gap-x-4 p-4 max-sm:gap-y-10 sm:gap-y-10">
+    <footer className="flex flex-col md:flex-row justify-center md:justify-between lg:justify-around items-center  w-full min-h-80 max-h-full gap-x-4 p-4 max-sm:gap-y-10 sm:gap-y-10 bg-[#192434] border-t-2 drop-shadow-md border-muted/30 ">
       <div className="flex flex-col justify-center  relative">
         <form action="" className="flex flex-col justify-center ">
           <h1 className="text-2xl text-accent-foreground font-bold ">
@@ -14,7 +14,7 @@ function Footer() {
             <input
               type="text"
               placeholder="Enter Your Email"
-              className="bg-transparent border-b-2 border-destructive outline-none focus:outline-none  focus:ring-0 p-1"
+              className="bg-transparent border-b-2 border-destructive outline-none focus:outline-none  focus:ring-0 p-1 text-destructive"
             />
             <button className="p-1 rounded-md text-destructive border-2 border-yellow-300 shadow-md shadow-yellow-400/30 ">
               Submit
@@ -27,13 +27,13 @@ function Footer() {
           </h1>
           <ul className="flex flex-row gap-4">
             <li>
-              <Instagram className="stroke-destructive bg-sky-200/20 p-2 h-12 w-12 rounded-2xl"></Instagram>
+              <Instagram className="stroke-secondary bg-sky-800/20 p-2 h-10 w-10 rounded-2xl"></Instagram>
             </li>
             <li>
-              <Github className="stroke-destructive bg-sky-200/20 p-2 h-12 w-12 rounded-2xl "></Github>
+              <Github className="stroke-secondary bg-sky-800/20 p-2 h-10 w-10 rounded-2xl "></Github>
             </li>
             <li>
-              <Linkedin className="stroke-destructive bg-sky-200/20 p-2 h-12 w-12 rounded-2xl"></Linkedin>
+              <Linkedin className="stroke-secondary bg-sky-800/20 p-2 h-10 w-10 rounded-2xl"></Linkedin>
             </li>
           </ul>
         </div>

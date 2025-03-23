@@ -1,11 +1,264 @@
-import React from "react";
+import React, { useState } from "react";
+import Messageslides from "@/constants/messageslide";
+import { SearchIcon } from "lucide-react";
 import Header from "@/constants/navbar";
 import Footer from "@/constants/footer";
+import chat from "@/assets/chat.png";
+import coach from "@/assets/coach.png";
+import { ArrowLeftCircle } from "lucide-react";
 function Chat() {
+  const [active, setActive] = useState(false);
+  const [chatHistory, setChatHistory] = useState({});
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [newMessage, setNewMessage] = useState("");
+  // const cardcomp = [
+  //   {
+  //     id: 1,
+  //     username: "group1",
+  //     category: "category1",
+  //   },
+  //   {
+  //     id: 2,
+  //     username: "group2",
+  //     category: "category2",
+  //   },
+  //   {
+  //     id: 3,
+  //     username: "group3",
+  //     category: "category3",
+  //   },
+  //   {
+  //     id: 4,
+  //     username: "group4",
+  //     category: "category4",
+  //   },
+  //   {
+  //     id: 5,
+  //     username: "group5",
+  //     category: "category5",
+  //   },
+  //   {
+  //     id: 6,
+  //     username: "group6",
+  //     category: "category6",
+  //   },
+  //   {
+  //     id: 7,
+  //     username: "group7",
+  //     category: "category7",
+  //   },
+  //   {
+  //     id: 8,
+  //     username: "group8",
+  //     category: "category8",
+  //   },
+  //   {
+  //     id: 9,
+  //     username: "group9",
+  //     category: "category9",
+  //   },
+  //   {
+  //     id: 10,
+  //     username: "group9",
+  //     category: "category9",
+  //   },
+  //   {
+  //     id: 11,
+  //     username: "group7",
+  //     category: "category7",
+  //   },
+  //   {
+  //     id: 12,
+  //     username: "group8",
+  //     category: "category8",
+  //   },
+  //   {
+  //     id: 13,
+  //     username: "group9",
+  //     category: "category9",
+  //   },
+  //   {
+  //     id: 14,
+  //     username: "group9",
+  //     category: "category9",
+  //   },
+  // ];
+  const cardcomp = [
+    {
+      id: 1,
+      username: "Group 1",
+      category: "Coach",
+      chatHistory: [
+        { sender: "User", message: "Hey, how's it going?" },
+        { sender: "Coach", message: "Doing well! How about you?" },
+        { sender: "User", message: "I'm good, just checking in!" },
+      ],
+    },
+    {
+      id: 2,
+      username: "Group 2",
+      category: "Doctor",
+      chatHistory: [
+        { sender: "User", message: "Did you complete the workout?" },
+        { sender: "Doctor", message: "Yes! It was intense." },
+        { sender: "User", message: "Awesome! Keep pushing!" },
+      ],
+    },
+    {
+      id: 3,
+      username: "Group 3",
+      category: "Athelete",
+      chatHistory: [
+        { sender: "User", message: "Let's plan our next session" },
+        { sender: "Athlete", message: "Sure, how about Saturday?" },
+        { sender: "User", message: "Sounds great!" },
+      ],
+    },
+  ];
+
+  const handleSelectGroup = (groupId) => {
+    console.log("Group selected:", groupId);
+
+    const selectedChat = cardcomp.find((group) => group.id === groupId);
+
+    setSelectedGroup(groupId);
+    setActive(true);
+
+    setChatHistory((prev) => ({
+      ...prev,
+      [groupId]: prev[groupId] || selectedChat?.chatHistory || [],
+    }));
+  };
+
+  const sendMessage = (groupId) => {
+    if (!newMessage.trim()) return;
+
+    setChatHistory((prev) => ({
+      ...prev,
+      [groupId]: [
+        ...(prev[groupId] || []),
+        { sender: "User", message: newMessage },
+      ],
+    }));
+
+    setNewMessage("");
+  };
+
   return (
     <div>
-      <Header></Header>
-      <Footer></Footer>o
+      <Header />
+      <div className="flex flex-row pt-20 bg-black/80 h-fit">
+        <div
+          className={
+            selectedGroup
+              ? "max-sm:hidden sm:hidden md:flex flex-col justify-center items-center w-96 bg-accent/30  h-[52rem] border-r-2 border-muted/20 max-sm:full"
+              : "flex flex-col justify-center items-center w-96 bg-accent/30  h-[52rem] border-r-2 border-muted/20 max-sm:full"
+          }
+        >
+          <div className="flex justify-center items-center w-fit p-4">
+            <form className="flex flex-row relative">
+              <SearchIcon className="stroke-slate-50 absolute inset-y-3 inset-x-3 z-10 pointer-events-none w-fit" />
+              <input
+                type="text"
+                className=" border border-secondary outline-none pl-12 rounded-md  text-slate-100 bg-transparent placeholder:text-slate-200 h-12 w-72 placeholder:italic"
+                placeholder="Search ..."
+              />
+            </form>
+          </div>
+
+          <div className="flex flex-col overflow-y-auto p-2 mt-2 h-[46rem] w-full custom-scrollbar">
+            {cardcomp.map((card) => (
+              <div
+                key={card.id}
+                onClick={() => handleSelectGroup(card.id)}
+                className="cursor-pointer"
+              >
+                <Messageslides
+                  username={card.username}
+                  category={card.category}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {selectedGroup ? (
+          <div className="flex flex-col  bg-gray-900 w-full h-[52rem]">
+            <div className="flex flex-row justify-between items-center w-full bg-blue-950 ">
+              <div className="flex flex-row items-center justify-start h-20 gap-4 pl-6">
+                <img src={coach} alt="" className="h-12 w-12 " />
+                <div className="flex flex-col justify-center items-start">
+                  <p className="font-base text-xl text-secondary">
+                    {cardcomp[selectedGroup - 1].username}
+                  </p>
+                  <p className="text-base text-destructive font-extralight">
+                    {cardcomp[selectedGroup - 1].category}
+                  </p>
+                </div>
+              </div>
+              <div>
+                <ArrowLeftCircle
+                  className="stroke-secondary h-8 w-8 mr-4"
+                  onClick={() => {
+                    selectedGroup
+                      ? setSelectedGroup(false)
+                      : setSelectedGroup(true);
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="flex-grow overflow-y-auto">
+              {chatHistory[selectedGroup]?.map((msg, index) => (
+                <div
+                  key={index}
+                  className={`p-2 ${
+                    msg.sender === "User"
+                      ? "text-right text-blue-400"
+                      : "text-left text-white"
+                  }`}
+                >
+                  <p>{msg.message}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex items-center border-t p-2">
+              <input
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                className="flex-grow p-2 bg-gray-800 text-white rounded-lg outline-none"
+                placeholder="Type a message..."
+              />
+              <button
+                onClick={() => sendMessage(selectedGroup)}
+                className="ml-2 bg-blue-600 text-white p-2 rounded-lg"
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col justify-center items-center h-[52rem] w-full  bg-black">
+            <div className="flex justify-center items-center flex-col gap-2">
+              <img
+                src={chat}
+                alt="message"
+                className="h-20 w-20 md:h-32 md:w-32"
+              />
+              <p className="text-destructive text-center">
+                Keep in touch with the person you are connected with.
+                <br />
+                <span className="text-slate-400">
+                  Connect with coaches, doctors, and other athletes.
+                </span>
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+      <Footer />
     </div>
   );
 }
