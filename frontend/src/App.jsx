@@ -16,19 +16,19 @@ import {
 } from "@/components/ui/card";
 export default function App() {
   return (
-    <div className="flex flex-col justify-center items-center bg-black/85 w-full h-full">
+    <div className="flex flex-col justify-center items-center bg-black/95 w-full h-full">
       <Header />
       <div className="flex justify-center items-center  relative">
         <img
           src={hero}
           alt="hero"
-          className="w-full h-[90vh] object-cover  rounded-xl mt-24 "
+          className="w-screen h-[90vh] object-cover  mt-24 "
         />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white  w-full h-[90vh] flex flex-col justify-center items-start bg-black/70 rounded-lg mt-12 pl-16">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white  w-full h-[90vh] flex flex-col justify-center items-start bg-black/40  mt-12 pl-16">
           <p className="font-semibold pl-2">
             Fuel Your Passion , Unleash Your Play !
           </p>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 w-4/5">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 w-4/5 font-poppins">
             Welcome to the <br />
             <span className="text-muted">Sports</span> Hub
           </h1>
@@ -38,28 +38,28 @@ export default function App() {
             scope, and take your career to the next level!
           </p>
           <div className="flex flex-row justify-center items-center mt-4">
-            <div className="flex justify-center items-center h-16 w-10 bg-muted font-extrabold text-xl rotate-6 z-10">
+            <div className="flex justify-center items-center h-16 w-10 bg-orange-600 font-extrabold text-xl rotate-6 z-10">
               1.
             </div>
-            <div className="bg-blue-700/50 p-2 pl-4 rounded-md text-white font-medium relative right-2">
+            <div className="bg-amber-500 p-2 pl-4 rounded-md text-white font-medium relative right-2">
               Connect with Expert Coaches & Players to Take Your Performance to
               the Next Level!
             </div>
           </div>
           <div className="flex flex-row justify-center items-center mt-4">
-            <div className="flex justify-center items-center h-16 w-10 bg-muted font-extrabold text-xl rotate-6 z-10">
+            <div className="flex justify-center items-center h-16 w-10 bg-orange-600 font-extrabold text-xl rotate-6 z-10">
               2.
             </div>
-            <div className="bg-blue-700/50 p-2 pl-4 rounded-md text-white font-medium relative right-2">
+            <div className="bg-amber-500 p-2 pl-4 rounded-md text-white font-medium relative right-2">
               Get Expert Medical Assistance & Personalized Diet Plans for a
               Healthier You!
             </div>
           </div>
           <div className="flex flex-row justify-center items-center mt-4">
-            <div className="flex justify-center items-center h-16 w-10 bg-muted font-extrabold text-xl rotate-6 z-10">
+            <div className="flex justify-center items-center h-16 w-10 bg-orange-600 font-extrabold text-xl rotate-6 z-10">
               3.
             </div>
-            <div className="bg-blue-700/50 p-2 pl-4 rounded-md text-white font-medium relative right-2">
+            <div className="bg-amber-500 p-2 pl-4 rounded-md text-white font-medium relative right-2">
               Track Your Daily Progress, Get In-Depth Performance Insights, and
               Achieve Your Peak Potential!
             </div>
@@ -73,8 +73,8 @@ export default function App() {
           </div>
         </div>
       </div>
-      <div className="grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4 place-content-center w-11/12 p-3 xl:w-10/12">
-        <Card className="bg-accent/60 shadow-lg shadow-slate-50/10 p-1 flex flex-col justify-center items-center">
+      <div className="grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4 place-content-center w-fit p-3 ">
+        <Card className="bg-accent/60 shadow-lg shadow-slate-50/10 p-1 flex flex-col justify-center items-center max-w-96">
           <CardHeader>
             <CardTitle className="flex items-center justify-center text-2xl gap-x-4 font-bold">
               {" "}
@@ -103,7 +103,7 @@ export default function App() {
             </p>
           </CardContent>
         </Card>
-        <Card className="bg-[#EB8317]/80 shadow-lg shadow-slate-50/10 p-1 flex flex-col justify-center items-center">
+        <Card className="bg-orange-600 shadow-lg shadow-slate-50/10 p-1 flex flex-col justify-center items-center max-w-96">
           <CardHeader>
             <CardTitle className="flex items-center justify-center text-2xl gap-x-4 font-bold">
               {" "}
@@ -115,7 +115,7 @@ export default function App() {
               the Next Level!
             </CardDescription>
           </CardHeader>
-          <CardContent className=" bg-[#F3C623]/85 rounded-lg h-full flex justify-center items-center">
+          <CardContent className=" bg-amber-500 rounded-lg h-full flex justify-center items-center">
             <p className="text-white pt-2 text-base ">
               Connect with top expert coaches and professional players to refine
               your skills, enhance your strategy, and push your performance to
@@ -125,7 +125,7 @@ export default function App() {
             </p>
           </CardContent>
         </Card>
-        <Card className="bg-[#2b6759]/80 shadow-lg shadow-slate-50/10 p-1 flex flex-col justify-center items-center">
+        <Card className="bg-[#2b6759]/80 shadow-lg shadow-slate-50/10 p-1 flex flex-col justify-center items-center max-w-96">
           <CardHeader>
             <CardTitle className="flex items-center justify-center text-2xl gap-x-4 font-bold">
               {" "}
