@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "@/constants/navbar";
 import Card from "@/constants/card2";
 import Footer from "@/constants/footer";
@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/accordion";
 import { HospitalIcon, Plus, PlusIcon } from "lucide-react";
 function Aid() {
-  const userdata = [
+  const [userdata,setUserdata] = useState([
     {
       username: "John Doe",
       sport: "Football",
@@ -81,7 +81,25 @@ function Aid() {
       specialization: "Physiologist",
       experience: "11 years",
     },
-  ];
+  ])
+  const getDoctors=async()=>{
+    try{
+const response=await axios.get("http://localhost:5000/api/auth/doctors",{
+  headers:{
+    "Content-Type":"application/json"
+  },withCredentials:true
+});
+if(response.data){
+  setUserdata(response.data)
+}
+    }
+    catch(error){
+      console.log(error.message)
+    }
+  }
+  useEffect(()=>{
+getDoctors()
+  },[])
   const getAllInjuries = (data) => {
     let injuries = [];
     data.forEach((bodyPart) => {
@@ -141,6 +159,7 @@ function Aid() {
                     username={user.username}
                     sport={user.experience}
                     specialization={user.specialization}
+                    id={user.id}
                   />
                 ))}
               </div>

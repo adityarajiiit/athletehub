@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import {
   Card,
   CardContent,
@@ -9,6 +10,21 @@ import {
 } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 function Card2(props) {
+  const createRoom=async(user)=>{
+    try{
+const response=await axios.post("http://localhost:5000/api/chat/createroom",{
+userid:user,
+    },{
+      headers:{
+        "Content-Type":"application/json",
+      },
+      withCredentials:true
+    })
+  }
+    catch(error){
+        console.log(error.message)
+    }
+  }
   return (
     <Card className="bg-[#2b6759]/80 shadow-md shadow-slate-50/10  flex flex-col justify-center items-center border-secondary/50">
       <CardHeader className="flex items-center w-full">
@@ -35,7 +51,7 @@ function Card2(props) {
           <button className="bg-white p-2 rounded-full text-black hover:bg-white/90 h-fit">
             <ArrowRight />
           </button>
-          <button className="text-white p-2 rounded-md bg-black hover:bg-black/80 h-fit font-semibold duration-500 transition-all hover:scale-105 ">
+          <button className="text-white p-2 rounded-md bg-black hover:bg-black/80 h-fit font-semibold duration-500 transition-all hover:scale-105 " onClick={()=>createRoom(props.id)}>
             Request Contact
           </button>
         </CardDescription>

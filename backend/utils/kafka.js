@@ -52,6 +52,7 @@ await consumer.run({
             return;
         }
         try{
+            console.log("this is - ",JSON.parse(message.value.toString()).roommessage)
             const newMessage=new Message({
                 message:JSON.parse(message.value.toString()).roommessage.message,
                 room:JSON.parse(message.value.toString()).roommessage.room,

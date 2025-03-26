@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "@/constants/navbar";
 import Footer from "@/constants/footer";
 import Card from "@/constants/card2";
+import axios from "axios";
 import {
   Pagination,
   PaginationContent,
@@ -11,68 +12,117 @@ import {
 } from "@/components/ui/pagination";
 
 function Career() {
-  const userdata = [
+  const [userdata,setUserdata]=useState([
     {
       username: "John Doe",
       sport: "Football",
       specialization: "Intermediate",
       description: "Lorem ipsum...",
+      id:""
     },
     {
       username: "Robert Doe",
       sport: "Basketball",
       specialization: "Advanced",
       description: "Lorem ipsum...",
+      id:""
     },
     {
       username: "Christ Doe",
       sport: "Football",
       specialization: "Intermediate",
       description: "Lorem ipsum...",
+      id:""
     },
     {
       username: "Tom Doe",
       sport: "Basketball",
       specialization: "Advanced",
       description: "Lorem ipsum...",
+      id:""
     },
     {
       username: "John Doe",
       sport: "Football",
       specialization: "Intermediate",
       description: "Lorem ipsum...",
+      id:""
     },
     {
       username: "Robert Doe",
       sport: "Basketball",
       specialization: "Advanced",
       description: "Lorem ipsum...",
+      id:""
     },
     {
       username: "Christ Doe",
       sport: "Football",
       specialization: "Intermediate",
       description: "Lorem ipsum...",
+      id:""
     },
     {
       username: "Tom Doe",
       sport: "Basketball",
       specialization: "Advanced",
       description: "Lorem ipsum...",
+      id:""
     },
     {
       username: "Alice Doe",
       sport: "Tennis",
       specialization: "Beginner",
       description: "Lorem ipsum...",
+      id:""
     },
     {
       username: "Bob Doe",
       sport: "Swimming",
       specialization: "Intermediate",
       description: "Lorem ipsum...",
+      id:""
     },
-  ];
+  ])
+ const [athletedata,setAthletedata]=useState([])
+  const getCoaches=async()=>{
+    try{
+const response=await axios.get("http://localhost:5000/api/auth/coaches",{
+headers:{
+    "Content-Type":"application/json",
+},withCredentials:true});
+if(response.data){
+    console.log(response.data)
+    setUserdata(response.data)
+    console.log(userdata)
+}    
+
+    }
+    catch(error){
+        console.log(error.message)
+    }
+  }
+  const getAthletes=async()=>{
+    try{
+const response=await axios.get("http://localhost:5000/api/auth/athletes",{
+headers:{
+    "Content-Type":"application/json",
+},withCredentials:true});
+if(response.data){
+    console.log(response.data)
+    setAthletedata(response.data)
+    console.log(athletedata)
+}    
+
+    }
+    catch(error){
+        console.log(error.message)
+    }
+  }
+  useEffect(()=>{
+    getCoaches()
+    getAthletes()
+  },[])
 
   const rowperpage = 6;
   const totalPages = Math.ceil(userdata.length / rowperpage);
@@ -105,6 +155,7 @@ function Career() {
                     sport={user.sport}
                     specialization={user.specialization}
                     description={user.description}
+                    id={user.id}
                   />
                 ))}
               </div>
@@ -171,14 +222,15 @@ function Career() {
             </div>
           </div>
 
-          {userdata.length > 0 && (
+          {athletedata.length > 0 && (
             <div className="bg-slate-600/50 p-2 rounded-md mt-2">
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4">
-                {userdata.slice(startindex, endindex).map((user, index) => (
+                {athletedata.slice(startindex, endindex).map((user, index) => (
                   <Card
                     key={index}
                     username={user.username}
                     sport={user.sport}
+                    id={user.id}
                   />
                 ))}
               </div>

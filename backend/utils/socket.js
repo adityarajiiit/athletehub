@@ -3,6 +3,7 @@ import Redis from 'ioredis'
 import { fileURLToPath } from 'node:url'
 import {dirname,join} from 'node:path'
 import dotenv from 'dotenv'
+import { User } from '../models/user.model.js'
 dotenv.config()
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
@@ -15,7 +16,9 @@ const pub=new Redis(serviceurl)
 const sub=new Redis(serviceurl)
 sub.subscribe('MESSAGES')
 const _dirname=dirname(fileURLToPath(import.meta.url))
+
 export const initializeSocket=(server)=>{
+
     const io=new Server(server,{
         cors:{
             origin:"http://localhost:5173",
@@ -23,7 +26,8 @@ export const initializeSocket=(server)=>{
             methods:["GET","POST"]
         }
     })
-io.use((socket,next)=>{
+   const chatio=io.of('/chatroom')
+chatio.use((socket,next)=>{
     try{
         const cookie=socket.handshake.headers.cookie
         if(!cookie){
@@ -39,16 +43,20 @@ io.use((socket,next)=>{
         next()
     }
     catch(error){
-        return next(new Error(error.message))
+        socket.emit(error)
     }
 })    
-io.on('connection',(socket)=>{
+chatio.on('connection',(socket)=>{
     console.log('a user connected')
-    socket.on('joinroom',(room)=>{
+    socket.on('joinroom',async (room)=>{
         socket.join(room)
-        socket.username=getName(socket.userId)
+
+        socket.username=await getName(socket.userId)
         socket.room=room;
-        socket.to(room).emit('message',`${getName(socket.userId)} joined ${room}`)
+        socket.to(room).emit('message',{
+            sender:await getName(socket.userId),
+            message:`${await getName(socket.userId)} joined ${room}`
+        })
         console.log(`${socket.username} joined ${room}`)
     })
     socket.on('message',async(message)=>{
@@ -68,11 +76,11 @@ io.on('connection',(socket)=>{
 })
 sub.on('message',async(channel,message)=>{
     if(channel==='MESSAGES'){
-        io.to(JSON.parse(message).roommessage.room).emit('message',JSON.parse(message).roommessage.message)
+        chatio.to(JSON.parse(message).roommessage.room).emit('message',{message:JSON.parse(message).roommessage.message,sender:JSON.parse(message).roommessage.username})
         await produceMessage(message)
 console.log('message produced to kafka')
     }
 })
 startMessageConsumer();
-return io;
+return chatio;
 }

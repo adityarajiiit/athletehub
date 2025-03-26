@@ -23,3 +23,40 @@ export const createIllness=async(req,res)=>{
             res.status(500).json({message:error.message});
         }
     }
+    export const getInjury=async(req,res)=>{
+        try{
+    const userid=req.userId
+    const injury=req.body.injuryId
+    if(!userid){
+        return res.status(400).json({message:"no user id"})
+    }
+    const user=await User.findById(userid)
+
+    if(!user){
+        return res.status(400).json({message:"no user exists"})
+    }
+    const injuries=await Injury.findById(injury)
+res.send(injuries)
+        }
+        catch(error){
+            res.status(500).json({message:error.message})
+        }
+    } 
+export const getIllness=async(req,res)=>{
+    try{
+        const userid=req.userId
+        const illnessid=req.body.illnessId
+        if(!userid){
+            return res.status(400).json({message:"no user id"})
+        }
+        const user=await User.findById(userid)
+        if(!user){
+            return res.status(400).json({message:"no user exists"})
+        }
+const illness=await Illness.findById(illnessid)
+res.send(illness)
+    }
+    catch(error){
+        res.status(500).json({message:error.message})
+    }
+}       

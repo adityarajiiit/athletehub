@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Lottie from "react-lottie";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import animationData from "../assets/Animation.json";
-
+import axios from "axios";
+import { set } from "mongoose";
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -10,11 +11,33 @@ const SignUp = () => {
   const [category, setcategory] = useState("");
   const [gender, setgender] = useState("");
   const [sport, setsport] = useState("");
-  const [specialization, setspecialization] = useState("");
-  const handleSubmit = (e) => {
+const [loading,setLoading]=useState(false)
+const [error,setError]=useState(null)
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Email:", email);
     console.log("Password:", password);
+    setLoading(true)
+   try{
+const submitData=await axios.post("http://localhost:5000/api/auth/signup",{
+  email:email,
+  password:password,
+  name:username,
+  role:category,
+},{
+  headers:{
+    "Content-Type":"application/json"
+  }
+});
+console.log(submitData);
+setLoading(false)
+setError(null)
+alert("Check your mail for verification link")
+   }
+   catch(error){
+setError(error.response.data.message)
+setLoading(false)
+   }
   };
 
   const defaultOptions = {
@@ -92,9 +115,10 @@ const SignUp = () => {
               className="border-2 border-[#687EFF] p-2 rounded-md bg-white"
             >
               <option value="">Select any option</option>
-              <option value="Player">Player</option>
-              <option value="Medician">Medician</option>
+              <option value="Athlete">Athlete</option>
+              <option value="Doctor">Doctor</option>
               <option value="Coach">Coach</option>
+              <option value="Organization">Organization</option>
             </select>
           </div>
           <div className="flex flex-row justify-between space-x-2">
@@ -113,75 +137,17 @@ const SignUp = () => {
                 <option value="Female">Female</option>
               </select>
             </div>
-            {category === "Player" && (
-              <div className="flex flex-col sm:w-full">
-                <label className="relative top-3 bg-white w-fit left-2 p-1">
-                  Sports:
-                </label>
-                <select
-                  value={sport}
-                  onChange={(e) => setsport(e.target.value)}
-                  required
-                  className="border-2 border-[#687EFF] p-2 rounded-md bg-white"
-                >
-                  <option value="">Select any option</option>
-                  <option value="Cricket">Cricket</option>
-                  <option value="Football">Football</option>
-                  <option value="Volleyball">Volleyball</option>
-                  <option value="Basketball">Basketball</option>
-                  <option value="Hockey">Hockey</option>
-                  <option value="Tennis">Tennis</option>
-                </select>
-              </div>
-            )}
-            {category === "Medician" && (
-              <div className="flex flex-col sm:w-full">
-                <label className="relative top-3 bg-white w-fit left-2 p-1">
-                  Specialization:
-                </label>
-                <select
-                  value={specialization}
-                  onChange={(e) => setspecialization(e.target.value)}
-                  required
-                  className="border-2 border-[#687EFF] p-2 rounded-md bg-white"
-                >
-                  <option value="">Select any option</option>
-                  <option value="Physiotherapist">Physiotherapist</option>
-                  <option value="Nutritionist">Nutritionist</option>
-                  <option value="Psychologist">Psychologist</option>
-                </select>
-              </div>
-            )}
-            {category === "Coach" && (
-              <div className="flex flex-col sm:w-full">
-                <label className="relative top-3 bg-white w-fit left-2 p-1">
-                  Sport :
-                </label>
-                <select
-                  value={sport}
-                  onChange={(e) => setsport(e.target.value)}
-                  required
-                  className="border-2 border-[#687EFF] p-2 rounded-md bg-white"
-                >
-                  <option value="">Select any option</option>
-                  <option value="Cricket">Cricket</option>
-                  <option value="Football">Football</option>
-                  <option value="Volleyball">Volleyball</option>
-                  <option value="Basketball">Basketball</option>
-                  <option value="Hockey">Hockey</option>
-                  <option value="Tennis">Tennis</option>
-                </select>
-              </div>
-            )}
           </div>
           <button
             type="submit"
             className="mt-8 mb-2 p-2 border bg-[#301E67] text-[#98E4FF] font-semibold rounded-md"
+            disabled={loading}
           >
             Sign Up
-          </button>{" "}
+          </button>
+          {error&&<p className="text-red-500">{error}</p>}
           <p className="text-center text-[#141415]">
-            Already have an account?{" "}
+            Already have an account?
             <Link to="/sign-in" className="text-[#687EFF] underline">
               Sign In
             </Link>

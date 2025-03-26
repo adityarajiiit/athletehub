@@ -6,6 +6,20 @@ if(!user){
     return null
 }
 return user.name
+
+    }
+    catch(error){
+        console.log(error.message)
+    }
+}
+export const getRole=async(userId)=>{
+    try{
+const user=await User.findById(userId)
+if(!user){
+    return null
+}
+return user.role
+
     }
     catch(error){
         console.log(error.message)

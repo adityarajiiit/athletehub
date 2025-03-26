@@ -1,16 +1,42 @@
 import React, { useState } from 'react';
 import Lottie from 'react-lottie';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import axios from 'axios';
 import animationData from "../assets/Animation.json";
 export default function Signin(){
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    const handleSubmit = (e) => {
+    const[loading,setLoading]=useState(false);
+    const[error,setError]=useState(null)
+const navigate=useNavigate()
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Email:', email);
         console.log('Password:', password);
+        setLoading(true)
+        try{
+const submitData=await axios.post("http://localhost:5000/api/auth/login",{
+    email:email,
+    password:password
+},{
+    headers:{
+        "Content-Type":"application/json"
+    },
+    withCredentials:true
+})
+console.log(submitData)
+console.log("Cookies received:", document.cookie)
+setLoading(false)
+setError(null)
+console.log("HI")
+navigate('/');
+
+        }
+        catch(error){
+setError(error.response?.data?.message)
+setLoading(false)
+        }
     };
 
     const defaultOptions = {
@@ -57,8 +83,8 @@ export default function Signin(){
                         className='border-2 border-[#687EFF] p-2 rounded-md'
                     />
                 </div>
-                
-                <button type="submit" className='mt-8 mb-2 p-2 border bg-[#301E67] text-[#98E4FF] font-semibold rounded-md'>Sign In</button>
+                <button type="submit" className='mt-8 mb-2 p-2 border bg-[#301E67] text-[#98E4FF] font-semibold rounded-md' disabled={loading}>Sign In</button>
+                {error&&<p className="text-red-500">{error}</p>}
                 <p className='text-center text-[#141415]'>Don't  have an account? <Link to='/sign-up' className='text-[#687EFF] underline'>Sign In</Link></p>
             </form>
         </div>
