@@ -4,38 +4,55 @@ import { Instagram, Github, Linkedin } from "lucide-react";
 function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="flex flex-col md:flex-row justify-center md:justify-between lg:justify-around items-center  w-full min-h-80 max-h-full gap-x-4 p-4 max-sm:gap-y-10 sm:gap-y-10 bg-[#192434] border-t-2 drop-shadow-md border-muted/30 ">
-      <div className="flex flex-col justify-center  relative">
-        <form action="" className="flex flex-col justify-center ">
-          <h1 className="text-2xl text-accent-foreground font-bold ">
-            GET IN TOUCH
-          </h1>
-          <div className="flex flex-row justify-center items-center gap-x-2">
-            <input
-              type="text"
-              placeholder="Enter Your Email"
-              className="bg-transparent border-b-2 border-destructive outline-none focus:outline-none  focus:ring-0 p-1 text-destructive"
-            />
-            <button className="p-1 rounded-md text-destructive border-2 border-yellow-300 shadow-md shadow-yellow-400/30 ">
-              Submit
-            </button>
+    <footer className="flex flex-col md:flex-row justify-center md:justify-between lg:justify-around items-center  w-full min-h-80 max-h-full gap-x-4 p-4 max-sm:gap-y-10 sm:gap-y-10 bg-[#131d2b] border-t-2 drop-shadow-md border-muted/30 ">
+      <div className="flex flex-col xl:flex-row gap-4 justify-around lg:w-3/6">
+        <div className="flex flex-col justify-start  relative ">
+          <form action="" className="flex flex-col justify-center ">
+            <h1 className="text-2xl text-accent-foreground font-bold ">
+              GET IN TOUCH
+            </h1>
+            <div className="flex flex-row justify-start items-start gap-x-2">
+              <input
+                type="text"
+                placeholder="Enter Your Email"
+                className="bg-transparent border-b-2 border-destructive outline-none focus:outline-none  focus:ring-0 p-1 text-destructive w-72"
+              />
+              <button className="p-1 rounded-sm text-destructive border-2 border-secondary">
+                Submit
+              </button>
+            </div>
+          </form>
+          <div>
+            <h1 className="text-2xl text-accent-foreground font-bold mt-4 mb-4">
+              Follow Us
+            </h1>
+            <ul className="flex flex-row gap-4">
+              <li>
+                <Instagram className="stroke-secondary bg-sky-800/20 p-2 h-10 w-10 rounded-2xl"></Instagram>
+              </li>
+              <li>
+                <Github className="stroke-secondary bg-sky-800/20 p-2 h-10 w-10 rounded-2xl "></Github>
+              </li>
+              <li>
+                <Linkedin className="stroke-secondary bg-sky-800/20 p-2 h-10 w-10 rounded-2xl"></Linkedin>
+              </li>
+            </ul>
           </div>
-        </form>
+        </div>
         <div>
-          <h1 className="text-2xl text-accent-foreground font-bold mt-4 mb-4">
-            Follow Us
-          </h1>
-          <ul className="flex flex-row gap-4">
-            <li>
-              <Instagram className="stroke-secondary bg-sky-800/20 p-2 h-10 w-10 rounded-2xl"></Instagram>
-            </li>
-            <li>
-              <Github className="stroke-secondary bg-sky-800/20 p-2 h-10 w-10 rounded-2xl "></Github>
-            </li>
-            <li>
-              <Linkedin className="stroke-secondary bg-sky-800/20 p-2 h-10 w-10 rounded-2xl"></Linkedin>
-            </li>
-          </ul>
+          <div>
+            <h1 className="text-2xl text-accent-foreground font-bold mb-2">
+              Contact us
+            </h1>
+            <ul className="flex flex-col gap-2">
+              <li>
+                <p className="text-destructive">Email : _ _</p>
+              </li>
+              <li>
+                <p className="text-destructive">Phone Number : +91 _ _</p>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <div>

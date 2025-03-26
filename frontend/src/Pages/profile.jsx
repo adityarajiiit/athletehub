@@ -2,7 +2,6 @@ import React from "react";
 import { useState } from "react";
 import Header from "@/constants/navbar";
 import Footer from "@/constants/footer";
-import Onboard from "@/constants/onboard";
 import {
   Accordion,
   AccordionContent,
@@ -10,6 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { PlusIcon, BadgePlusIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 function Profile() {
   const user = {
     username: "John Doe",
@@ -34,105 +34,106 @@ function Profile() {
       },
     ],
   };
-  // const [category, setCategory] = useState("Medician");
-
-  const [active, setactive] = useState(false);
+  const [category, setCategory] = useState("Medician");
   const [competition, setCompetition] = useState("");
-  const [year, setyear] = useState("");
+  const [Year, setYear] = useState("");
   const [medal, setmedal] = useState("");
 
-  const handleactive = () => {
-    {
-      active ? setactive(false) : setactive(true);
-    }
-  };
   return (
-    <div className="flex flex-col justify-between min-h-screen h-full w-full bg-black/85 mt-20 ">
+    <div className="flex flex-col justify-between min-h-screen h-full w-full bg-black/95 mt-20 ">
       <Header></Header>
-      {active ? <Onboard function={handleactive}></Onboard> : ""}
       <div>
-        <div className="flex  flex-col justify-center items-center p-2 w-full ">
-          <div className="flex flex-col items-start  w-full mb-4">
-            <h1 className="text-3xl text-accent-foreground text-start font-semibold mt-10 w-fit">
-              My Profile
+        <div className="flex  flex-col justify-center items-start w-full bg-gradient-to-b from-white to-transparent ">
+          <div className="flex flex-col items-start justify-center  w-full pl-4 mt-4">
+            <h1 className="text-4xl text-black text-start font-bold w-fit font-custom">
+              MY PROFILE
             </h1>
-            <hr class="border-none h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full shadow-md shadow-blue-400/20 w-32" />
+            <hr class="border-none h-1 bg-orange-500 shadow-md shadow-white/40 w-44 -mt-1" />
+            <p className="text-black font-normal mt-1 text-lg font-lato">
+              User informations including name , email and category are provided
+              below .
+            </p>
           </div>
-          <div className="flex md:flex-row sm:flex-col max-sm:flex-col items-center justify-start p-4  w-full gap-x-2 bg-[#2b6759]/50 shadow-md shadow-slate-400/10 rounded-md mb-4 border border-secondary/50">
-            <div className="h-40 w-40 rounded-full bg-slate-400 z-10"></div>
-            <div className="">
-              <div className="flex flex-col md:items-start justify-center gap-y-1  w-full bg-[#B3D8A8]/20 p-4 relative md:pl-40 rounded-md h-full md:right-20 pt-32 bottom-20 md:pt-4 md:bottom-0 ">
-                <p className="text-destructive font-semibold text-2xl">
-                  {user.username}
-                </p>
+          <div className="pl-4">
+            <div className="flex md:flex-row sm:flex-col max-sm:flex-col items-center justify-start p-4  w-fit gap-x-2 shadow-md bg-black shadow-slate-400/10 rounded-md mb-4 border border-orange-500 mt-2">
+              <div className="h-40 w-40 rounded-full bg-slate-400 z-10"></div>
+              <div className="">
+                <div className="flex flex-col md:items-start justify-center gap-y-1  w-full bg-[#434242]/80 p-4 relative md:pl-40 rounded-md h-full md:right-20 pt-32 bottom-20 md:pt-4 md:bottom-0 ">
+                  <p className="text-white font-bold text-3xl font-lato">
+                    {user.username}
+                  </p>
 
-                <p className="text-destructive font-medium text-base p-1 bg-black/10 rounded-md">
-                  <span className="font-semibold">Email : </span>
-                  {user.email}
-                </p>
-                <p className="text-destructive font-medium text-base p-1 bg-black/10 rounded-md">
-                  <span className="font-semibold">Category : </span>
-                  {user.category}
-                </p>
-
-                <button
-                  className="bg-slate-100 p-2 rounded-md text-black hover:scale-105 duration-300 hover:bg-slate-100/90 mt-2"
-                  onClick={handleactive}
-                >
-                  Complete Profile
-                </button>
+                  <p className="text-white font-medium text-lg font-lato">
+                    <span className="font-bold ">Email : </span>
+                    {user.email}
+                  </p>
+                  <p className="text-white font-medium text-lg font-lato">
+                    <span className="font-semibold">Category : </span>
+                    {user.category}
+                  </p>
+                  <Link to="/onboard">
+                    <button className="bg-transparent p-2 rounded-sm text-white border-2 border-orange-500 hover:scale-105 duration-300 hover:bg-orange-500 mt-2">
+                      Complete Profile
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-          <div className="flex flex-col justify-start items-start w-full">
-            <div className="flex flex-col items-start  w-full mb-4">
-              <h1 className="text-3xl text-accent-foreground text-start font-semibold mt-10 w-fit">
-                Personal Information
+          <div className="flex flex-col justify-start items-start w-full bg-black">
+            <div className="flex flex-col items-start  w-full mb-4 bg-orange-500 p-2 pl-4">
+              <h1 className="text-3xl text-white text-start font-semibold w-fit font-custom">
+                PERSONAL INFORMATION
               </h1>
-              <hr class="border-none h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full shadow-md shadow-blue-400/20 w-72" />
+              <hr class="border-none h-1 bg-white w-72" />
+              <p className="text-white font-lato text-lg mt-1 w-[30rem]">
+                {" "}
+                Other user information related to their sport experience ,
+                location etc are provided below .
+              </p>
             </div>
             {user.category == "Player" && (
               <div className="grid md:grid-cols-3 grid-cols-2 gap-3 w-full p-3">
                 <div className="flex flex-col w-full justify-center gap-1">
-                  <p className="text-lg font-semibold text-destructive">
+                  <p className="text-lg font-semibold text-white font-custom">
                     Sport Experience:
                   </p>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     <span className="font-semibold">Sport : </span>
                     {user.sport}
                   </p>
 
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     {" "}
                     <span className="font-semibold">Date of Birth : </span>
                     {user.dateofbirth}
                   </p>
                 </div>
                 <div className="flex flex-col w-full justify-center gap-1">
-                  <p className="text-lg font-semibold text-destructive">
+                  <p className="text-lg font-semibold text-white font-custom">
                     Physical Information :
                   </p>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     <span className="font-semibold">Weight : </span>
                     {user.weight}
                   </p>
 
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     {" "}
                     <span className="font-semibold">Height : </span>
                     {user.height}
                   </p>
                 </div>
                 <div className="flex flex-col gap-y-1">
-                  <p className="text-lg font-semibold text-destructive">
+                  <p className="text-lg font-semibold text-white font-custom">
                     Location :
                   </p>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     <span className="font-semibold">Country : </span>
                     {user.country}
                   </p>
 
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     {" "}
                     <span className="font-semibold">State : </span>
                     {user.state}
@@ -143,29 +144,29 @@ function Profile() {
             {user.category === "Medician" && (
               <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-3 w-full p-3">
                 <div className="flex flex-col gap-1">
-                  <p className="text-lg font-semibold text-destructive">
+                  <p className="text-lg font-semibold text-white font-custom">
                     Sport Experience:
                   </p>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     <span className="font-semibold"> Specialization : </span>
                     {user.sport}
                   </p>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     {" "}
                     <span className="font-semibold">Year of Expreience: </span>
                     {user.experience}
                   </p>
                 </div>
                 <div className="flex flex-col gap-y-1">
-                  <p className="text-lg font-semibold text-destructive">
+                  <p className="text-lg font-semibold text-white font-custom">
                     Location :
                   </p>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     <span className="font-semibold">Country : </span>
                     {user.country}
                   </p>
 
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     {" "}
                     <span className="font-semibold">State : </span>
                     {user.state}
@@ -173,19 +174,19 @@ function Profile() {
                 </div>
 
                 <div className="flex flex-col justify-between w-full gap-1">
-                  <p className="text-lg font-semibold text-destructive">
+                  <p className="text-lg font-semibold text-white font-custom">
                     Education :
                   </p>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     <span className="font-semibold">College : </span>
                     {user.college}
                   </p>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     {" "}
                     <span className="font-semibold">Degree : </span>
                     {user.degree}
                   </p>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     {" "}
                     <span className="font-semibold">course duration: </span>
                     {user.years}
@@ -193,22 +194,22 @@ function Profile() {
                 </div>
 
                 <div className="flex flex-col gap-y-1">
-                  <p className="text-lg font-semibold text-destructive">
+                  <p className="text-lg font-semibold text-white font-custom">
                     Availability :
                   </p>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     <span className="font-semibold">
                       {" "}
                       Availability in a week :{" "}
                     </span>
                     {user.days}
                   </p>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     <span className="font-semibold">Start time : </span>
                     {user.starttime}
                   </p>
 
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     {" "}
                     <span className="font-semibold">End time : </span>
                     {user.endtime}
@@ -220,29 +221,29 @@ function Profile() {
             {user.category === "Coach" && (
               <div className="grid grid-cols-2 lg:grid-cols-3 md:grid-cols-3 gap-3 w-full p-3">
                 <div className="flex flex-col w-full justify-center gap-1">
-                  <p className="text-lg font-semibold text-destructive">
+                  <p className="text-lg font-semibold text-white font-custom">
                     Sport Experience:
                   </p>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     <span className="font-semibold"> Sport : </span>
                     {user.sport}
                   </p>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     <span className="font-semibold"> Specialization : </span>
                     {user.sport}
                   </p>
 
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     {" "}
                     <span className="font-semibold">Year of Expreience: </span>
                     {user.experience}
                   </p>
                 </div>
                 <div className="flex flex-col w-full justify-center gap-1">
-                  <p className="text-lg font-semibold text-destructive">
+                  <p className="text-lg font-semibold text-white font-custom">
                     Availability :
                   </p>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     <span className="font-semibold">
                       {" "}
                       Availability in a week :{" "}
@@ -250,27 +251,27 @@ function Profile() {
                     {user.days}
                   </p>
                   <div className="flex flex-row gap-x-4">
-                    <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                    <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                       <span className="font-semibold">Start time : </span>
                       {user.starttime}
                     </p>
                   </div>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     {" "}
                     <span className="font-semibold">End time : </span>
                     {user.endtime}
                   </p>
                 </div>
                 <div className="flex flex-col gap-y-1">
-                  <p className="text-lg font-semibold text-destructive">
+                  <p className="text-lg font-semibold text-white font-custom">
                     Location :
                   </p>
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     <span className="font-semibold">Country : </span>
                     {user.country}
                   </p>
 
-                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/30 rounded-md">
+                  <p className="text-destructive font-medium text-base p-1 bg-slate-500/20 pl-2">
                     {" "}
                     <span className="font-semibold">State : </span>
                     {user.state}
@@ -297,7 +298,7 @@ function Profile() {
                 <AccordionItem value="item-1" className="border-none ">
                   <AccordionTrigger className="flex justify-center items-center text-destructive gap-2 bg-blue-900 p-2 rounded-md">
                     <BadgePlusIcon />
-                    <p className="text-base ">Achievements</p>
+                    <p className="text-base ">Add Achievements</p>
                   </AccordionTrigger>
                   <AccordionContent>
                     <form action="">
@@ -324,8 +325,8 @@ function Profile() {
                             </label>
                             <input
                               type="text"
-                              value={year}
-                              onChange={(e) => setyear(e.target.value)}
+                              value={Year}
+                              onChange={(e) => setYear(e.target.value)}
                               required
                               className="border-2 border-secondary p-2 rounded-md w-full bg-slate-800 text-destructive"
                             />
@@ -360,20 +361,26 @@ function Profile() {
               {user.Achievement.map((achievement, index) => (
                 <div
                   key={index}
-                  className="flex flex-col bg-white rounded-md mt-2"
+                  className="flex flex-col bg-slate-900 rounded-md mt-2 border border-secondary"
                 >
-                  <p className="bg-sky-700 rounded-t-md text-center p-1 text-lg font-semibold text-destructive">
+                  <p className="bg-sky-700 rounded-t-md text-center p-1 text-lg font-semibold text-white font-custom">
                     Achievement
                   </p>
-                  <p className="text-center">{achievement.competition}</p>
+                  <p className="text-center text-destructive">
+                    {achievement.competition}
+                  </p>
                   <div className="flex flex-row justify-center items-center gap-8 pb-2">
-                    <p>
-                      <span className="font-semibold">Medal : </span>
+                    <p className="text-destructive">
+                      <span className="font-semibold text-secondary">
+                        Medal :{" "}
+                      </span>
                       {achievement.medal}
                     </p>
 
-                    <p>
-                      <span className="font-semibold">Year : </span>
+                    <p className="text-destructive">
+                      <span className="font-semibold text-secondary">
+                        Year :{" "}
+                      </span>
                       {achievement.year}
                     </p>
                   </div>
@@ -381,7 +388,7 @@ function Profile() {
                     <button className="p-1 pl-2 pr-2 rounded-md bg-[#2b6759] text-white">
                       Edit
                     </button>
-                    <button className="p-1 pl-2 pr-2 rounded-md bg-black text-white">
+                    <button className="p-1 pl-2 pr-2 rounded-md bg-white text-black">
                       Delete
                     </button>
                   </div>

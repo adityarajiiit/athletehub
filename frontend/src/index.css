@@ -20,7 +20,7 @@
     --accent-foreground: 196 100% 80%;
     --destructive: 176 100% 86%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
+    --border: 216 100% 75%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
     --chart-1: 12 76% 61%;
@@ -70,6 +70,10 @@
 .custom-scrollbar::-webkit-scrollbar-track {
   background: #2d3748;
   border-radius: 10px;
+}
+.custom-slider::-webkit-slider-thumb {
+  background: transparent;
+  border: 1px solid white;
 }
 
 @layer base {

@@ -255,14 +255,17 @@ if(response.data.messages){
               : "flex flex-col justify-center items-center w-96 bg-accent/30  h-[52rem] border-r-2 border-muted/20 max-sm:full"
           }
         >
-          <div className="flex justify-center items-center w-fit p-4">
-            <form className="flex flex-row relative">
+          <div className="flex justify-center items-center w-fit p-4 ">
+            <form className="flex flex-row relative gap-x-2">
               <SearchIcon className="stroke-slate-50 absolute inset-y-3 inset-x-3 z-10 pointer-events-none w-fit" />
               <input
-                type="text"
-                className=" border border-secondary outline-none pl-12 rounded-md  text-slate-100 bg-transparent placeholder:text-slate-200 h-12 w-72 placeholder:italic"
+                type="search"
+                className=" border border-secondary outline-none pl-12 rounded-md  text-slate-100 bg-transparent placeholder:text-slate-200 h-12 w-60 placeholder:italic pr-2"
                 placeholder="Search ..."
               />
+              <button className="bg-secondary text-accent p-2 rounded-md font-medium">
+                Search
+              </button>
             </form>
           </div>
 
