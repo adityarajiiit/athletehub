@@ -82,7 +82,7 @@ function Career() {
   const endindex = Math.min(startindex + rowperpage, userdata.length);
 
   return (
-    <div className="flex flex-col justify-between min-h-screen h-full w-full bg-black/85 mt-20">
+    <div className="flex flex-col justify-between min-h-screen h-full w-full bg-black/95 mt-20">
       <Header />
       <div className="flex flex-col items-center justify-center gap-y-10 w-full">
         <div className="flex flex-col justify-center items-center p-2 w-full">
@@ -96,7 +96,7 @@ function Career() {
           </div>
 
           {userdata.length > 0 && (
-            <div className="bg-slate-600/50 p-2 rounded-md mt-2">
+            <div className="bg-slate-600/30 p-2 rounded-md mt-2">
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4">
                 {userdata.slice(startindex, endindex).map((user, index) => (
                   <Card
@@ -172,7 +172,7 @@ function Career() {
           </div>
 
           {userdata.length > 0 && (
-            <div className="bg-slate-600/50 p-2 rounded-md mt-2">
+            <div className="bg-slate-600/30 p-2 rounded-md mt-2">
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4">
                 {userdata.slice(startindex, endindex).map((user, index) => (
                   <Card

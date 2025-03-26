@@ -10,21 +10,21 @@ import {
 import { ArrowRight } from "lucide-react";
 function Card2(props) {
   return (
-    <Card className="bg-[#2b6759]/80 shadow-md shadow-slate-50/10  flex flex-col justify-center items-center border-secondary/50">
+    <Card className="bg-black shadow-md shadow-slate-50/10  flex flex-col justify-center items-center border-secondary/50 ">
       <CardHeader className="flex items-center w-full">
         <CardTitle className="flex flex-col ">
           <div className="flex flex-row items-center  gap-x-4 ">
             <div className="h-32 w-32 bg-slate-400 rounded-full z-10"> </div>
-            <div className="flex flex-col  bg-[#B3D8A8]/40  p-4 rounded-lg pl-20 relative right-16">
-              <p className="w-fit h-fit  text-white text-2xl font-semibold ">
+            <div className="flex flex-col  bg-[#434242] p-4 rounded-lg pl-20 relative right-16">
+              <p className="w-fit h-fit  text-white text-2xl font-semibold font-custom">
                 {props.username}
               </p>
 
               <CardDescription className="flex flex-col gap-y-1">
-                <p className="flex flex-col text-destructive  text-base font-normal">
+                <p className="flex flex-col text-white  text-lg font-normal font-custom">
                   {props.sport}
                 </p>
-                <p className="text-destructive font-medium text-sm -mt-1">
+                <p className="text-white font-medium text-sm -mt-1 font-poppins">
                   {props.specialization}
                 </p>
               </CardDescription>
@@ -32,10 +32,13 @@ function Card2(props) {
           </div>
         </CardTitle>
         <CardDescription className="flex gap-3 justify-center items-center w-full ">
-          <button className="bg-white p-2 rounded-full text-black hover:bg-white/90 h-fit">
-            <ArrowRight />
+          <button className="flex justify-center items-center bg-orange-500 p-2 rounded-sm text-white h-fit font-poppins font-semibold hover:bg-transparent hover:border-2 hover:border-orange-500 duration-200 hover:scale-105">
+            <ArrowRight className="h-5 w-5" /> Visit Profile
           </button>
-          <button className="text-white p-2 rounded-md bg-black hover:bg-black/80 h-fit font-semibold duration-500 transition-all hover:scale-105 ">
+          <button
+            className="text-white p-2 rounded-sm bg-black hover:bg-black/80 h-fit  duration-300 transition-all hover:scale-105 font-poppins border-2 border-orange-500 hover:bg-orange-500 font-semibold"
+            onClick={props.handleclick}
+          >
             Request Contact
           </button>
         </CardDescription>
