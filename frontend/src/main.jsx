@@ -12,6 +12,9 @@ import Onboard from "./constants/onboard.jsx"
 import Doctor from "./Pages/aidoctor.jsx"
 import Profile from "./Pages/profile.jsx";
 import Finance from "./Pages/finance.jsx";
+import Careerdoc from "./Pages/careerdoc.jsx";
+import Coach from "./Pages/coach.jsx";
+import Organization from "./Pages/organization.jsx";
 import { MyContextProvider } from "./context/context.jsx";
 import AuthCheck from "./Auth/authcheck.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -48,6 +51,18 @@ const router = createBrowserRouter([
   { path: "/profile", element: <AuthCheck><Profile /></AuthCheck> },
   { path: "/onboard", element: <AuthCheck><Onboard /></AuthCheck> },
   { path: "/finance", element: <AuthCheck><Finance /></AuthCheck> },
+  {
+    path: "/career-doc",
+    element: <Careerdoc />,
+  },
+  {
+    path: "/career-coach",
+    element: <Coach />,
+  },
+  {
+    path: "/org",
+    element: <Organization />,
+  },
 ]);
 const root = createRoot(document.getElementById("app"));
 
