@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "@/constants/navbar";
-import Footer from "@/constants/footer";
+import Header from "@/components/navbar";
+import Footer from "@/components/footer";
 import { useState } from "react";
 import {
   Pagination,
@@ -8,61 +8,61 @@ import {
   PaginationItem,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
-import player from "@/assets/player.jpg";
-import Card2 from "@/constants/card2";
+} from "@/shadcnComponents/ui/pagination";
+import Card2 from "@/components/ProfileCard";
+import no_data from "/no-data.png";
 function Coach() {
   const user = [
-    {
-      username: "Robert Doe",
-      sport: "Cricket",
-    },
-    {
-      username: "Robert Doe",
-      sport: "Cricket",
-    },
-    {
-      username: "Robert Doe",
-      sport: "Cricket",
-    },
-    {
-      username: "Robert Doe",
-      sport: "Cricket",
-    },
-    {
-      username: "Robert Doe",
-      sport: "Cricket",
-    },
-    {
-      username: "Robert Doe",
-      sport: "Cricket",
-    },
+    // {
+    //   username: "Robert Doe",
+    //   sport: "Cricket",
+    // },
+    // {
+    //   username: "Robert Doe",
+    //   sport: "Cricket",
+    // },
+    // {
+    //   username: "Robert Doe",
+    //   sport: "Cricket",
+    // },
+    // {
+    //   username: "Robert Doe",
+    //   sport: "Cricket",
+    // },
+    // {
+    //   username: "Robert Doe",
+    //   sport: "Cricket",
+    // },
+    // {
+    //   username: "Robert Doe",
+    //   sport: "Cricket",
+    // },
   ];
   const organizations = [
-    {
-      username: "BCCI",
-      sport: "Cricket",
-    },
-    {
-      username: "BCCI",
-      sport: "Cricket",
-    },
-    {
-      username: "BCCI",
-      sport: "Cricket",
-    },
-    {
-      username: "BCCI",
-      sport: "Cricket",
-    },
-    {
-      username: "BCCI",
-      sport: "Cricket",
-    },
-    {
-      username: "BCCI",
-      sport: "Cricket",
-    },
+    // {
+    //   username: "BCCI",
+    //   sport: "Cricket",
+    // },
+    // {
+    //   username: "BCCI",
+    //   sport: "Cricket",
+    // },
+    // {
+    //   username: "BCCI",
+    //   sport: "Cricket",
+    // },
+    // {
+    //   username: "BCCI",
+    //   sport: "Cricket",
+    // },
+    // {
+    //   username: "BCCI",
+    //   sport: "Cricket",
+    // },
+    // {
+    //   username: "BCCI",
+    //   sport: "Cricket",
+    // },
   ];
   const rowperpage = 4;
   const totalPages1 = Math.ceil(organizations.length / rowperpage);
@@ -74,29 +74,41 @@ function Coach() {
   const endindex = Math.min(startindex + rowperpage, organizations.length);
   const endindex2 = Math.min(startindex2 + rowperpage, user.length);
   return (
-    <div className="flex flex-col justify-between items-center w-full min-h-screen bg-black">
+    <div className="flex flex-col justify-between items-center w-full min-h-screen">
       <Header></Header>
-      <div className="flex flex-col justify-center items-center  mt-20 w-full">
-        <div className="flex w-full justify-center items-start">
-          <div className="flex h-fit place-content-start w-full ">
-            <div className="flex flex-col items-start justify-start w-full xl:bg-[url('@/assets/player.jpg')] object-cover">
-              <div className=" p-4 bg-gradient-to-r from-slate-900  to-transparent w-full">
-                <h1 className="text-4xl font-extrabold font-custom text-white">
+      <div className="flex flex-col justify-center items-center  pt-24 w-full">
+        <div className="flex w-full justify-center items-start ">
+          <div className="flex h-full place-content-start w-full lg:bg-[url('/player.jpg')] bg-cover bg-center bg-no-repeat">
+            <div className="flex flex-col items-start justify-start w-full  lg:bg-gradient-to-b from-transparent to-black ">
+              <div className=" p-4 mt-8  w-full  h-full">
+                <h1 className="text-4xl font-poppins font-bold  text-white">
                   ATHLETES
                 </h1>
-                <hr className="h-1 bg-orange-500 border-none w-40" />
-                <p className="text-white max-w-[34rem] mt-1 ">
+                <hr className="h-0 border-2 border-secondary w-20 rounded-full mt-2 " />
+                <p className="text-white font-poppins font-medium max-w-lg mt-4 ">
                   Here is a comprehensive record of all the athletes you have
                   trained in the past or are currently coaching, ensuring you
                   maintain a well-organized system to track their progress, stay
                   informed, and effectively manage your coaching
                   responsibilities.
                 </p>
+                {user.length === 0 && (
+                  <div className="flex flex-col justify-center items-center mt-6 backdrop-blur-sm p-10 rounded-xl md:w-[30rem] h-[25rem] bg-[rgba(40,40,40,0.70)] shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] border border-[rgba(255,255,255,0.10)]">
+                    <img src={no_data} alt="no data" className="size-32" />
+
+                    <h1 className="text-2xl font-semibold font-poppins text-center uppercase">
+                      No data found
+                    </h1>
+                    <h1 className="text-base italic text-accent-foreground font-base text-center mt-2">
+                      Currently no athlete data available...
+                    </h1>
+                  </div>
+                )}
               </div>
-              <div className="w-fit p-4 bg-gradient-to-r from-slate-700  to-transparent">
+              <div className="w-fit p-4">
                 {user.length > 0 && (
-                  <div className="bg-black/50 p-2 rounded-md mt-2 w-fit">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4  mt-1 w-full">
+                  <div className="bg-muted/50 p-2 rounded-xl mt-2 w-fit">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4  mt-1 w-full">
                       {user.slice(startindex2, endindex2).map((user, index) => (
                         <Card2
                           key={index}
@@ -112,8 +124,8 @@ function Coach() {
                           <PaginationPrevious
                             className={
                               currentPage2 === 0
-                                ? "pointer-events-none opacity-50 font-semibold text-slate-50"
-                                : "text-slate-50 hover:bg-white hover:text-black"
+                                ? "pointer-events-none opacity-50 font-semibold text-accent"
+                                : "text-accent hover:bg-white hover:text-base-300"
                             }
                             onClick={() =>
                               setCurrentPage2((prev) => Math.max(0, prev - 1))
@@ -124,8 +136,8 @@ function Coach() {
                               <button
                                 className={`${
                                   currentPage2 === i
-                                    ? "font-bold text-white px-2 bg-orange-600"
-                                    : "text-slate-50 hover:bg-white hover:text-black px-2 font-semibold"
+                                    ? "font-semibold text-white px-2 bg-secondary rounded-full"
+                                    : "text-accent hover:bg-white hover:text-base-300 px-2 font-semibold rounded-full"
                                 }`}
                                 onClick={() => setCurrentPage2(i)}
                               >
@@ -136,8 +148,8 @@ function Coach() {
                           <PaginationNext
                             className={
                               currentPage2 >= totalPages2 - 1
-                                ? "pointer-events-none opacity-50 font-semibold text-slate-50"
-                                : "text-slate-50 hover:bg-white hover:text-black"
+                                ? "pointer-events-none opacity-50 font-semibold text-accent"
+                                : "text-accent hover:bg-white hover:text-base-300"
                             }
                             onClick={() =>
                               setCurrentPage2((prev) =>
@@ -150,34 +162,26 @@ function Coach() {
                     </Pagination>
                   </div>
                 )}
-                {user.length === 0 && (
-                  <div className="flex flex-col justify-center items-center p-20 bg-white/20 rounded-md mt-3">
-                    <UserRoundXIcon className="h-20 w-20 p-2 stroke-white " />
-                    <h1 className="text-base italic text-accent-foreground font-semibold text-center mt-4">
-                      Currently no Athlete available...
-                    </h1>
-                  </div>
-                )}
               </div>
             </div>
           </div>
         </div>
         <div className="flex w-full justify-center items-start">
           <div className="flex h-fit place-content-start w-full ">
-            <div className="flex flex-col items-start justify-start w-full xl:bg-[url('@/assets/player.jpg')] object-cover">
-              <div className=" p-4 bg-gradient-to-r from-slate-900  to-transparent w-full">
-                <h1 className="text-4xl font-extrabold font-custom text-white">
+            <div className="flex flex-col items-start justify-start w-full lg:bg-[url('/organisation.png')] object-cover">
+              <div className=" p-4  w-full">
+                <h1 className="text-4xl font-extrabold font-inter text-white">
                   ORGANIZATIONS
                 </h1>
-                <hr className="h-1 bg-orange-500 border-none w-60" />
-                <p className="text-white max-w-[30rem] mt-1 ">
+                <hr className="h-0 border-2 border-secondary w-20 rounded-full mt-2 " />
+                <p className="text-white max-w-lg mt-4 font-poppins font-medium">
                   Here is a comprehensive list of all organizations you have
                   joined , ensuring you stay organized and up to date.{" "}
                 </p>
               </div>
-              <div className="w-fit p-4 bg-gradient-to-r from-slate-700  to-transparent">
+              <div className="w-fit p-4 ">
                 {organizations.length > 0 && (
-                  <div className="bg-black/50 p-2 rounded-md mt-2 w-fit">
+                  <div className="bg-muted/50 p-2 rounded-md mt-2 w-fit">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4  mt-1 w-full">
                       {organizations
                         .slice(startindex, endindex)
@@ -196,8 +200,8 @@ function Coach() {
                           <PaginationPrevious
                             className={
                               currentPage === 0
-                                ? "pointer-events-none opacity-50 font-semibold text-slate-50"
-                                : "text-slate-50 hover:bg-white hover:text-black"
+                                ? "pointer-events-none opacity-50 font-semibold text-accent"
+                                : "text-accent hover:bg-white hover:text-base-300"
                             }
                             onClick={() =>
                               setCurrentPage((prev) => Math.max(0, prev - 1))
@@ -208,8 +212,8 @@ function Coach() {
                               <button
                                 className={`${
                                   currentPage === i
-                                    ? "font-bold text-white px-2 bg-orange-600"
-                                    : "text-slate-50 hover:bg-white hover:text-black px-2 font-semibold"
+                                    ? "font-semibold text-white px-2 bg-secondary rounded-full"
+                                    : "text-accent hover:bg-white hover:text-base-300 px-2 font-semibold rounded-full"
                                 }`}
                                 onClick={() => setCurrentPage(i)}
                               >
@@ -220,8 +224,8 @@ function Coach() {
                           <PaginationNext
                             className={
                               currentPage >= totalPages1 - 1
-                                ? "pointer-events-none opacity-50 font-semibold text-slate-50"
-                                : "text-slate-50 hover:bg-white hover:text-black"
+                                ? "pointer-events-none opacity-50 font-semibold text-accent"
+                                : "text-accent hover:bg-white hover:text-base-300"
                             }
                             onClick={() =>
                               setCurrentPage((prev) =>
@@ -235,10 +239,14 @@ function Coach() {
                   </div>
                 )}
                 {organizations.length === 0 && (
-                  <div className="flex flex-col justify-center items-center p-20 bg-white/20 rounded-md mt-3">
-                    <UserRoundXIcon className="h-20 w-20 p-2 stroke-white " />
-                    <h1 className="text-base italic text-accent-foreground font-semibold text-center mt-4">
-                      Currently no coach available...
+                  <div className="flex flex-col justify-center items-center mt-6 backdrop-blur-sm p-10 rounded-xl md:w-[30rem] h-[25rem] bg-[rgba(40,40,40,0.70)] shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] border border-[rgba(255,255,255,0.10)]">
+                    <img src={no_data} alt="no data" className="size-32" />
+
+                    <h1 className="text-2xl font-semibold font-poppins text-center uppercase">
+                      No data found
+                    </h1>
+                    <h1 className="text-base italic text-accent-foreground font-base text-center mt-2">
+                      Currently no organisation data available...
                     </h1>
                   </div>
                 )}

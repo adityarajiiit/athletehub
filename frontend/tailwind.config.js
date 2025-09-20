@@ -7,8 +7,7 @@ export default {
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
         custom: ["Roboto Condensed", " sans-serif"],
-        nunito: ["Nunito", "sans-serif"],
-        lato: ["Lato", "sans-serif"],
+        inter: ["Inter", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -90,5 +89,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("daisyui")],
 };

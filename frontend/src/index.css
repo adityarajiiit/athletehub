@@ -4,23 +4,23 @@
 
 @layer base {
   :root {
-    --background: ;
-    --foreground: 232 66% 23%;
+    --background: 212 64% 19%;
+    --foreground: 0 14% 97%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 196 100% 80%;
+    --primary: 207 40% 54%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 216 100% 75%;
+    --secondary: 18 83% 65%;
     --secondary-foreground: 0 0% 9%;
-    --muted: 231 100% 70%;
+    --muted: 213 47% 47%;
     --muted-foreground: 0 0% 45.1%;
-    --accent: 249 90% 16%;
-    --accent-foreground: 196 100% 80%;
-    --destructive: 176 100% 86%;
+    --accent: 219 38% 90%;
+    --accent-foreground: 0 14% 97%;
+    --destructive: 234 41% 30%;
     --destructive-foreground: 0 0% 98%;
-    --border: 216 100% 75%;
+    --border: 237 35% 50%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
     --chart-1: 12 76% 61%;
@@ -75,7 +75,17 @@
   background: transparent;
   border: 1px solid white;
 }
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
+.custom-shape {
+  clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
+}
 @layer base {
   * {
     @apply border-border;

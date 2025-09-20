@@ -8,7 +8,7 @@ import Career from "./Pages/career.jsx";
 import Aid from "./Pages/aid.jsx";
 import Chat from "./Pages/chat.jsx";
 import Progress from "./Pages/progress.jsx";
-import Onboard from "./constants/onboard.jsx";
+import Onboard from "./Pages/onboard.jsx";
 import Profile from "./Pages/profile.jsx";
 import Finance from "./Pages/finance.jsx";
 import Careerdoc from "./Pages/careerdoc.jsx";

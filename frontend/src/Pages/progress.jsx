@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "@/constants/navbar";
-import Footer from "@/constants/footer";
+import Header from "@/components/navbar";
+import Footer from "@/components/footer";
 import {
   FlameKindlingIcon,
   FootprintsIcon,
@@ -12,7 +12,7 @@ import {
   ChartTooltip,
   ChartLegend,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from "@/shadcnComponents/ui/chart";
 function Progress() {
   const [stepCount, setStepCount] = React.useState(0);
   const [pulseRate, setPulseRate] = React.useState(0);
