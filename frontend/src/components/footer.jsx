@@ -30,10 +30,10 @@ function Footer() {
           <p className="max-w-xs font-poppins text-accent mb-2 font-medium">
             Enter your email and get latest updates and offers subscribe us.
           </p>
-          <div className="flex flex-col justify-start items-start gap-y-2">
+          <div className="flex flex-col justify-start items-start gap-y-2 shrink">
             <div className="join max-w-xs">
               <input
-                className="input input-bordered join-item w-64 bg-muted text-accent placeholder:text-accent-foreground"
+                className="input input-bordered join-item max-w-52 bg-muted text-accent placeholder:text-accent-foreground"
                 placeholder="Email"
               />
               <button className="btn btn-info join-item rounded-r-full font-inter">

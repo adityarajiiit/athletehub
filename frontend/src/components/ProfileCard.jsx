@@ -19,9 +19,9 @@ function Card2({ user, handleclick }) {
             <img
               src={user?.image || "/default-profile.jpg"}
               alt="profile"
-              className="h-28 w-28 bg-slate-400 rounded-full z-10 absolute left-0 object-center object-cover"
+              className="size-16 sm:h-28 sm:w-28 bg-slate-400 rounded-full z-10 absolute -top-3 left-3 sm:left-0 object-center object-cover"
             />{" "}
-            <div className="flex flex-col  bg-base-100 p-4 rounded-lg ml-10 pl-[6.5rem] relative w-full">
+            <div className="flex flex-col  bg-base-100 p-4 rounded-lg sm:ml-10 pl-[6.5rem] pt-6 sm:pt-0 relative w-full">
               <p className="w-fit h-fit  text-white text-xl font-semibold font-poppins mb-1">
                 {user?.user?.name}
               </p>
