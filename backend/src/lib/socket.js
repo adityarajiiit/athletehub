@@ -1,14 +1,20 @@
+import "dotenv/config";
 import { Server } from "socket.io";
 import express from "express";
 import http from "http";
 
 const app = express();
-
 const server = http.createServer(app);
+const allowedOrigins = [process.env.CLIENT_URL, "http://localhost:5173"];
+
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) callback(null, true);
+      else callback(new Error("Not allowed by CORS"));
+    },
     methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
+    credentials: true,
   },
 });
 

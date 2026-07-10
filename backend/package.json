@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./src/index.js"
+    "dev": "nodemon ./src/index.js",
+    "start": "node ./src/index.js",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
@@ -26,7 +28,6 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "groq-sdk": "^1.1.2",
-    "javascript": "^1.0.0",
     "module-alias": "^2.3.4",
     "nodemailer": "^8.0.4",
     "pg": "^8.20.0",

@@ -43,7 +43,6 @@ const protectRoutes = async (req, res, next) => {
     });
     if (!user) {
       return res.status(401).json({ message: "Unauthorized" });
-      console.log("User not found for token:", decoded.userId);
     }
     req.user = user;
     console.log("Authenticated user:", user);
