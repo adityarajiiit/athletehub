@@ -54,9 +54,9 @@ function Sidebar() {
                     user?.doctor?.image ||
                     user?.coach?.image ||
                     user?.organization?.image ||
-                    "/no-data.jpg"
+                    "/default-profile.jpg"
                   }
-                  alt={user.fullname}
+                  alt={user?.name}
                   className="size-12 rounded-full object-cover shrink-0"
                 />
                 {onlineUsers.includes(user.id) && (

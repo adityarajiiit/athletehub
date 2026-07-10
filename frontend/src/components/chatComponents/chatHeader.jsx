@@ -15,7 +15,7 @@ function ChatHeaders() {
               selectedUser?.doctor?.image ||
               selectedUser?.coach?.image ||
               selectedUser?.organization?.image ||
-              "/no-data.jpg"
+              "/default-profile.jpg"
             }
             alt=""
             className="size-12 rounded-full object-cover"

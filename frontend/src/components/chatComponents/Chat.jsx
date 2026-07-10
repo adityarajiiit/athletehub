@@ -75,12 +75,12 @@ function Chat() {
                             user?.doctor?.image ||
                             user?.coach?.image ||
                             user?.organization?.image ||
-                            "/no-data.jpg"
+                            "/default-profile.jpg"
                           : selectedUser?.athlete?.image ||
                             selectedUser?.doctor?.image ||
                             selectedUser?.coach?.image ||
                             selectedUser?.organization?.image ||
-                            "/no-data.jpg"
+                            "/default-profile.jpg"
                       }
                     ></img>
                   </div>
