@@ -5,6 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { TbLoader3 } from "react-icons/tb";
+import { axiosInstant } from "@/lib/axiosInstance";
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,8 +15,8 @@ export default function Signin() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        "http://localhost:4000/api/auth/login",
+      const response = await axiosInstant.post(
+        "/auth/login",
         {
           email,
           password,
