@@ -25,9 +25,7 @@ const SignUp = () => {
         role,
       });
       console.log(response.data);
-      toast.success(
-        "Registration successful! Please check your email to verify.",
-      );
+      toast.success("Registration successful!");
       navigate("/sign-in");
     } catch (error) {
       console.error(error.response?.data);

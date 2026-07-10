@@ -1,8 +1,7 @@
 import bcrypt from "bcrypt";
 import prisma from "../lib/prisma.js";
 import { generateTokens } from "../lib/utils.js";
-import crypto from "crypto";
-import { sendVerificationEmail } from "../lib/email.js";
+
 const authController = {
   register: async (req, res) => {
     const { username, email, password, role } = req.body;
@@ -15,19 +14,17 @@ const authController = {
         return res.status(400).json({ message: "User already exists" });
       }
       const hashedPassword = await bcrypt.hash(password, 10);
-      const verificationToken = crypto.randomBytes(32).toString("hex");
       const user = await prisma.user.create({
         data: {
           name: username,
           email,
           password: hashedPassword,
           role,
-          verificationToken,
+          verified: true,
         },
       });
-      await sendVerificationEmail(user.email, user.verificationToken);
       res.status(201).json({
-        message: "User registered. Please verify your email.",
+        message: "User registered successfully.",
       });
     } catch (error) {
       res.status(500).json({ message: "Server error", error: error.message });
@@ -49,11 +46,6 @@ const authController = {
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
         return res.status(400).json({ message: "Invalid credentials" });
-      }
-      if (!user.verified) {
-        return res.status(403).json({
-          message: "Please verify your email first",
-        });
       }
       generateTokens(user.id, res);
       res.json({
@@ -80,26 +72,6 @@ const authController = {
     } catch (error) {
       res.status(500).json({ message: "Server error", error: error.message });
       console.error("Logout error:", error);
-    }
-  },
-  verifyEmail: async (req, res) => {
-    const { token } = req.params;
-    try {
-      const user = await prisma.user.findFirst({
-        where: { verificationToken: token },
-      });
-
-      if (!user) {
-        return res.status(400).send("<h1>Invalid or expired link</h1>");
-      }
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { verified: true, verificationToken: null },
-      });
-      res.send("<h1>Email verified successfully</h1>");
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-      console.log("Email verification error:", error);
     }
   },
   checkAuth: (req, res) => {
