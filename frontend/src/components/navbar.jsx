@@ -1,7 +1,6 @@
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -16,8 +15,6 @@ import {
 } from "@/shadcnComponents/ui/navigation-menu";
 import { RiMenu3Fill } from "react-icons/ri";
 import logo from "/logo.png";
-import { IoLogoGithub } from "react-icons/io";
-import { MdEmail } from "react-icons/md";
 import {
   Accordion,
   AccordionContent,
@@ -27,12 +24,19 @@ import {
 import { PiArrowBendDownRightBold } from "react-icons/pi";
 import { FaUserClock } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { BsInstagram } from "react-icons/bs";
-import { FaLinkedinIn } from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import { useAuthStore } from "@/store/useAuthStore";
+import { useNavigate } from "react-router-dom";
+import { Component } from "./glowButton";
+import { IoNotifications } from "react-icons/io5";
 function Header() {
-  const [category, setcategory] = useState("Organisation");
-  const [isSignin, setIssignin] = useState(false);
+  const { user, checkAuth, logout } = useAuthStore();
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+  console.log(user);
+  const category = user?.role;
+  const navigate = useNavigate();
   return (
     <header className=" h-30 mt-0 w-full flex flex-col items-center  top-0 fixed z-50 bg-muted/90">
       <div className="w-full h-10 bg-base-200 flex justify-end items-center gap-4 px-6 font-inter">
@@ -45,11 +49,6 @@ function Header() {
           <FaUserClock className="text-accent" />
           <span className="text-accent">We are open : 9:00 AM - 6:00 PM</span>
         </p>
-
-        <BsInstagram className="fill-secondary size-5" />
-        <FaLinkedinIn className="fill-secondary size-5" />
-        <IoLogoGithub className="fill-secondary size-6" />
-        <MdEmail className="fill-secondary size-6" />
       </div>
       <nav className=" w-full flex flex-row items-center justify-between h-14">
         <div className="h-[6.6rem] w-48 flex flex-row justify-center items-center absolute left-0 top-0 bg-destructive custom-shape">
@@ -199,27 +198,48 @@ function Header() {
                 Profile
               </Link>
             </ul>
+            <IoNotifications
+              className="size-7 fill-accent mr-2"
+              onClick={() => navigate("/notifications")}
+            />
             <div className="flex flex-row justify-end items-center px-4">
-              {isSignin ? (
-                <button className="lg:flex hidden justify-center items-center p-3 bg-lime-300 uppercase w-40 rounded-xl px-4 mr-4 font-semibold text-background">
-                  Sign out
+              {user ? (
+                <button
+                  onClick={() => {
+                    logout();
+                    navigate("/sign-in");
+                  }}
+                >
+                  <Component
+                    glowColor="#22d3ee"
+                    className="lg:flex hidden justify-center items-center p-2.5 w-30 rounded-xl mr-4 font-semibold hover:text-blue-200"
+                  >
+                    Sign out
+                  </Component>
                 </button>
               ) : (
-                <Link
-                  to="/sign-in"
-                  className="lg:flex hidden justify-center items-center p-3 bg-lime-300 uppercase w-40 rounded-xl px-4 mr-4 font-semibold text-background"
-                >
-                  Sign in
+                <Link to="/sign-in">
+                  <Component
+                    glowColor="#22d3ee"
+                    className="lg:flex hidden justify-center items-center p-2.5 w-30 rounded-xl mr-4 font-semibold hover:text-blue-200"
+                  >
+                    Sign in
+                  </Component>
                 </Link>
               )}
               <Sheet className="bg-background lg:hidden">
-                <SheetTrigger className=" lg:hidden  bg-primary rounded-xl hover:bg-background border-none p-2.5">
-                  <RiMenu3Fill className="size-6 fill-white" />
+                <SheetTrigger className=" lg:hidden">
+                  <Component
+                    glowColor="#22d3ee"
+                    className={"hover:text-blue-200 rounded-2xl !px-2.5"}
+                  >
+                    <RiMenu3Fill className="size-6 fill-white" />
+                  </Component>
                 </SheetTrigger>
                 <SheetContent className="bg-background border-none">
                   <SheetHeader>
                     <SheetTitle></SheetTitle>
-                    <SheetDescription className="flex flex-col  w-full">
+                    <div className="flex flex-col  w-full">
                       <div className="flex flex-row justify-start items-center gap-4">
                         <img
                           src={logo}
@@ -251,7 +271,7 @@ function Header() {
                             </AccordionTrigger>
 
                             {category === "Athlete" && (
-                              <AccordionContent className="flexackground p-1 pl-4 bg-base-200">
+                              <AccordionContent className="flex flex-col p-1 pl-4 bg-base-200">
                                 <Link
                                   to="/career"
                                   className="font-poppins text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
@@ -277,7 +297,7 @@ function Header() {
                             )}
 
                             {category === "Doctor" && (
-                              <AccordionContent className="flexackground p-1 pl-4 bg-base-200">
+                              <AccordionContent className="flex flex-col p-1 pl-4 bg-base-200">
                                 <Link
                                   to="/career-doc"
                                   className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
@@ -296,7 +316,7 @@ function Header() {
                             )}
 
                             {category === "Organisation" && (
-                              <AccordionContent className="flexackground p-1 pl-4 bg-base-200">
+                              <AccordionContent className="flex flex-col p-1 pl-4 bg-base-200">
                                 <Link
                                   to="/org"
                                   className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
@@ -329,7 +349,7 @@ function Header() {
                             )}
 
                             {category === "Coach" && (
-                              <AccordionContent className="flexackground p-1 pl-4 bg-base-200">
+                              <AccordionContent className="flex flex-col p-1 pl-4 bg-base-200">
                                 <Link
                                   to="/career-coach"
                                   className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
@@ -434,20 +454,23 @@ function Header() {
                         >
                           Profile
                         </Link>
-                        {isSignin ? (
-                          <button className="bg-transparent text-white font-semibold text-base w-full hover:no-underline hover:bg-primary p-2.5 uppercase px-6 flex justify-start">
+                        {user ? (
+                          <button
+                            className="bg-transparent text-white font-semibold text-base w-full hover:no-underline hover:bg-primary p-2.5 uppercase px-6 flex justify-start"
+                            onClick={() => {
+                              logout();
+                              navigate("/sign-in");
+                            }}
+                          >
                             Sign out
                           </button>
                         ) : (
-                          <Link
-                            className="bg-transparent text-white font-semibold text-base w-full hover:no-underline hover:bg-primary p-2.5 uppercase px-6 flex justify-start"
-                            to="/sign-in"
-                          >
+                          <Link className=" flex justify-start" to="/sign-in">
                             Sign in
                           </Link>
                         )}
                       </ul>
-                    </SheetDescription>
+                    </div>
                   </SheetHeader>
                 </SheetContent>
               </Sheet>

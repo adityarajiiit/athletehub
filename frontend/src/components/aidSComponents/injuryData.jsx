@@ -1,7 +1,28 @@
 import React from "react";
 import InjuryAndIllnessForm from "@/components/aidSComponents/injuryAndIllnessForm";
 import { CgClose } from "react-icons/cg";
+import IsSubmitting from "../isSubmitting";
+import toast from "react-hot-toast";
+import { axiosInstant } from "@/lib/axiosInstance";
+import { useNavigate } from "react-router-dom";
 function InjuryData({ injury }) {
+  const injuryId = injury.id;
+  console.log(injuryId);
+  const [loading, setLoading] = React.useState(false);
+  const navigate = useNavigate();
+  const handleDelete = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstant.delete(`/aid/injuries/${injuryId}`);
+      toast.success("Injury deleted successfully");
+      console.log(response.data);
+      navigate(0);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Error deleting injury");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="overflow-x-auto">
       <table className="table">
@@ -24,14 +45,9 @@ function InjuryData({ injury }) {
             <td className="font-semibold text-muted">Affected tissues </td>
             <td>{injury.tissueType}</td>
             <td className="font-semibold text-muted">Injury </td>
-            <td>{injury.InjuryName}</td>{" "}
+            <td>{injury.injuryName}</td>{" "}
           </tr>
-          <tr>
-            <td className="font-semibold text-muted">New injury </td>
-            <td>{injury.newInjury}</td>
-            <td className="font-semibold text-muted">Priority </td>
-            <td>{injury.Priority}</td>
-          </tr>
+
           <tr>
             <td className="font-semibold text-muted">Sport </td>
             <td>{injury.sport}</td>
@@ -42,44 +58,30 @@ function InjuryData({ injury }) {
           <tr>
             <td className="font-semibold text-muted">Cause of injury </td>
             <td>{injury.mechanism}</td>
-            <td className="font-semibold text-muted">Level of pain </td>
-            <td>{injury.levelofPain}</td>
+            <td className="font-semibold text-muted">Severity</td>
+            <td>{injury.severity || "N/A"}</td>
           </tr>
           <tr>
             <td className="font-semibold text-muted">Training Status </td>
-            <td>{injury.trainingstatus}</td>
+            <td>{injury.trainingStatus}</td>
             <td className="font-semibold text-muted">Injury date </td>
-            <td>{injury.dateofInjury}</td>
+            <td>{new Date(injury.date).toDateString() || "Invalid Date"}</td>
           </tr>
-          <tr>
-            <td className="font-semibold text-muted">Recovery date </td>
-            <td>{injury.healthproblemresolved}</td>
-            <td className="font-semibold text-muted">Training restriction </td>
-            <td>{injury.trainingrestriction}</td>
-          </tr>
+
           <tr>
             {" "}
-            <td className="font-semibold text-muted">Details </td>
-            <td>{injury.details}</td>
             <td className="font-semibold text-muted">Presonal program </td>
-            <td>{injury.personnalprogram}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold text-muted">
-              Additional information{" "}
-            </td>
-            <td>{injury.additionalinformation}</td>
+            <td>{injury.personalProgram || "Not provided..."}</td>
+            <td className="font-semibold text-muted">Comments</td>
+            <td>{injury.comment || "No comment!"}</td>
           </tr>
         </tbody>
       </table>
       <div className="flex justify-center items-center gap-2 mt-4">
-        <button
-          className="btn px-6 btn-neutral"
-          onClick={() => document.getElementById("my_modal_3").showModal()}
-        >
-          Edit
+        <button className="btn btn-error" onClick={handleDelete}>
+          {loading && <IsSubmitting />}
+          Delete
         </button>
-        <button className="btn btn-error">Delete</button>
       </div>
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">

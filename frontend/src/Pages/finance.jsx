@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "@/components/navbar";
 import Footer from "@/components/footer";
 import economy from "@/assets/finance.jpg";
@@ -12,45 +12,99 @@ import calc from "@/assets/calc.jpg";
 import { IoCloudUpload } from "react-icons/io5";
 import no_data from "/no-data.png";
 import TransactionForm from "@/components/financeComponent/transactionForm";
+import { axiosInstant } from "@/lib/axiosInstance";
+import toast from "react-hot-toast";
+import IsSubmitting from "@/components/isSubmitting";
+import { useNavigate } from "react-router-dom";
+import { FaArrowRight } from "react-icons/fa6";
+import KineticDotsLoader from "@/components/loading";
 function Finance() {
   const [monthlybudget, setmonthlybudget] = useState(0);
-  const account = [
-    // {
-    //   name: "State Bank of India",
-    //   type: "saving",
-    //   balance: 0,
-    //   isDefault: "No",
-    //   status: "active",
-    //   createdAt: "10/10/20",
-    //   updatedAt: "10/10/23",
-    // },
-    // {
-    //   name: "State Bank of India",
-    //   type: "saving",
-    //   balance: 0,
-    //   isDefault: "No",
-    //   status: "active",
-    //   createdAt: "10/10/20",
-    //   updatedAt: "10/10/23",
-    // },
-  ];
-  const transactions = [
-    {
-      type: "Income",
-      amount: 0,
-      description: "None",
-      date: "10/12/20",
-      category: "travel",
-      isRecurring: "No",
-      recurringInterval: "2days",
-      nextRecurringDate: "10/12/20",
-      lastProcessed: "11/12/20",
-      account: "SBI",
-      status: "active",
-      createdAt: "10/10/20",
-      updatedAt: "10/10/23",
-    },
-  ];
+  const [account, setAccountData] = useState([]);
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
+  const navigate = useNavigate();
+  useEffect(() => {
+    let cancelled = false;
+    const fetchData = async () => {
+      setPageLoading(true);
+      try {
+        const [accountData, transactionData] = await Promise.all([
+          axiosInstant
+            .get("/finance/accounts")
+            .then((response) => response.data)
+            .catch((error) => {
+              console.error("Error fetching accounts:", error);
+              return [];
+            }),
+          axiosInstant
+            .get("/finance/transactions")
+            .then((response) => response.data)
+            .catch((error) => {
+              console.error("Error fetching transactions:", error);
+              return [];
+            }),
+        ]);
+
+        if (cancelled) return;
+
+        setAccountData(accountData);
+        setTransactions(transactionData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        if (!cancelled) {
+          setPageLoading(false);
+        }
+      }
+    };
+    fetchData();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  const [file, setFile] = useState(null);
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) setFile(selectedFile);
+  };
+  const handleFileSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      if (!file) {
+        toast.error("Please select a file to upload");
+        return;
+      }
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "athleteHub_preset");
+
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dss7k4wej/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+
+      const data = await res.json();
+      const response = await axiosInstant.post(
+        "/finance/transactions/scan-bill",
+        {
+          imageUrl: data.secure_url,
+        },
+      );
+      console.log(response.data);
+      navigate(0);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      toast.error("Failed to upload file");
+    } finally {
+      setLoading(false);
+    }
+  };
   const inputRef = useRef(null);
   const handlefileupload = () => {
     inputRef.current.click();
@@ -76,7 +130,6 @@ function Finance() {
               <tr>
                 <td>{1}</td>
                 <td className="font-semibold text-secondary">Type </td>
-
                 <td>{accountData.type}</td>
                 <td className="font-semibold text-secondary">Balance </td>
                 <td>{accountData.balance}</td>
@@ -84,29 +137,39 @@ function Finance() {
               <tr>
                 <td>{2}</td>
                 <td className="font-semibold text-secondary">Default </td>
-                <td>{accountData.isDefault}</td>
+                <td>{accountData.isDefault ? "Yes" : "No"}</td>
                 <td className="font-semibold text-secondary">Status </td>
                 <td>{accountData.status}</td>
               </tr>
               <tr>
                 <td>{3}</td>
-                <td className="font-semibold text-secondary">
-                  Created at
-                </td>{" "}
-                <td>{accountData.createdAt}</td>
-                <td className="font-semibold text-secondary">Updated at</td>
-                <td>{accountData.updatedAt}</td>
+                <td className="font-semibold text-secondary">Type </td>
+                <td>{accountData.type}</td>
+                <td className="font-semibold text-secondary">Balance </td>
+                <td>{accountData.balance}</td>
               </tr>
             </tbody>
           </table>
           <div className="flex justify-center items-center gap-2 mt-4">
             <button
-              className="btn px-6 btn-neutral"
-              onClick={() => document.getElementById("my_modal_3").showModal()}
+              className="btn btn-error"
+              onClick={async (e) => {
+                e.preventDefault();
+                setLoading(true);
+                try {
+                  axiosInstant.delete(`/finance/accounts/${accountData.id}`);
+                  toast.success("Account deleted successfully");
+                  navigate(0);
+                } catch (error) {
+                  console.error("Error deleting account:", error);
+                  toast.error("Failed to delete account");
+                } finally {
+                  setLoading(false);
+                }
+              }}
             >
-              Edit
+              {loading && <IsSubmitting />}Delete
             </button>
-            <button className="btn btn-error">Delete</button>
           </div>
           <dialog id="my_modal_3" className="modal">
             <div className="modal-box">
@@ -153,34 +216,22 @@ function Finance() {
               <tr>
                 <td>2.</td>{" "}
                 <td className="font-semibold text-secondary">Date </td>
-                <td>{transaction.date}</td>
+                <td>{new Date(transaction.date).toDateString()}</td>
                 <td className="font-semibold text-secondary">Category </td>
                 <td>{transaction.category}</td>
               </tr>
+
               <tr>
-                <td>3.</td>
-                <td className="font-semibold text-secondary">Periodic </td>
-                <td>{transaction.isRecurring}</td>
-                <td className="font-semibold text-secondary">
-                  Recurring intervel
-                </td>
-                <td>{transaction.recurringInterval}</td>
-              </tr>
-              <tr>
-                <td>4.</td>{" "}
-                <td className="font-semibold text-secondary">
-                  Next recurring date
-                </td>
-                <td>{transaction.nextRecurringDate}</td>
-                <td className="font-semibold text-secondary">Last processed</td>
-                <td>{transaction.lastProcessed}</td>
-              </tr>
-              <tr>
-                <td>5.</td>{" "}
+                <td>3.</td>{" "}
                 <td className="font-semibold text-secondary">Account </td>
-                <td>{transaction.account}</td>
+                <td>{transaction?.account?.name || "Not provided"}</td>
                 <td className="font-semibold text-secondary">Status </td>
                 <td>{transaction.status}</td>
+              </tr>
+              <tr>
+                <td>3.</td>{" "}
+                <td className="font-semibold text-secondary">Description </td>
+                <td>{transaction.description || "Not provided"}</td>
               </tr>
             </tbody>
           </table>
@@ -216,6 +267,17 @@ function Finance() {
   const Transactioncards = TranscationData.map((card, index) => (
     <CarouselCard key={`${card.title}-${index}`} card={card} index={index} />
   ));
+
+  if (pageLoading) {
+    return (
+      <div className="flex min-h-screen flex-col">
+        <div className="flex flex-1 items-center justify-center">
+          <KineticDotsLoader />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Header></Header>
@@ -225,7 +287,7 @@ function Finance() {
             <img
               src={economy}
               alt="hero"
-              className="w-screen object-cover h-[76vh] md:h-[82vh]"
+              className="w-screen object-cover h-[95vh] md:h-[100vh]"
             />
             <div className="absolute flex flex-col w-full h-full inset-0 bg-gradient-to-t xl:bg-gradient-to-l from-base-300 to-base-300/40 justify-start p-4 items-start">
               <div className="flex flex-col justify-center items-start  w-full">
@@ -288,7 +350,7 @@ function Finance() {
             <img
               src={calc}
               alt=""
-              className="w-screen object-cover h-[76vh] md:h-[82vh]"
+              className="w-screen object-cover h-[90vh] md:h-[100vh]"
             />
             <div className="absolute flex flex-col w-full h-full  inset-0 bg-gradient-to-b xl:bg-gradient-to-l from-base-300 via-base-300/70 to-base-300 justify-start items-end xl:items-start p-4">
               <div className="flex flex-col gap-2 ">
@@ -332,19 +394,38 @@ function Finance() {
                         <TransactionForm />
                       </div>
                     </dialog>
-                    <div onClick={handlefileupload}>
-                      <form action="">
-                        <input
-                          type="file"
-                          ref={inputRef}
-                          className="hidden"
-                        ></input>
-                      </form>
-                      <button className="btn btn-info bg-primary text-info-content border-0 rounded-full pl-1.5 mt-4 flex">
+                    <form
+                      onSubmit={handleFileSubmit}
+                      className="flex items-center mt-4"
+                    >
+                      <input
+                        type="file"
+                        ref={inputRef}
+                        className="hidden"
+                        onChange={handleFileChange}
+                      ></input>
+                      <button
+                        type="button"
+                        className="btn btn-info bg-primary text-info-content border-0 rounded-full pl-1.5 flex"
+                        onClick={handlefileupload}
+                      >
                         <IoCloudUpload className="fill-primary size-9 rounded-full bg-info-content p-2" />
-                        <p>Upload File</p>
+                        <span className="max-w-24 line-clamp-1">
+                          {file ? file.name : "Upload File"}
+                        </span>
                       </button>
-                    </div>
+                      <button
+                        type="submit"
+                        disabled={!file || loading}
+                        className="btn btn-info relative right-2  rounded-full p-3 min-h-9 h-10 disabled:bg-gray-400 disabled:text-gray-700"
+                      >
+                        {loading ? (
+                          <IsSubmitting />
+                        ) : (
+                          <FaArrowRight className="size-4" />
+                        )}
+                      </button>
+                    </form>
                   </div>
                   {transactions.length == 0 && (
                     <div className="flex flex-col justify-center items-center mt-6 backdrop-blur-sm p-10 rounded-xl md:w-[30rem] h-[25rem] bg-[rgba(40,40,40,0.70)]  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] border border-[rgba(255,255,255,0.10)]">

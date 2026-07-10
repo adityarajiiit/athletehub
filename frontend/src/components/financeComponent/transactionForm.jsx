@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { expenses } from "@/constants/data";
-
+import { axiosInstant } from "@/lib/axiosInstance";
+import toast from "react-hot-toast";
+import IsSubmitting from "../isSubmitting";
 function TransactionForm() {
   const [formData, setFormData] = useState({
     type: "",
@@ -10,35 +12,40 @@ function TransactionForm() {
     description: "",
     date: "",
     category: "",
-    receiptUrl: "",
-    isRecurring: "",
-    recurringInterval: "",
-    nextRecurringDate: "",
-    lastProcessed: "",
     accountId: "",
   });
-  const account = [
-    {
-      name: "State Bank of India",
-      type: "saving",
-      balance: 0,
-      isDefault: "No",
-      status: "active",
-      createdAt: "10/10/20",
-      updatedAt: "10/10/23",
-    },
-    {
-      name: "State Bank of India",
-      type: "saving",
-      balance: 0,
-      isDefault: "No",
-      status: "active",
-      createdAt: "10/10/20",
-      updatedAt: "10/10/23",
-    },
-  ];
+  const [account, setAccountData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      try {
+        const response = await axiosInstant.get("/finance/accounts");
+        setAccountData(response.data);
+      } catch (error) {
+        console.error("Error fetching accounts:", error);
+      }
+    };
+    fetchAccounts();
+  }, []);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await axiosInstant.post(
+        "/finance/transactions",
+        formData,
+      );
+      console.log("Transaction added successfully:", response.data);
+      toast.success("Transaction added successfully");
+    } catch (error) {
+      console.error("Error adding transaction:", error);
+      toast.error("Failed to add transaction");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
-    <form action="" className="form-control w-full">
+    <form action="" className="form-control w-full" onSubmit={handleSubmit}>
       <div className="flex flex-row gap-x-2 w-full">
         <div className="form-control w-full">
           <label className="label">Type:</label>
@@ -49,8 +56,8 @@ function TransactionForm() {
             className="input input-bordered w-full"
           >
             <option value="">Select type</option>
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
+            <option value="income">Debit</option>
+            <option value="expense">Credit</option>
           </select>
         </div>
 
@@ -60,7 +67,7 @@ function TransactionForm() {
             type="number"
             value={formData.amount}
             onChange={(e) =>
-              setFormData({ ...formData, ammount: e.target.value })
+              setFormData({ ...formData, amount: e.target.value })
             }
             required
             className="input input-bordered w-full"
@@ -112,22 +119,6 @@ function TransactionForm() {
       </div>
       <div className="flex flex-row gap-x-2 w-full">
         <div className="form-control w-full">
-          <label className="label">Periodic expenses:</label>
-          <select
-            value={formData.isRecurring}
-            onChange={(e) =>
-              setFormData({ ...formData, isRecurring: e.target.value })
-            }
-            required
-            className="input input-bordered w-full"
-          >
-            <option value="">Select options</option>
-            <option value={true}>Yes</option>
-            <option value={false}>No</option>
-          </select>
-        </div>
-
-        <div className="form-control w-full">
           <label className="label">Status:</label>
           <select
             value={formData.status}
@@ -143,54 +134,6 @@ function TransactionForm() {
           </select>
         </div>
       </div>
-      {formData.isRecurring ? (
-        <div className="flex flex-row gap-x-2 w-full">
-          <div className="form-control w-full">
-            <label className="label">Interval of reoccuring:</label>
-            <select
-              value={formData.recurringInterval}
-              onChange={(e) =>
-                setFormData({ ...formData, recurringInterval: e.target.value })
-              }
-              required
-              className="input input-bordered w-full"
-            >
-              <option value="">Select options</option>
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-              <option value="yearly">Yearly</option>
-            </select>
-          </div>
-
-          <div className="form-control w-full">
-            <label className="label">Next recurring date:</label>
-            <input
-              type="date"
-              value={formData.nextRecurringDate}
-              onChange={(e) =>
-                setFormData({ ...formData, nextRecurringDate: e.target.value })
-              }
-              required
-              className="input input-bordered w-full"
-            />
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
-      <div className="form-control w-full">
-        <label className="label">Last processed:</label>
-        <input
-          type="date"
-          value={formData.lastProcessed}
-          onChange={(e) =>
-            setFormData({ ...formData, lastProcessed: e.target.value })
-          }
-          required
-          className="input input-bordered w-full"
-        />
-      </div>
       <div className="form-control w-full">
         <label className="label">Account:</label>
         <select
@@ -203,14 +146,14 @@ function TransactionForm() {
         >
           <option value="">Select status</option>
           {account.map((account, index) => (
-            <option key={index} value={account.name}>
-              {account.name}
+            <option key={index} value={account.id}>
+              {account.name}({account.accountNumber})
             </option>
           ))}
         </select>
       </div>
       <button type="submit" className="btn btn-info mt-4">
-        Submit
+        {loading && <IsSubmitting />} Submit
       </button>
     </form>
   );

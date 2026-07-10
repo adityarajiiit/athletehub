@@ -1,14 +1,41 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "/logo.png";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { TbLoader3 } from "react-icons/tb";
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSubmit = (e) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/auth/login",
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        },
+      );
+
+      console.log(response.data);
+      toast.success("Login successful!");
+      navigate("/");
+    } catch (error) {
+      console.error(error.response.data || error.message);
+      toast.error(
+        error.response?.data?.message || "Login failed. Please try again.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -42,11 +69,15 @@ export default function Signin() {
               placeholder="Password"
               required
               className="input input-bordered w-full font-poppins"
+              min={8}
             />
           </div>
 
-          <button type="submit" className="mt-8 btn btn-info w-full">
-            Sign In
+          <button
+            type="submit"
+            className="flex items-center gap-2 mt-8 btn btn-info w-full"
+          >
+            {isLoading && <TbLoader3 className="size-4 animate-spin" />}Sign In
           </button>
           <p className="flex justify-center items-center text-center mt-4 gap-2 ">
             Don't have an account?{" "}

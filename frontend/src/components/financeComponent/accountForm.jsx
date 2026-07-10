@@ -1,25 +1,58 @@
+import { axiosInstant } from "@/lib/axiosInstance";
 import React from "react";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import IsSubmitting from "../isSubmitting";
+import { useNavigate } from "react-router-dom";
 function AccountForm() {
   const [formData, setFormData] = useState({
-    accountname: "",
+    name: "",
+    accountNumber: "",
     type: "",
     balance: 0,
-    isDefault: "",
+    isDefault: false,
     status: "",
-    createdAt: "",
-    updatedAt: "",
   });
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await axiosInstant.post("/finance/accounts", formData);
+      console.log("Account added successfully:", response.data);
+      toast.success("Account added successfully");
+      navigate(0);
+    } catch (error) {
+      console.error("Error adding account:", error);
+      toast.error("Failed to add account");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
-    <form action="" className="w-full">
+    <form action="" className="w-full" onSubmit={handleSubmit}>
+      <div>
+        <div className="form-control w-full">
+          <label className="label font-medium text-sm">Back name</label>
+          <input
+            type="text"
+            value={formData.name}
+            placeholder="Enter Bank name"
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            required
+            className="input input-bordered w-full"
+          />
+        </div>
+      </div>
       <div className="form-control w-full">
-        <label className="label font-medium text-sm">Account name</label>
+        <label className="label font-medium text-sm">Account number</label>
         <input
           type="text"
-          value={formData.accountname}
-          placeholder="Enter account name"
+          value={formData.accountNumber}
+          placeholder="Enter account number"
           onChange={(e) =>
-            setFormData({ ...formData, accountname: e.target.value })
+            setFormData({ ...formData, accountNumber: e.target.value })
           }
           required
           className="input input-bordered w-full"
@@ -62,80 +95,39 @@ function AccountForm() {
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-control w-full">
-          <label className="label font-medium text-sm">Default account</label>
-          <select
-            value={formData.isDefault}
-            onChange={(e) =>
-              setFormData({ ...formData, isDefault: e.target.value })
-            }
-            required
-            className="input input-bordered w-full"
-          >
-            <option value="" className="text-secondary bg-black">
-              Select options
-            </option>
-            <option value={true} className="text-secondary bg-black">
-              Yes
-            </option>
-            <option value={false} className="text-secondary bg-black">
-              No
-            </option>
-          </select>
-        </div>
 
-        <div className="form-control w-full">
-          <label className="label font-medium text-sm">Status</label>
-          <select
-            value={formData.status}
-            onChange={(e) =>
-              setFormData({ ...formData, status: e.target.value })
-            }
-            required
-            className="input input-bordered w-full"
-          >
-            <option value="" className="text-secondary bg-black">
-              Select status
-            </option>
-            <option value="Active" className="text-secondary bg-black">
-              Active
-            </option>
-            <option value="Inactive" className="text-secondary bg-black">
-              Inactive
-            </option>
-          </select>
-        </div>
+      <div className="form-control w-full">
+        <label className="label font-medium text-sm">Status</label>
+        <select
+          value={formData.status}
+          onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+          required
+          className="input input-bordered w-full"
+        >
+          <option value="" className="text-secondary bg-black">
+            Select status
+          </option>
+          <option value="Active" className="text-secondary bg-black">
+            Active
+          </option>
+          <option value="Inactive" className="text-secondary bg-black">
+            Inactive
+          </option>
+        </select>
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-control w-full">
-          <label className="label font-medium text-sm">Created at</label>
-          <input
-            type="date"
-            value={formData.createdAt}
-            onChange={(e) =>
-              setFormData({ ...formData, createdAt: e.target.value })
-            }
-            required
-            className="input input-bordered w-full"
-          />
-        </div>
-
-        <div className="form-control w-full">
-          <label className="label font-medium text-sm">Last updated at</label>
-          <input
-            type="date"
-            value={formData.updatedAt}
-            onChange={(e) =>
-              setFormData({ ...formData, updatedAt: e.target.value })
-            }
-            required
-            className="input input-bordered w-full"
-          />
-        </div>
+      <div className="flex items-center gap-2  w-full mt-2">
+        <input
+          type="checkbox"
+          className="checkbox checkbox-warning size-5"
+          value={formData.isDefault}
+          onChange={(e) =>
+            setFormData({ ...formData, isDefault: e.target.checked })
+          }
+        />
+        <label className="label font-medium text-sm">Default account</label>
       </div>
       <button type="submit" className="btn btn-info mt-4 w-full text-white">
-        Submit
+        {loading && <IsSubmitting />}Submit
       </button>
     </form>
   );

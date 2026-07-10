@@ -1,16 +1,20 @@
 import React, { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { Image, Send, X } from "lucide-react";
+import { useChatStore } from "@/store/useChatStore";
+import toast from "react-hot-toast";
 function MessageInput() {
   const [imagePreview, setImagePreview] = useState(null);
+  const [image, setimage] = useState(null);
   const inputref = useRef(null);
-  const { register, watch } = useForm({
+  const { selectedUser, sendMessage } = useChatStore();
+  const { register, control, reset } = useForm({
     defaultValues: {
       text: "",
     },
   });
-  const text = watch("text");
-  const handleChange = (e) => {
+  const text = useWatch({ control, name: "text" });
+  const handleChange = async (e) => {
     const file = e.target.files[0];
     if (!file.type.startsWith("image/")) {
       return;
@@ -20,12 +24,45 @@ function MessageInput() {
       setImagePreview(reader.result);
     };
     reader.readAsDataURL(file);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "athleteHub_preset");
+
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/dss7k4wej/image/upload",
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+
+    const data = await res.json();
+    setimage(data.secure_url);
   };
   const removeImg = () => {
     setImagePreview(null);
     if (inputref.current) inputref.current.value = "";
   };
 
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (!text && !imagePreview) return;
+    try {
+      const content = text;
+      await sendMessage(content, image);
+      setImagePreview(null);
+      if (inputref.current) inputref.current.value = "";
+      reset({ text: "" });
+      toast.success("Message sent");
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast.error("Failed to send message");
+    } finally {
+      setImagePreview(null);
+      if (inputref.current) inputref.current.value = "";
+      reset({ text: "" });
+    }
+  };
   return (
     <div className="p-4 w-full ">
       {imagePreview && (
@@ -45,7 +82,7 @@ function MessageInput() {
           </div>
         </div>
       )}
-      <form onSubmit="" className="w-full">
+      <form onSubmit={onSubmit} className="w-full">
         <div className="flex-1 flex gap-1">
           <input
             type="text"

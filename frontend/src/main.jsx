@@ -14,55 +14,130 @@ import Finance from "./Pages/finance.jsx";
 import Careerdoc from "./Pages/careerdoc.jsx";
 import Coach from "./Pages/coach.jsx";
 import Organization from "./Pages/organization.jsx";
-import { MyContextProvider } from "./context/context.jsx";
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import ProtectedRoute from "./components/protectedRoutes.jsx";
+import PublicRoute from "./components/publicRoute.jsx";
+import Notification from "./Pages/notification.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <ProtectedRoute>
+        <App />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/sign-up",
-    element: <SignUp />,
+    element: (
+      <PublicRoute>
+        <SignUp />
+      </PublicRoute>
+    ),
   },
   {
     path: "/sign-in",
-    element: <Signin />,
+    element: (
+      <PublicRoute>
+        <Signin />
+      </PublicRoute>
+    ),
   },
   {
     path: "/career",
-    element: <Career />,
+    element: (
+      <ProtectedRoute>
+        <Career />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/aid",
-    element: <Aid />,
+    element: (
+      <ProtectedRoute>
+        <Aid />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/chat",
-    element: <Chat />,
+    element: (
+      <ProtectedRoute>
+        <Chat />
+      </ProtectedRoute>
+    ),
   },
-  { path: "/progress", element: <Progress /> },
-  { path: "/profile", element: <Profile /> },
-  { path: "/onboard", element: <Onboard /> },
-  { path: "/finance", element: <Finance /> },
+  {
+    path: "/progress",
+    element: (
+      <ProtectedRoute>
+        <Progress />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/profile",
+    element: (
+      <ProtectedRoute>
+        <Profile />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/onboard",
+    element: (
+      <ProtectedRoute>
+        <Onboard />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/finance",
+    element: (
+      <ProtectedRoute>
+        <Finance />
+      </ProtectedRoute>
+    ),
+  },
   {
     path: "/career-doc",
-    element: <Careerdoc />,
+    element: (
+      <ProtectedRoute>
+        <Careerdoc />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/career-coach",
-    element: <Coach />,
+    element: (
+      <ProtectedRoute>
+        <Coach />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/org",
-    element: <Organization />,
+    element: (
+      <ProtectedRoute>
+        <Organization />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/notifications",
+    element: (
+      <ProtectedRoute>
+        <Notification />
+      </ProtectedRoute>
+    ),
   },
 ]);
 const root = createRoot(document.getElementById("app"));
 
 root.render(
-  <MyContextProvider>
+  <div>
     <RouterProvider router={router} />
-  </MyContextProvider>
+    <Toaster position="top-right" reverseOrder={false} />
+  </div>,
 );

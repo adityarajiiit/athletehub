@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Header from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -11,35 +11,30 @@ import { CgClose } from "react-icons/cg";
 import { Carousel, CarouselCard } from "@/shadcnComponents/ui/carousel";
 import { HiMiniTrophy } from "react-icons/hi2";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "@/store/useAuthStore";
 function Profile() {
-  const user = {
-    username: "John Doe",
-    category: "Athlete",
-    email: "randomplayer@123.yahoo.com",
-    sport: "Football",
-    experience: "Intermediate",
-    weight: "69",
-    height: "5'10",
-    country: "Great Britain",
-    state: " ",
-    Achievement: [
-      {
-        competition: "state football competition",
-        year: 2010,
-        medal: "gold",
-      },
-      {
-        competition: "National Football Championship",
-        year: 2012,
-        medal: "Silver",
-      },
-    ],
-  };
+  const Achievement = [
+    {
+      competition: "state football competition",
+      year: 2010,
+      medal: "gold",
+    },
+    {
+      competition: "National Football Championship",
+      year: 2012,
+      medal: "Silver",
+    },
+  ];
   const [competition, setCompetition] = useState("");
   const [Year, setYear] = useState("");
   const [medal, setmedal] = useState("");
+  const { user, checkAuth } = useAuthStore();
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+  console.log(user);
   const cardData = [
-    ...user.Achievement.map((achievement) => ({
+    ...Achievement.map((achievement) => ({
       category: "Achievement",
       title: achievement.competition,
       src: "/achievement.jpg",
@@ -77,7 +72,12 @@ function Profile() {
                 </h1>
                 <div className="mt-4 flex flex-col md:flex-row justify-center items-center gap-4 w-full">
                   <img
-                    src="/illness.jpg"
+                    src={
+                      user?.athlete?.image ||
+                      user?.coach?.image ||
+                      user?.doctor?.image ||
+                      "/default-profile.jpg"
+                    }
                     alt="userimage"
                     className="h-40 w-40 object-cover rounded-full flex-shrink-0"
                   ></img>
@@ -87,7 +87,7 @@ function Profile() {
                         <FaUser /> Username :
                       </div>
                       <div className="font-medium font-inter p-2.5 rounded-full bg-muted/20 w-full border border-base-content/10 text-sm px-4">
-                        Username
+                        {user?.name || "Loading..."}
                       </div>
                     </div>
                     <div className="flex flex-col gap-2 w-full">
@@ -95,7 +95,7 @@ function Profile() {
                         <MdEmail /> Email :
                       </div>
                       <div className="font-medium font-inter p-2.5 rounded-full bg-muted/20 w-full border border-base-content/10 text-sm px-4">
-                        example@gmail.com
+                        {user?.email || "Loading..."}
                       </div>
                     </div>
                   </div>
@@ -111,7 +111,8 @@ function Profile() {
                       <HiCalendarDateRange /> Created At :
                     </div>
                     <div className="font-medium font-inter p-2.5 rounded-full bg-muted/20 w-full border border-base-content/10 text-sm px-4">
-                      29 July 2025
+                      {new Date(user?.createdAt).toLocaleDateString() ||
+                        "Invalid Date"}
                     </div>
                   </div>
                   <div className="flex flex-col gap-2 w-full">
@@ -136,7 +137,7 @@ function Profile() {
               other <br /> informations
             </h1>
             <hr className="h-0 border-2 border-secondary w-20 rounded-full mt-2 " />
-            {user.category == "Athlete" && (
+            {user?.role == "Athlete" && (
               <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3 w-full mt-4">
                 <div className="flex flex-col w-full justify-center gap-1">
                   <p className="text-base font-semibold text-accent">
@@ -144,13 +145,14 @@ function Profile() {
                   </p>
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     <span className="font-semibold">Sport : </span>
-                    {user.sport}
+                    {user?.athlete?.sport || "N/A"}
                   </p>
 
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     {" "}
                     <span className="font-semibold">Date of Birth : </span>
-                    {user.dateofbirth}
+                    {new Date(user?.athlete?.dateOfBirth).toDateString() ||
+                      "N/A"}
                   </p>
                 </div>
                 <div className="flex flex-col w-full justify-center gap-1">
@@ -159,13 +161,13 @@ function Profile() {
                   </p>
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     <span className="font-semibold">Weight : </span>
-                    {user.weight}
+                    {user?.athlete?.weight || "N/A"} kg
                   </p>
 
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     {" "}
                     <span className="font-semibold">Height : </span>
-                    {user.height}
+                    {user?.athlete?.height || "N/A"}
                   </p>
                 </div>
                 <div className="flex flex-col gap-y-1">
@@ -174,31 +176,36 @@ function Profile() {
                   </p>
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     <span className="font-semibold">Country : </span>
-                    {user.country}
+                    {user?.athlete?.location?.country || "N/A"}
                   </p>
 
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     {" "}
                     <span className="font-semibold">State : </span>
-                    {user.state}
+                    {user?.athlete?.location?.state || "N/A"}
                   </p>
                 </div>
               </div>
             )}
-            {user.category === "Doctor" && (
-              <div className="grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-3 gap-3 w-full ">
+            {user?.role === "Doctor" && (
+              <div className="grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-3 gap-3 w-full mt-4">
                 <div className="flex flex-col gap-1">
                   <p className="text-base font-semibold text-accent">
                     Sport Experience:
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
-                    <span className="font-semibold"> Specialization : </span>
-                    {user.sport}
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive line">
+                    <span className="font-semibold line-clamp-1">
+                      {" "}
+                      Specialization :{" "}
+                      <span className="font-medium">
+                        {user?.doctor?.specialization || "N/A"}
+                      </span>
+                    </span>
                   </p>
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     {" "}
                     <span className="font-semibold">Exp (yrs) : </span>
-                    {user.experience}
+                    {user?.doctor?.experienceYears || "N/A"}
                   </p>
                 </div>
                 <div className="flex flex-col gap-y-1">
@@ -207,13 +214,13 @@ function Profile() {
                   </p>
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     <span className="font-semibold">Country : </span>
-                    {user.country}
+                    {user?.doctor?.location?.country || "N/A"}
                   </p>
 
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     {" "}
                     <span className="font-semibold">State : </span>
-                    {user.state}
+                    {user?.doctor?.location?.state || "N/A"}
                   </p>
                 </div>
 
@@ -223,17 +230,17 @@ function Profile() {
                   </p>
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     <span className="font-semibold">College : </span>
-                    {user.college}
+                    {user?.doctor?.college || "N/A"}
                   </p>
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     {" "}
                     <span className="font-semibold">Degree : </span>
-                    {user.degree}
+                    {user?.doctor?.degree || "N/A"}
                   </p>
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     {" "}
                     <span className="font-semibold">course duration: </span>
-                    {user.years}
+                    {user?.doctor?.year || "N/A"} years
                   </p>
                 </div>
 
@@ -246,41 +253,51 @@ function Profile() {
                       {" "}
                       Availability in a week :{" "}
                     </span>
-                    {user.days}
+                    {user?.doctor?.availability?.day || "N/A"} days
                   </p>
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     <span className="font-semibold">Available from : </span>
-                    {user.starttime}
+                    {new Date(
+                      user?.doctor?.availability?.startTime,
+                    ).toLocaleTimeString({
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }) || "N/A"}
                   </p>
 
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     {" "}
                     <span className="font-semibold">End time : </span>
-                    {user.endtime}
+                    {new Date(
+                      user?.doctor?.availability?.endTime,
+                    ).toLocaleTimeString({
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }) || "N/A"}
                   </p>
                 </div>
               </div>
             )}
 
-            {user.category === "Coach" && (
-              <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-3 w-full ">
+            {user?.role === "Coach" && (
+              <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-3 w-full mt-4">
                 <div className="flex flex-col w-full justify-center gap-1">
                   <p className="text-base font-semibold text-accent">
                     Sport Experience:
                   </p>
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     <span className="font-semibold"> Sport : </span>
-                    {user.sport}
+                    {user?.coach?.sport || "N/A"}
                   </p>
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     <span className="font-semibold"> Specialization : </span>
-                    {user.sport}
+                    {user?.coach?.specialization || "N/A"}
                   </p>
 
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     {" "}
                     <span className="font-semibold">Exp (yrs) : </span>
-                    {user.experience}
+                    {user?.coach?.experienceYears || "N/A"}
                   </p>
                 </div>
                 <div className="flex flex-col w-full justify-center gap-1">
@@ -292,18 +309,32 @@ function Profile() {
                       {" "}
                       Availability in a week :{" "}
                     </span>
-                    {user.days}
+                    {user?.coach?.availability?.day || "N/A"} days
                   </p>
                   <div className="flex flex-row gap-x-4">
                     <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive w-full">
                       <span className="font-semibold">Available from : </span>
-                      {user.starttime}
+                      {user?.coach?.availability?.startTime
+                        ? new Date(
+                            user.coach.availability.startTime,
+                          ).toLocaleTimeString({
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })
+                        : "N/A"}
                     </p>
                   </div>
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     {" "}
                     <span className="font-semibold">End time : </span>
-                    {user.endtime}
+                    {user?.coach?.availability?.endTime
+                      ? new Date(
+                          user.coach.availability.endTime,
+                        ).toLocaleTimeString({
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })
+                      : "N/A"}
                   </p>
                 </div>
                 <div className="flex flex-col gap-y-1">
@@ -312,20 +343,20 @@ function Profile() {
                   </p>
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     <span className="font-semibold">Country : </span>
-                    {user.country}
+                    {user?.coach?.location?.country || "N/A"}
                   </p>
 
                   <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
                     {" "}
                     <span className="font-semibold">State : </span>
-                    {user.state}
+                    {user?.coach?.location?.state || "N/A"}
                   </p>
                 </div>
               </div>
             )}
           </div>
         </div>
-        {user.category == "Athlete" ? (
+        {user?.role == "Athlete" ? (
           <div className="w-full p-4 px-8">
             <div className="flex flex-col items-start  w-full mb-4">
               <div className="flex flex-col justify-center items-start  gap-6 mt-4">

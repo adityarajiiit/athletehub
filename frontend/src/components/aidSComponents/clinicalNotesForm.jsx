@@ -1,86 +1,59 @@
 import React from "react";
 import { useState } from "react";
 import { tasksforrecovery } from "@/constants/data";
-function ClinicalNotes() {
-  const [date, setdate] = useState("");
-  const [time, settime] = useState("");
-  const [duration, setduration] = useState("");
-  const [notes, setnotes] = useState("");
-  const [tasks, settasks] = useState("");
-  const [painlevel, setpainlevel] = useState("");
-  const [painSensation, setpainSensation] = useState("");
+import { axiosInstant } from "@/lib/axiosInstance";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import IsSubmitting from "../isSubmitting";
+function ClinicalNotes({ appointmentId }) {
+  const [task, settask] = useState("");
   const [subjective, setsubjective] = useState("");
   const [objective, setobjective] = useState("");
   const [assessment, setassessment] = useState("");
   const [plan, setplan] = useState("");
+  const [loading, setloading] = useState(false);
+  const navigate = useNavigate();
+  const handleAccept = async (e) => {
+    e.preventDefault();
+    try {
+      setloading(true);
+      const response = await axiosInstant.put(
+        `/appointment/accept/${appointmentId}`,
+        {
+          task,
+          subjective,
+          objective,
+          assessment,
+          plan,
+        },
+      );
+      console.log(response.data);
+      navigate(0);
+      toast.success("Appointment accepted and notes added successfully");
+    } catch (error) {
+      toast.error("Failed to accept appointment");
+      console.error("Error accepting appointment:", error);
+    } finally {
+      setloading(false);
+    }
+  };
   return (
     <form action="" className="">
-      <div className="flex flex-row gap-x-2 w-full">
-        <div className="form-control w-full ">
-          <label className="label-text font-poppins font-medium text-sm my-1">
-            Appt. Date:
-          </label>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setdate(e.target.value)}
-            placeholder="Appointment date"
-            required
-            className="input input-bordered"
-          />
-        </div>
-
-        <div className="form-control w-full ">
-          <label className="label-text font-poppins font-medium text-sm my-1">
-            Appt. Time:
-          </label>
-          <input
-            type="time"
-            value={time}
-            onChange={(e) => settime(e.target.value)}
-            placeholder="Appointment time"
-            required
-            className="input input-bordered"
-          />
-        </div>
-      </div>
-      <div className="form-control w-full ">
-        <label className="label-text font-poppins font-medium text-sm my-1">
-          Duration:
-        </label>
-        <input
-          type="time"
-          value={duration}
-          onChange={(e) => setduration(e.target.value)}
-          required
-          className="input input-bordered"
-        />
-      </div>
-      <div className="form-control w-full">
-        <label className="label-text font-poppins font-medium text-sm my-1">
-          Notes :
-        </label>
-        <input
-          type="text"
-          value={notes}
-          onChange={(e) => setnotes(e.target.value)}
-          required
-          className="input input-bordered"
-        />
-      </div>
       <div className="form-control w-full">
         <label className="label-text font-poppins font-medium text-sm my-1">
           Tasks:
         </label>
         <select
-          value={tasks}
-          onChange={(e) => settasks(e.target.value)}
+          value={task}
+          onChange={(e) => settask(e.target.value)}
           required
           className="select select-bordered font-poppins"
         >
           <option value="">Select type</option>
-          {tasksforrecovery.map((tasks, taskindex) => (
-            <option value={tasks}>{tasks}</option>
+          {tasksforrecovery.map((task) => (
+            <option value={task} key={task}>
+              {task}
+            </option>
           ))}
         </select>
       </div>
@@ -95,6 +68,7 @@ function ClinicalNotes() {
             <input
               type="text"
               value={objective}
+              placeholder="objective observations and measurements"
               onChange={(e) => setobjective(e.target.value)}
               required
               className="input input-bordered"
@@ -108,6 +82,7 @@ function ClinicalNotes() {
             <input
               type="text"
               value={subjective}
+              placeholder="subjective information from the patient"
               onChange={(e) => setsubjective(e.target.value)}
               required
               className="input input-bordered"
@@ -121,6 +96,7 @@ function ClinicalNotes() {
           <input
             type="text"
             value={assessment}
+            placeholder="Instant tasks & assessments"
             onChange={(e) => setassessment(e.target.value)}
             required
             className="input input-bordered"
@@ -134,14 +110,19 @@ function ClinicalNotes() {
           <input
             type="text"
             value={plan}
+            placeholder="Plans for faster recovery"
             onChange={(e) => setplan(e.target.value)}
             required
             className="input input-bordered"
           />
         </div>
       </div>
-      <button type="submit" className="mt-6 btn btn-info w-full">
-        Send
+      <button
+        type="submit"
+        className="mt-6 btn btn-info w-full"
+        onClick={handleAccept}
+      >
+        {loading && <IsSubmitting />}Send
       </button>
     </form>
   );

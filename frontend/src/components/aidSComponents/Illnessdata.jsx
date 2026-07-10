@@ -1,7 +1,28 @@
 import React from "react";
 import InjuryAndIllnessForm from "@/components/aidSComponents/injuryAndIllnessForm";
 import { CgClose } from "react-icons/cg";
+import IsSubmitting from "../isSubmitting";
+import toast from "react-hot-toast";
+import { axiosInstant } from "@/lib/axiosInstance";
+import { useNavigate } from "react-router-dom";
 function Illnessdata({ illness }) {
+  const illnessId = illness.id;
+  console.log(illnessId);
+  const [loading, setLoading] = React.useState(false);
+  const navigate = useNavigate();
+  const handleDelete = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstant.delete(`/aid/illnesses/${illnessId}`);
+      toast.success("illness deleted successfully");
+      console.log(response.data);
+      navigate(0);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Error deleting illness");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="overflow-x-auto">
       {" "}
@@ -21,54 +42,34 @@ function Illnessdata({ illness }) {
             <td className="font-semibold text-muted">Illness </td>
             <td>{illness.illnessName}</td>
           </tr>
+
           <tr>
-            <td className="font-semibold text-muted">New illness </td>
-            <td>{illness.newIllness}</td>
-            <td className="font-semibold text-muted">Priority </td>
-            <td>{illness.Priority}</td>
+            <td className="font-semibold text-muted">Severity</td>
+            <td>{illness.severity || "N/A"}</td>
+            <td className="font-semibold text-muted">Recovered from illness</td>
+            <td>{illness.isrecovered ? "Yes" : "No"}</td>
           </tr>
           <tr>
-            <td className="font-semibold text-muted">Level of pain </td>
-            <td>{illness.levelofPain}</td>
-            <td className="font-semibold text-muted">
-              Return to partial training
+            <td className="font-semibold text-muted">Date of illness</td>
+            <td>
+              {new Date(illness.date).toLocaleDateString() || "Invalid Date"}
             </td>
-            <td>{illness.returntopartialtraining}</td>
-          </tr>
-          <tr>
-            <td className="font-semibold text-muted">
-              Return to full training
-            </td>
-            <td>{illness.returntofulltraining}</td>
-            <td className="font-semibold text-muted">Return to cometition</td>
-            <td>{illness.returntocompetition}</td>
-          </tr>
-          <tr>
             <td className="font-semibold text-muted">Training Status </td>
-            <td>{illness.trainingstatus}</td>
-            <td className="font-semibold text-muted">Illness date </td>
-            <td>{illness.dateofIllness}</td>
+            <td>{illness.trainingStatus}</td>
           </tr>
+
           <tr>
-            <td className="font-semibold text-muted">Recovery date </td>
-            <td>{illness.healthproblemresolved}</td>
             <td className="font-semibold text-muted">Personal program </td>
-            <td>{illness.personnalprogram}</td>
-          </tr>
-          <tr>
+            <td>{illness.personalProgram || "No data provided"}</td>
             <td className="font-semibold text-muted">Comment </td>
-            <td>{illness.comments}</td>
+            <td>{illness.comments || "No comments by user"}</td>
           </tr>
         </tbody>
       </table>
       <div className="flex justify-center items-center gap-2 mt-4">
-        <button
-          className="btn px-6 btn-neutral"
-          onClick={() => document.getElementById("my_modal_3").showModal()}
-        >
-          Edit
+        <button className="btn btn-error" onClick={handleDelete}>
+          {loading && <IsSubmitting />}Delete
         </button>
-        <button className="btn btn-error">Delete</button>
       </div>
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">

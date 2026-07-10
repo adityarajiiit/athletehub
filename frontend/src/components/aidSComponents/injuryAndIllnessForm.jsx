@@ -4,38 +4,72 @@ import { injuryData } from "@/constants/data";
 import { illnessesByCategory } from "@/constants/data";
 import { sportActivities } from "@/constants/data";
 import { sportMechanisms } from "@/constants/data";
+import { axiosInstant } from "@/lib/axiosInstance";
+import toast from "react-hot-toast";
+import IsSubmitting from "../isSubmitting";
+import { useNavigate } from "react-router-dom";
 function InjuryAndIllnessForm() {
+  const [troubletype, setTroubleType] = useState("");
+  const [isloading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    troubletype: "",
     type: "",
     bodyPart: "",
     tissueType: "",
-    InjuryName: "",
+    injuryName: "",
     category: "",
     illnessName: "",
-    returntopartialtraining: "",
-    levelofPain: "",
-    newInjury: "",
-    Priority: "",
+    severity: "",
     sport: "",
     activity: "",
     mechanism: "",
-    returntofulltraining: "",
-    dateofInjury: "",
-    dateofIllness: "",
-    trainingstatus: "",
-    healthproblemresolved: "",
-    returntocompetition: "",
-    trainingrestriction: "",
-    details: "",
-    personnalprogram: "",
-    additionalinformation: "",
+    isRecovered: false,
+    date: "",
+    trainingStatus: "",
+    personalProgram: "",
     comments: "",
   });
-
-  const handleSubmit = (e) => {
+  let payload = {
+    severity: formData.severity,
+    isRecovered: formData.isRecovered,
+    date: formData.date,
+    trainingStatus: formData.trainingStatus,
+    personalProgram: formData.personalProgram,
+    comments: formData.comments,
+  };
+  if (troubletype === "Injury") {
+    payload = {
+      ...payload,
+      type: formData.type,
+      bodyPart: formData.bodyPart,
+      tissueType: formData.tissueType,
+      injuryName: formData.injuryName,
+      sport: formData.sport,
+      activity: formData.activity,
+      mechanism: formData.mechanism,
+    };
+  }
+  if (troubletype === "Illness") {
+    payload = {
+      ...payload,
+      category: formData.category,
+      illnessName: formData.illnessName,
+    };
+  }
+  const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
-    console.log("Form Submitted:", formData);
+    try {
+      const response = await axiosInstant.post(`/aid/${troubletype}`, payload);
+      console.log(response.data);
+      toast.success(`${troubletype} reported successfully!`);
+      navigate(0);
+    } catch (error) {
+      console.error("Error reporting trouble:", error);
+      toast.error(`Failed to report ${troubletype}. Please try again.`);
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <div>
@@ -51,10 +85,8 @@ function InjuryAndIllnessForm() {
                   Injury or Illness :
                 </label>
                 <select
-                  value={formData.troubletype}
-                  onChange={(e) =>
-                    setFormData({ ...formData, troubletype: e.target.value })
-                  }
+                  value={troubletype}
+                  onChange={(e) => setTroubleType(e.target.value)}
                   required
                   className="select select-bordered"
                 >
@@ -63,7 +95,7 @@ function InjuryAndIllnessForm() {
                   <option value="Injury">Injury</option>
                 </select>
               </div>
-              {formData.troubletype === "Injury" ? (
+              {troubletype === "Injury" && (
                 <div className="form-control w-full">
                   <label className="label font-medium text-sm">
                     Injury type :
@@ -81,10 +113,8 @@ function InjuryAndIllnessForm() {
                     <option value="Overuse">Overuse</option>
                   </select>
                 </div>
-              ) : (
-                ""
               )}
-              {formData.troubletype === "Injury" && (
+              {troubletype === "Injury" && (
                 <div className="grid grid-cols-2 gap-2 w-full ">
                   <div className="form-control w-full">
                     <label className="label font-medium text-sm">
@@ -104,7 +134,7 @@ function InjuryAndIllnessForm() {
                           <option key={organIndex} value={organ}>
                             {organ}
                           </option>
-                        ))
+                        )),
                       )}
                     </select>
                   </div>
@@ -128,14 +158,14 @@ function InjuryAndIllnessForm() {
                             ? Object.keys(suborgan).map((Affected, index) => (
                                 <option value={Affected}>{Affected}</option>
                               ))
-                            : null
-                        )
+                            : null,
+                        ),
                       )}
                     </select>
                   </div>
                 </div>
               )}
-              {formData.troubletype === "Illness" && (
+              {troubletype === "Illness" && (
                 <div className="grid grid-cols-2 gap-2 w-full">
                   <div className="flex flex-col mb-3">
                     <label className="label font-medium text-sm">
@@ -155,7 +185,7 @@ function InjuryAndIllnessForm() {
                           <option key={illnessindex} value={illnessname}>
                             {illnessname}
                           </option>
-                        ))
+                        )),
                       )}
                     </select>
                   </div>
@@ -185,21 +215,21 @@ function InjuryAndIllnessForm() {
                                     {illnessnames}
                                   </option>
                                 ))
-                              : null
-                        )
+                              : null,
+                        ),
                       )}
                     </select>
                   </div>
                 </div>
               )}
               <div className="grid grid-cols-2 gap-2 w-full">
-                {formData.troubletype === "Injury" && (
-                  <div className="flex flex-col mb-3">
+                {troubletype === "Injury" && (
+                  <div className="flex flex-col mb-3 w-full">
                     <label className="label font-medium text-sm">Injury:</label>
                     <select
-                      value={formData.InjuryName}
+                      value={formData.injuryName}
                       onChange={(e) =>
-                        setFormData({ ...formData, InjuryName: e.target.value })
+                        setFormData({ ...formData, injuryName: e.target.value })
                       }
                       required
                       className="select select-bordered"
@@ -219,88 +249,38 @@ function InjuryAndIllnessForm() {
                                           {injury}{" "}
                                         </option>
                                       ))
-                                    : null
+                                    : null,
                               )
-                            : null
-                        )
+                            : null,
+                        ),
                       )}
                     </select>
                   </div>
                 )}
-                {formData.troubletype === "Illness" && (
-                  <div className="flex flex-col mb-3">
-                    <label className="label font-medium text-sm">
-                      Returning to partail training:
-                    </label>
-                    <input
-                      type="date"
-                      value={formData.returntopartialtraining}
-                      onChange={(e) =>
-                        setFormData({
-                          formData,
-                          returntopartialtraining: e.target.value,
-                        })
-                      }
-                      required
-                      className="input input-bordered"
-                    />
-                  </div>
-                )}
 
-                <div className="flex flex-col mb-3">
+                <div className="flex flex-col mb-3 w-full">
                   <label className="label font-medium text-sm">
-                    Level of pain:
+                    Severity of{" "}
+                    {troubletype === "Injury" ? "Injury" : "Illness"}:
                   </label>
-                  <input
+                  <select
                     type="range"
-                    value={formData.levelofPain}
+                    value={formData.severity}
                     onChange={(e) =>
-                      setFormData({ ...formData, levelofPain: e.target.value })
-                    }
-                    required
-                    min={0}
-                    max={10}
-                    className="range range-sm"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2 w-full">
-                <div className="flex flex-col mb-3">
-                  <label className="label font-medium text-sm">
-                    New injury:
-                  </label>
-                  <select
-                    value={formData.newInjury}
-                    onChange={(e) =>
-                      setFormData({ ...formData, newInjury: e.target.value })
+                      setFormData({ ...formData, severity: e.target.value })
                     }
                     required
                     className="select select-bordered"
                   >
-                    <option value="">Select type</option>{" "}
-                    <option value={true}>Yes</option>{" "}
-                    <option value={false}>No</option>
+                    <option value="">Select type</option>
+                    <option value="Mild">Mild</option>
+                    <option value="Moderate">Moderate</option>
+                    <option value="Severe">Severe</option>
                   </select>
                 </div>
+              </div>
 
-                <div className="flex flex-col mb-3">
-                  <label className="label font-medium text-sm">Priority:</label>
-                  <select
-                    value={formData.Priority}
-                    onChange={(e) =>
-                      setFormData({ ...formData, Priority: e.target.value })
-                    }
-                    required
-                    className="select select-bordered"
-                  >
-                    <option value="">Select type</option>{" "}
-                    <option value="High">High</option>{" "}
-                    <option value="Medium">Medium</option>
-                    <option value="Low">Low</option>
-                  </select>
-                </div>
-              </div>
-              {formData.troubletype === "Injury" && (
+              {troubletype === "Injury" && (
                 <div className="grid grid-cols-2 gap-2 w-full">
                   <div className="flex flex-col mb-3">
                     <label className="label font-medium text-sm">Sport:</label>
@@ -323,8 +303,9 @@ function InjuryAndIllnessForm() {
                           >
                             {sport}
                           </option>
-                        ))
+                        )),
                       )}
+                      <option value="Others">Others</option>
                     </select>
                   </div>
 
@@ -350,17 +331,18 @@ function InjuryAndIllnessForm() {
                                     <option value={sportactivityname}>
                                       {sportactivityname}
                                     </option>
-                                  )
+                                  ),
                                 )
-                              : null
-                        )
+                              : null,
+                        ),
                       )}
+                      <option value="Others">Others</option>
                     </select>
                   </div>
                 </div>
               )}
-              <div className="grid grid-cols-2 gap-2 w-full">
-                {formData.troubletype === "Injury" && (
+              <div className="grid gap-2 w-full">
+                {troubletype === "Injury" && (
                   <div className="flex flex-col mb-3">
                     <label className="label font-medium text-sm">
                       cause of injury:
@@ -383,83 +365,44 @@ function InjuryAndIllnessForm() {
                                     <option value={sportactivityname}>
                                       {sportactivityname}
                                     </option>
-                                  )
+                                  ),
                                 )
-                              : null
-                        )
+                              : null,
+                        ),
                       )}
+                      <option value="Others">Others</option>
                     </select>
                   </div>
                 )}
-                {formData.troubletype === "Illness" && (
-                  <div className="flex flex-col mb-3">
-                    <label className="label font-medium text-sm">
-                      Returning to full training:
-                    </label>
-                    <input
-                      type="date"
-                      value={formData.returntofulltraining}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          returntofulltraining: e.target.value,
-                        })
-                      }
-                      required
-                      className="input input-bordered"
-                    />
-                  </div>
-                )}
-                {formData.troubletype === "Injury" && (
-                  <div className="flex flex-col mb-3">
-                    <label className="label font-medium text-sm">
-                      Date of injury:
-                    </label>
-                    <input
-                      type="date"
-                      value={formData.dateofInjury}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          dateofInjury: e.target.value,
-                        })
-                      }
-                      required
-                      className="input input-bordered"
-                    />
-                  </div>
-                )}
-                {formData.troubletype === "Illness" && (
-                  <div className="flex flex-col mb-3">
-                    <label className="label font-medium text-sm">
-                      Date of illness:
-                    </label>
-                    <input
-                      type="date"
-                      value={formData.dateofIllness}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          dateofIllness: e.target.value,
-                        })
-                      }
-                      required
-                      className="input input-bordered"
-                    />
-                  </div>
-                )}
+                <div>
+                  <label className="label font-medium text-sm">
+                    Date of {troubletype === "Injury" ? "Injury" : "Illness"}:
+                  </label>
+                  <input
+                    type="date"
+                    value={formData.date}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        date: e.target.value,
+                      })
+                    }
+                    required
+                    className="input input-bordered w-full"
+                  />
+                </div>
               </div>
-              <div className="grid grid-cols-2 gap-2 w-full">
-                <div className="flex flex-col mb-3">
+              <div className="flex gap-2 w-full items-center shrink">
+                <div className="flex flex-col mb-3 w-full">
                   <label className="label font-medium text-sm">
                     Training status:
                   </label>
                   <select
-                    value={formData.trainingstatus}
+                    value={formData.trainingStatus}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        trainingstatus: e.target.value,
+                        trainingStatus: e.target.value,
                       })
                     }
                     required
@@ -476,76 +419,24 @@ function InjuryAndIllnessForm() {
                   </select>
                 </div>
 
-                <div className="flex flex-col mb-3">
-                  <label className="label font-medium text-sm">
-                    Date of full recovery:
-                  </label>
+                <div className="flex items-center justify-center gap-3 mb-3 w-full">
                   <input
-                    type="date"
-                    value={formData.healthproblemresolved}
+                    type="checkbox"
+                    value={formData.isRecovered}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        healthproblemresolved: e.target.value,
+                        isRecovered: e.target.checked,
                       })
                     }
-                    required
-                    className="input input-bordered"
+                    className="checkbox checkbox-primary"
                   />
+                  <label className="label font-medium text-sm line-clamp-2">
+                    Are you recovered from{" "}
+                    {troubletype === "Injury" ? "injury" : "illness"}?
+                  </label>
                 </div>
               </div>
-              {formData.troubletype === "Illness" && (
-                <div className="form-control w-full">
-                  <label className="label font-medium text-sm">
-                    Returning to competition:
-                  </label>
-                  <input
-                    type="date"
-                    value={formData.returntocompetition}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        returntocompetition: e.target.value,
-                      })
-                    }
-                    required
-                    className="input input-bordered"
-                  />
-                </div>
-              )}
-              {formData.troubletype === "Injury" && (
-                <div className="grid grid-cols-2 gap-2 w-full">
-                  <div className="flex flex-col mb-3">
-                    <label className="label font-medium text-sm">
-                      Training restrictions:
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.trainingrestriction}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          trainingrestriction: e.target.value,
-                        })
-                      }
-                      required
-                      className="input input-bordered"
-                    />
-                  </div>
-                  <div className="flex flex-col mb-3">
-                    <label className="label font-medium text-sm">Detail:</label>
-                    <input
-                      type="text"
-                      value={formData.details}
-                      onChange={(e) =>
-                        setFormData({ ...formData, details: e.target.value })
-                      }
-                      required
-                      className="input input-bordered"
-                    />
-                  </div>
-                </div>
-              )}
 
               <div className="grid grid-cols-2 gap-x-2 w-full">
                 <div className="flex flex-col mb-3">
@@ -554,55 +445,33 @@ function InjuryAndIllnessForm() {
                   </label>
                   <input
                     type="text"
-                    value={formData.personnalprogram}
+                    value={formData.personalProgram}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        personnalprogram: e.target.value,
+                        personalProgram: e.target.value,
                       })
                     }
                     required
-                    className="input input-bordered"
+                    className="textarea textarea-bordered"
                   />
                 </div>
-                {formData.troubletype === "Injury" && (
-                  <div className="flex flex-col mb-3">
-                    <label className="label font-medium text-sm">
-                      Additional Information:
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.additionalinformation}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          additionalinformation: e.target.value,
-                        })
-                      }
-                      required
-                      className="input input-bordered"
-                    />
-                  </div>
-                )}
-                {formData.troubletype === "Illness" && (
-                  <div className="flex flex-col mb-3">
-                    <label className="label font-medium text-sm">
-                      Comment:
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.comments}
-                      onChange={(e) =>
-                        setFormData({ ...formData, comments: e.target.value })
-                      }
-                      required
-                      className="input input-bordered"
-                    />
-                  </div>
-                )}
+
+                <div className="flex flex-col mb-3">
+                  <label className="label font-medium text-sm">Comment:</label>
+                  <input
+                    type="text"
+                    value={formData.comments}
+                    onChange={(e) =>
+                      setFormData({ ...formData, comments: e.target.value })
+                    }
+                    required
+                    className="textarea textarea-bordered"
+                  />
+                </div>
               </div>
               <button type="submit" className="mt-6 mb-2 btn btn-info">
-                Submit
+                {isloading && <IsSubmitting />}Submit
               </button>
             </div>
           </form>

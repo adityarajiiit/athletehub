@@ -1,22 +1,49 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "/logo.png";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { TbLoader3 } from "react-icons/tb";
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [category, setcategory] = useState("");
-  const [gender, setgender] = useState("");
-  const [sport, setsport] = useState("");
-  const [specialization, setspecialization] = useState("");
-  const handleSubmit = (e) => {
+  const [role, setrole] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/auth/register",
+        {
+          username,
+          email,
+          password,
+          role,
+        },
+      );
+      console.log(response.data);
+      toast.success(
+        "Registration successful! Please check your email to verify.",
+      );
+      navigate("/sign-in");
+    } catch (error) {
+      console.error(error.response?.data);
+      toast.error(
+        error.response?.data?.message ||
+          "Registration failed. Please try again.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-[url('/herobg.jpg')]  bg-cover bg-center bg-no-repeat ">
+    <div className="flex justify-center items-center min-h-screen bg-[url('/herobg.jpg')]  bg-cover bg-center bg-no-repeat ">
       <div className="flex justify-center items-center p-5 w-full h-full backdrop-blur-sm">
         <form
           onSubmit={handleSubmit}
@@ -57,13 +84,14 @@ const SignUp = () => {
               placeholder="Password"
               required
               className="input input-bordered w-full font-poppins"
+              min={8}
             />
           </div>
           <div className="form-control w-full">
-            <label className="label font-poppins font-medium">Category:</label>
+            <label className="label font-poppins font-medium">role:</label>
             <select
-              value={category}
-              onChange={(e) => setcategory(e.target.value)}
+              value={role}
+              onChange={(e) => setrole(e.target.value)}
               required
               className="select select-bordered font-poppins w-full"
             >
@@ -71,107 +99,11 @@ const SignUp = () => {
               <option value="Athlete">Athlete</option>
               <option value="Doctor">Doctor</option>
               <option value="Coach">Coach</option>
-              <option value="Organisation">Organisation</option>
+              <option value="Organization">Organization</option>
             </select>
           </div>
-          <div className="flex flex-row justify-between space-x-2 w-full">
-            {category != "Organisation" && (
-              <div className="flex flex-col w-full">
-                <label className="label font-poppins font-medium">
-                  Gender:
-                </label>
-                <select
-                  value={gender}
-                  onChange={(e) => setgender(e.target.value)}
-                  required
-                  className="select select-bordered font-poppins w-full"
-                >
-                  <option value="">Select any option</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </select>
-              </div>
-            )}
-            {category === "Athlete" && (
-              <div className="flex flex-col w-full">
-                <label className="label font-poppins font-medium">
-                  Sports:
-                </label>
-                <select
-                  value={sport}
-                  onChange={(e) => setsport(e.target.value)}
-                  required
-                  className="select select-bordered font-poppins w-full"
-                >
-                  <option value="">Select any option</option>
-                  <option value="Cricket">Cricket</option>
-                  <option value="Football">Football</option>
-                  <option value="Volleyball">Volleyball</option>
-                  <option value="Basketball">Basketball</option>
-                  <option value="Hockey">Hockey</option>
-                  <option value="Tennis">Tennis</option>
-                </select>
-              </div>
-            )}
-            {category === "Doctor" && (
-              <div className="flex flex-col w-full">
-                <label className="label font-poppins font-medium">
-                  Specialization:
-                </label>
-                <select
-                  value={specialization}
-                  onChange={(e) => setspecialization(e.target.value)}
-                  required
-                  className="select select-bordered font-poppins w-full"
-                >
-                  <option value="">Select any option</option>
-                  <option value="Physiotherapist">Physiotherapist</option>
-                  <option value="Nutritionist">Nutritionist</option>
-                  <option value="Psychologist">Psychologist</option>
-                  <option value="Orthopedic Surgeon">Orthopedic Surgeon</option>
-                  <option value="Sports Medicine Specialist">
-                    Sports Medicine Specialist
-                  </option>
-                  <option value="Rehabilitation Specialist">
-                    Rehabilitation Specialist
-                  </option>
-                  <option value="Pain Management Expert">
-                    Pain Management Expert
-                  </option>
-                  <option value="Neurologist">Neurologist</option>
-                  <option value="Pediatric Sports Specialist">
-                    Pediatric Sports Specialist
-                  </option>
-                  <option value="Exercise Physiologist">
-                    Exercise Physiologist
-                  </option>
-                </select>
-              </div>
-            )}
-            {category === "Coach" && (
-              <div className="flex flex-col w-full">
-                <label className="label font-poppins font-medium">
-                  Sport :
-                </label>
-                <select
-                  value={sport}
-                  onChange={(e) => setsport(e.target.value)}
-                  required
-                  className="select select-bordered font-poppins w-full"
-                >
-                  <option value="">Select any option</option>
-                  <option value="Cricket">Cricket</option>
-                  <option value="Football">Football</option>
-                  <option value="Volleyball">Volleyball</option>
-                  <option value="Basketball">Basketball</option>
-                  <option value="Hockey">Hockey</option>
-                  <option value="Tennis">Tennis</option>
-                </select>
-              </div>
-            )}
-          </div>
           <button type="submit" className="mt-8 btn btn-info w-full">
-            Sign Up
+            {isLoading && <TbLoader3 className="size-4 animate-spin" />}Sign Up
           </button>{" "}
           <p className="flex justify-center items-center text-center mt-4 gap-2">
             Already have an account?{" "}

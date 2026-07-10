@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "@/components/navbar";
 import Footer from "@/components/footer";
 import { useState } from "react";
@@ -15,84 +15,30 @@ import {
 import Card2 from "@/components/ProfileCard";
 import Appointmentcard from "@/components/appointmentcard";
 import ClinicalNotes from "@/components/aidSComponents/clinicalNotesForm";
-import ClinicalNoteCard from "@/components/aidSComponents/clinicalNoteCard";
+import { axiosInstant } from "@/lib/axiosInstance";
+import KineticDotsLoader from "@/components/loading";
 function Careerdoc() {
-  const appointment = [
-    {
-      patientname: "Robrt Doe",
-      category: "Illness",
-      illnesscategory: "cardiovascular",
-      illnessname: "Hypertension",
-      bodyPart: "head",
-      tissueType: "bone",
-      InjuryName: "Concussion",
-      date: "10/10/20",
-      startTime: "10:30",
-      endTime: "11:10",
-      status: "Schedule",
-    },
-    {
-      patientname: "Robrt Doe",
-      category: "Illness",
-      illnesscategory: "cardiovascular",
-      illnessname: "Hypertension",
-      bodyPart: "head",
-      tissueType: "bone",
-      InjuryName: "Concussion",
-      date: "10/10/20",
-      startTime: "10:30",
-      endTime: "11:10",
-      status: "Schedule",
-    },
-    {
-      patientname: "Robrt Doe",
-      category: "Injury",
-      illnesscategory: "cardiovascular",
-      illnessname: "Hypertension",
-      bodyPart: "head",
-      tissueType: "bone",
-      InjuryName: "Concussion",
-      date: "10/10/20",
-      startTime: "10:30",
-      endTime: "11:10",
-      status: "Schedule",
-    },
-  ];
+  const [appointment, setAppointments] = useState([]);
+  const [pageLoading, setPageLoading] = useState(true);
+  const getAppointments = async () => {
+    setPageLoading(true);
+    try {
+      const response = await axiosInstant.get("/appointment/get/appointments");
+      console.log(response.data);
+      setAppointments(response.data);
+    } catch (error) {
+      console.error("Error fetching appointments:", error);
+    } finally {
+      setPageLoading(false);
+    }
+  };
+  useEffect(() => {
+    getAppointments();
+  }, []);
 
-  const user = [
-    {
-      username: "Robert Doe",
-      sport: "Cricket",
-    },
-    {
-      username: "Robert Doe",
-      sport: "Cricket",
-    },
-    {
-      username: "Robert Doe",
-      sport: "Cricket",
-    },
-    {
-      username: "Robert Doe",
-      sport: "Cricket",
-    },
-    {
-      username: "Robert Doe",
-      sport: "Cricket",
-    },
-    {
-      username: "Robert Doe",
-      sport: "Cricket",
-    },
-  ];
-  const rowperpage = 4;
-  const totalPages2 = Math.ceil(user.length / rowperpage);
-  const [currentPage2, setCurrentPage2] = useState(0);
-  const startindex2 = currentPage2 * rowperpage;
-  const endindex2 = Math.min(startindex2 + rowperpage, user.length);
   const cardsData = appointment.map((appointmentdata, index) => ({
     category: "Appointment Details",
-    title: appointmentdata.patientname,
+    title: appointmentdata?.athlete?.user?.name || "Unknown Athlete",
     src: appointmentImg,
     content: (
       <div>
@@ -112,7 +58,7 @@ function Careerdoc() {
             <p className="font-poppins mb-4 font-medium">
               Press ESC key or click on ✕ button to close
             </p>
-            <ClinicalNotes />
+            <ClinicalNotes appointmentId={appointmentdata.id} />
           </div>
         </dialog>
       </div>
@@ -122,6 +68,17 @@ function Careerdoc() {
   const cards = cardsData.map((card, index) => (
     <CarouselCard key={`${card.title}-${index}`} card={card} index={index} />
   ));
+
+  if (pageLoading) {
+    return (
+      <div className="flex h-screen flex-col justify-between items-center">
+        <div className="flex flex-1 items-center justify-center">
+          <KineticDotsLoader />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className=" flex flex-col justify-between items-center min-h-screen">
       <Header></Header>
@@ -150,88 +107,6 @@ function Careerdoc() {
                 </h1>
               </div>
             )}
-          </div>
-        </div>
-        <div className="flex h-fit place-content-start w-full">
-          <div className="flex flex-col items-start justify-start w-full p-4">
-            <h1 className="text-4xl font-bold font-poppins ">
-              TREATED ATHLETE
-            </h1>
-            <hr className="h-0 border-2 border-secondary w-20 rounded-full mt-2 " />{" "}
-            <p className="text-base font-poppins mt-4 max-w-lg  ">
-              Here is a comprehensive list of all your athletes you have treated
-              in past, ensuring you stay organized and up to date.{" "}
-            </p>
-            <div className="mt-6">
-              {user.length > 0 && (
-                <div className="bg-muted/50 p-4 rounded-lg w-full">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4  w-full">
-                    {user.slice(startindex2, endindex2).map((user, index) => (
-                      <Card2
-                        key={index}
-                        username={user.username}
-                        sport={user.sport}
-                      />
-                    ))}
-                  </div>
-
-                  <Pagination className="mt-4">
-                    <PaginationContent>
-                      <PaginationItem className="flex justify-center items-center gap-2">
-                        <PaginationPrevious
-                          className={
-                            currentPage2 === 0
-                              ? "pointer-events-none opacity-50 font-semibold text-slate-50"
-                              : "text-slate-50 hover:bg-white hover:text-black"
-                          }
-                          onClick={() =>
-                            setCurrentPage2((prev) => Math.max(0, prev - 1))
-                          }
-                        />
-                        {Array.from({ length: totalPages2 }, (_, i) => (
-                          <PaginationItem key={i}>
-                            <button
-                              className={`${
-                                currentPage2 === i
-                                  ? "font-semibold text-white px-2.5 bg-secondary rounded-full"
-                                  : "text-accent hover:bg-white hover:text-black px-2 font-semibold rounded-full"
-                              }`}
-                              onClick={() => setCurrentPage2(i)}
-                            >
-                              {i + 1}
-                            </button>
-                          </PaginationItem>
-                        ))}
-                        <PaginationNext
-                          className={
-                            currentPage2 >= totalPages2 - 1
-                              ? "pointer-events-none opacity-50 font-semibold text-accent"
-                              : "text-accent hover:bg-white hover:text-black"
-                          }
-                          onClick={() =>
-                            setCurrentPage2((prev) =>
-                              Math.min(totalPages2 - 1, prev + 1)
-                            )
-                          }
-                        />
-                      </PaginationItem>
-                    </PaginationContent>
-                  </Pagination>
-                </div>
-              )}
-              {user.length === 0 && (
-                <div className="flex flex-col justify-center items-center mt-6 backdrop-blur-sm p-10 rounded-xl md:w-[30rem] h-[25rem] bg-[rgba(40,40,40,0.70)]  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] border border-[rgba(255,255,255,0.10)]">
-                  <img src={no_data} alt="no data" className="size-32" />
-
-                  <h1 className="text-2xl font-semibold font-poppins text-center uppercase">
-                    No data found
-                  </h1>
-                  <h1 className="text-base italic text-accent-foreground font-base text-center mt-2">
-                    Currently no account available...
-                  </h1>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </div>

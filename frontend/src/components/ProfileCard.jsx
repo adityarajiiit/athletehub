@@ -6,26 +6,55 @@ import {
   CardTitle,
 } from "@/shadcnComponents/ui/card";
 import { BsArrowUpRightCircleFill } from "react-icons/bs";
-function Card2(props) {
+import { FaMapPin } from "react-icons/fa";
+import { FaUserDoctor } from "react-icons/fa6";
+import { FaUserTie } from "react-icons/fa";
+import { MdOutlineSportsVolleyball } from "react-icons/md";
+function Card2({ user, handleclick }) {
   return (
-    <Card className="bg-base-300 shadow-md shadow-slate-50/10  flex flex-col justify-center items-center border-secondary/50 p-2">
+    <Card className="bg-base-300 shadow-md shadow-slate-50/10  flex flex-col justify-center items-center border-secondary/50 p-2 shrink-0">
       <CardHeader className="flex items-center w-full">
         <CardTitle className="flex flex-col w-full">
           <div className="flex flex-row items-center justify-end  gap-x-4 relative w-full">
-            <div className="h-32 w-32 bg-slate-400 rounded-full z-10 absolute left-0 ">
-              {" "}
-            </div>
+            <img
+              src={user?.image || "/default-profile.jpg"}
+              alt="profile"
+              className="h-28 w-28 bg-slate-400 rounded-full z-10 absolute left-0 object-center object-cover"
+            />{" "}
             <div className="flex flex-col  bg-base-100 p-4 rounded-lg ml-10 pl-[6.5rem] relative w-full">
-              <p className="w-fit h-fit  text-white text-2xl font-semibold font-custom">
-                {props.username}
+              <p className="w-fit h-fit  text-white text-xl font-semibold font-poppins mb-1">
+                {user?.user?.name}
               </p>
 
               <CardDescription className="flex flex-col gap-y-1">
-                <p className="flex flex-col text-white  text-sm font-medium font-inter">
-                  {props.sport}
-                </p>
-                <p className="text-white font-medium text-sm -mt-1 font-poppins">
-                  {props.specialization}
+                {(user?.user?.role === "Athlete" ||
+                  user?.user?.role === "Coach") && (
+                  <p className="flex items-center gap-1 text-white  text-sm font-medium font-inter">
+                    <MdOutlineSportsVolleyball className="size-4" />
+                    {user?.sport}
+                  </p>
+                )}
+
+                {(user?.user?.role === "Doctor" ||
+                  user?.user?.role === "Coach") && (
+                  <span className="flex items-center gap-2 text-white font-medium text-sm  font-poppins">
+                    {user?.user?.role === "Doctor" ? (
+                      <FaUserDoctor className="size-3.5" />
+                    ) : (
+                      <FaUserTie className="size-3.5" />
+                    )}{" "}
+                    <span className="line-clamp-1">
+                      {user?.specialization}{" "}
+                    </span>
+                  </span>
+                )}
+
+                <p className="flex  gap-1 text-white font-medium text-sm font-poppins">
+                  <FaMapPin className="inline size-4" />{" "}
+                  <span className="line-clamp-1">
+                    {user?.location?.state || "Undefinded"} ,{" "}
+                    {user?.location?.country || "N/A"}
+                  </span>
                 </p>
               </CardDescription>
             </div>
@@ -38,9 +67,9 @@ function Card2(props) {
           </button>
           <button
             className="flex justify-between items-center  glass text-accent-foreground  text-base rounded-full w-40 p-1.5 font-semibold font-poppins gap-3"
-            onClick={props.handleclick}
+            onClick={handleclick}
           >
-            <p className="pl-4">Connect</p>
+            <span className="pl-4">Connect</span>
             <BsArrowUpRightCircleFill className="size-7" />
           </button>
         </div>

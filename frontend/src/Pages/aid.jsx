@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "@/components/navbar";
 import Card from "@/components/ProfileCard";
 import Footer from "@/components/footer";
@@ -13,6 +13,7 @@ import { Carousel, CarouselCard } from "@/shadcnComponents/ui/carousel";
 import InjuryData from "@/components/aidSComponents/injuryData";
 import Illnessdata from "@/components/aidSComponents/Illnessdata";
 import { illnessesByCategory } from "@/constants/data";
+import IsSubmitting from "@/components/isSubmitting";
 import {
   Pagination,
   PaginationContent,
@@ -23,104 +24,107 @@ import {
 import injuryImage from "/injury.jpg";
 import illnessImage from "/illness.jpg";
 import InjuryAndIllnessForm from "@/components/aidSComponents/injuryAndIllnessForm";
+import { axiosInstant } from "@/lib/axiosInstance";
+import toast from "react-hot-toast";
+import KineticDotsLoader from "@/components/loading";
 function Aid() {
-  const userdata = [
-    {
-      username: "John Doe",
-      sport: "Football",
-      specialization: "Physiologist",
-      experience: "11 years",
-    },
-    {
-      username: "Robert Doe",
-      sport: "Basketball",
-      specialization: "CardioLogist",
-      experience: "11 years",
-    },
-    {
-      username: "Christ Doe",
-      sport: "Football",
-      specialization: "Physiologist",
-      experience: "11 years",
-    },
-    {
-      username: "Tom Doe",
-      sport: "Basketball",
-      specialization: "CardioLogist",
-      experience: "11 years",
-    },
-    {
-      username: "John Doe",
-      sport: "Football",
-      specialization: "Physiologist",
-      experience: "11 years",
-    },
-    {
-      username: "Robert Doe",
-      sport: "Basketball",
-      specialization: "CardioLogist",
-      experience: "11 years",
-    },
-  ];
+  const [doctors, setDoctors] = useState([]);
+  const [pageLoading, setPageLoading] = useState(true);
+  useEffect(() => {
+    let cancelled = false;
+    const fetchData = async () => {
+      setPageLoading(true);
+      try {
+        const [doctorData, injuryData, illnessData] = await Promise.all([
+          axiosInstant
+            .get("/doctors")
+            .then((response) => response.data)
+            .catch((error) => {
+              console.error("Error fetching doctors:", error);
+              return [];
+            }),
+          axiosInstant
+            .get("/aid/injuries")
+            .then((response) => response.data.injuries)
+            .catch((error) => {
+              console.error("Error fetching injury data:", error);
+              return [];
+            }),
+          axiosInstant
+            .get("/aid/illnesses")
+            .then((response) => response.data.illnesses)
+            .catch((error) => {
+              console.error("Error fetching illness data:", error);
+              return [];
+            }),
+        ]);
 
-  const injury = [
-    {
-      type: "acute",
-      bodyPart: "head",
-      tissueType: "bone",
-      InjuryName: "Pinched Nerve (Cervical Radiculopathy)",
-      levelofPain: 10,
-      newInjury: "No",
-      Priority: "High",
-      sport: "cricket",
-      activity: "bat",
-      mechanism: "jumping",
-      dateofInjury: "10/12/24",
-      trainingstatus: "Full parcipation",
-      healthproblemresolved: "10/1/23",
-      trainingrestriction: "none",
-      details: "no detail",
-      personnalprogram: "none",
-      additionalinformation: "none",
-    },
-  ];
-  const illness = [
-    {
-      category: "cardiovascular",
-      illnessName: "Hypertension",
-      levelofPain: 10,
-      newIllness: "No",
-      Priority: "High",
-      dateofIllness: "10/12/24",
-      returntopartialtraining: "12/12/24",
-      returntofulltraining: "12/12/24",
-      returntocompetition: "12/12/24",
-      trainingstatus: "Full parcipation",
-      healthproblemresolved: "10/1/23",
-      trainingrestriction: "none",
-      personnalprogram: "none",
-      comments: "none",
-    },
-  ];
+        if (cancelled) return;
+
+        setDoctors(doctorData);
+        setInjury(injuryData);
+        setIllness(illnessData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        if (!cancelled) {
+          setPageLoading(false);
+        }
+      }
+    };
+    fetchData();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const [injury, setInjury] = useState([]);
+  const [illness, setIllness] = useState([]);
+
   const [bodyPart, setbodyPart] = useState("");
   const [tissueType, settissueType] = useState("");
-  const [InjuryName, setInjuryName] = useState("");
+  const [injuryName, setInjuryName] = useState("");
   const [category, setcategory] = useState("");
   const [illnessName, setillnessName] = useState("");
-  const [troubletype, settroubletype] = useState("");
+  const [type, settype] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  const rowperpage = 6;
-  const totalPages = Math.ceil(userdata.length / rowperpage);
-  const [currentPage, setCurrentPage] = useState(0);
-  const startindex = currentPage * rowperpage;
-  const endindex = Math.min(startindex + rowperpage, userdata.length);
   const [date, setdate] = useState("");
   const [note, setNote] = useState("");
+
+  const rowperpage = 6;
+  const totalPages = Math.ceil(doctors.length / rowperpage);
+  const [currentPage, setCurrentPage] = useState(0);
+  const startindex = currentPage * rowperpage;
+  const endindex = Math.min(startindex + rowperpage, doctors.length);
+  const [loading, setLoading] = useState(false);
+  let payload = {
+    type,
+    date,
+    startTime,
+    endTime,
+    note,
+  };
+  if (type === "Injury") {
+    payload = {
+      ...payload,
+      bodyPart,
+      tissueType,
+      injuryName,
+    };
+  }
+  if (type === "Illness") {
+    payload = {
+      ...payload,
+      category,
+      illnessName,
+    };
+  }
+
   const cardsData = [
     ...injury.map((inj) => ({
       category: "Injury",
-      title: inj.InjuryName,
+      title: inj.injuryName,
       src: injuryImage,
       content: <InjuryData injury={inj} />,
     })),
@@ -135,6 +139,14 @@ function Aid() {
     <CarouselCard key={`${card.title}-${index}`} card={card} index={index} />
   ));
 
+  if (pageLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <KineticDotsLoader />
+      </div>
+    );
+  }
+
   return (
     <div>
       <Header></Header>
@@ -144,7 +156,7 @@ function Aid() {
           <img
             src={medical}
             alt=""
-            className="md:flex flex-col justify-center relative  w-full md:h-[115vh] hidden object-cover xl:h-[90vh]"
+            className="md:flex flex-col justify-center relative  w-full md:h-[145vh] hidden object-cover xl:h-[110vh]"
           />
           <div className="md:absolute flex flex-col justify-center items-center p-4  inset-0 bg-gradient-to-t from-base-200 to-base-200/70 w-full top-0">
             <div className="flex flex-col xl:flex-row justify-center items-center gap-6 mt-4">
@@ -159,16 +171,14 @@ function Aid() {
                 illness . You can chat with rhem using our chat features.{" "}
               </p>
             </div>
-            {userdata.length > 0 && (
+            {doctors.length > 0 && (
               <div className=" mt-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 bg-muted/50 rounded-xl p-4">
-                  {userdata.slice(startindex, endindex).map((user, index) => (
+                  {doctors.slice(startindex, endindex).map((user, index) => (
                     <div key={index} className="">
                       <Card
-                        key={index}
-                        username={user.username}
-                        sport={user.experience}
-                        specialization={user.specialization}
+                        key={user?.id || index}
+                        user={user}
                         handleclick={() =>
                           document.getElementById(`model_${index}`).showModal()
                         }
@@ -180,8 +190,36 @@ function Aid() {
                               <CgClose className="size-5" />
                             </button>
                           </form>
-                          <form action="" className="dialog">
-                            <div className="flex flex-row gap-x-4 w-full">
+                          <form
+                            action=""
+                            className="dialog"
+                            onSubmit={async (e) => {
+                              e.preventDefault();
+                              try {
+                                setLoading(true);
+                                const appointmentData = await axiosInstant.post(
+                                  `/appointment/create/${user.id}`,
+                                  payload,
+                                );
+                                toast.success(
+                                  "Appointment created successfully",
+                                );
+                                console.log(
+                                  "Appointment created:",
+                                  appointmentData.data,
+                                );
+                              } catch (error) {
+                                console.error(
+                                  "Error creating appointment:",
+                                  error,
+                                );
+                                toast.error("Failed to create appointment");
+                              } finally {
+                                setLoading(false);
+                              }
+                            }}
+                          >
+                            <div className="grid grid-cols-2 gap-x-4 w-full">
                               <div className="form-control w-full">
                                 <label className="label font-poppins text-sm font-medium">
                                   Date:
@@ -199,10 +237,8 @@ function Aid() {
                                   Injury or Illness :
                                 </label>
                                 <select
-                                  value={troubletype}
-                                  onChange={(e) =>
-                                    settroubletype(e.target.value)
-                                  }
+                                  value={type}
+                                  onChange={(e) => settype(e.target.value)}
                                   required
                                   className="select select-bordered"
                                 >
@@ -241,7 +277,7 @@ function Aid() {
                               </div>
                             </div>
                             <div className="flex flex-row gap-x-4 w-full"></div>
-                            {troubletype === "Injury" && (
+                            {type === "Injury" && (
                               <div className="flex flex-col justify-center items-center w-full ">
                                 <div className="grid grid-cols-2 gap-2 w-full ">
                                   <div className="form-control w-full">
@@ -266,7 +302,7 @@ function Aid() {
                                           >
                                             {organ}
                                           </option>
-                                        ))
+                                        )),
                                       )}
                                     </select>
                                   </div>
@@ -293,10 +329,10 @@ function Aid() {
                                                     <option value={Affected}>
                                                       {Affected}
                                                     </option>
-                                                  )
+                                                  ),
                                                 )
-                                              : null
-                                        )
+                                              : null,
+                                        ),
                                       )}
                                     </select>
                                   </div>
@@ -306,7 +342,7 @@ function Aid() {
                                     Injury:
                                   </label>
                                   <select
-                                    value={InjuryName}
+                                    value={injuryName}
                                     onChange={(e) =>
                                       setInjuryName(e.target.value)
                                     }
@@ -324,7 +360,7 @@ function Aid() {
                                                     ? injuryList.map(
                                                         (
                                                           injury,
-                                                          injuryIndex
+                                                          injuryIndex,
                                                         ) => (
                                                           <option
                                                             key={`${organIndex}-${organ}-${suborgan}-${injuryIndex}`}
@@ -332,18 +368,18 @@ function Aid() {
                                                           >
                                                             {injury}{" "}
                                                           </option>
-                                                        )
+                                                        ),
                                                       )
-                                                    : null
+                                                    : null,
                                               )
-                                            : null
-                                      )
+                                            : null,
+                                      ),
                                     )}
                                   </select>
                                 </div>
                               </div>
                             )}
-                            {troubletype === "Illness" && (
+                            {type === "Illness" && (
                               <div className="grid grid-cols-2 gap-2 w-full">
                                 <div className="form-control">
                                   <label className="label font-poppins text-sm font-medium">
@@ -369,8 +405,8 @@ function Aid() {
                                             >
                                               {illnessname}
                                             </option>
-                                          )
-                                        )
+                                          ),
+                                        ),
                                     )}
                                   </select>
                                 </div>
@@ -397,10 +433,10 @@ function Aid() {
                                                   <option value={illnessnames}>
                                                     {illnessnames}
                                                   </option>
-                                                )
+                                                ),
                                               )
-                                            : null
-                                      )
+                                            : null,
+                                      ),
                                     )}
                                   </select>
                                 </div>
@@ -412,13 +448,14 @@ function Aid() {
                             <textarea
                               className="textarea textarea-bordered w-full"
                               placeholder="Note"
+                              value={note}
                               onChange={(e) => setNote(e.target.value)}
                             ></textarea>
                             <button
                               type="submit"
                               className="mt-6 mb-2 btn bg-base-content text-base-300 ont-semibold rounded-md w-full  transition hover:bg-base-content/80"
                             >
-                              Book Appointment
+                              {loading && <IsSubmitting />}Book Appointment
                             </button>
                           </form>
                         </div>
@@ -451,7 +488,7 @@ function Aid() {
                         }
                         onClick={() =>
                           setCurrentPage((prev) =>
-                            Math.min(totalPages - 1, prev + 1)
+                            Math.min(totalPages - 1, prev + 1),
                           )
                         }
                       />
@@ -460,8 +497,8 @@ function Aid() {
                 </Pagination>
               </div>
             )}
-            {userdata.length === 0 && (
-              <div className="flex flex-col justify-center items-center mt-6 backdrop-blur-sm p-10 rounded-xl md:w-[30rem] h-[25rem] bg-[rgba(40,40,40,0.70)] bg-gray-100 shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] border border-[rgba(255,255,255,0.10)]">
+            {doctors.length === 0 && (
+              <div className="flex flex-col justify-center items-center mt-6 backdrop-blur-sm p-10 rounded-xl md:w-[30rem] h-[25rem] bg-[rgba(40,40,40,0.70)]  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] border border-[rgba(255,255,255,0.10)]">
                 <img src={no_data} alt="no data" className="size-32" />
 
                 <h1 className="text-2xl font-semibold font-poppins text-center uppercase">
@@ -478,7 +515,7 @@ function Aid() {
           <img
             src={treatment}
             alt=""
-            className="w-full flex h-[90vh] xl:h-[80vh]"
+            className="w-full flex h-[105vh] md:h-[115vh]"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-base-200 to-base-200/40  pl-4 w-full flex flex-col items-center p-4  top-0">
             <div className="flex flex-col xl:flex-row justify-center items-center gap-6 mt-4">
@@ -518,11 +555,13 @@ function Aid() {
                 <InjuryAndIllnessForm />
               </div>
             </dialog>
-            <Carousel items={cards} />
+            <div className="mt-4 w-full">
+              {" "}
+              <Carousel items={cards} />
+            </div>
             {injury.length + illness.length === 0 && (
-              <div className="flex flex-col justify-center items-center mt-6 backdrop-blur-sm p-10 rounded-xl md:w-[30rem] h-[25rem] bg-[rgba(40,40,40,0.70)] bg-gray-100 shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] border border-[rgba(255,255,255,0.10)]">
+              <div className="flex flex-col justify-center items-center mt-6 backdrop-blur-sm p-10 rounded-xl md:w-[30rem] h-[25rem] bg-[rgba(40,40,40,0.70)]  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] border border-[rgba(255,255,255,0.10)]">
                 <img src={no_data} alt="no data" className="size-32" />
-
                 <h1 className="text-2xl font-semibold font-poppins text-center uppercase">
                   No data found
                 </h1>

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "@/components/navbar";
 import Footer from "@/components/footer";
-import Card from "@/components/ProfileCard";
+import Card2 from "@/components/ProfileCard";
 import {
   Pagination,
   PaginationContent,
@@ -10,58 +10,71 @@ import {
   PaginationPrevious,
 } from "@/shadcnComponents/ui/pagination";
 import no_data from "/no-data.png";
+import { axiosInstant } from "@/lib/axiosInstance";
+import KineticDotsLoader from "@/components/loading";
 function Career() {
-  const userdata = [
-    {
-      username: "John Doe",
-      sport: "Football",
-      specialization: "Intermediate",
-      description: "Lorem ipsum...",
-    },
-    {
-      username: "Robert Doe",
-      sport: "Basketball",
-      specialization: "Advanced",
-      description: "Lorem ipsum...",
-    },
-    {
-      username: "Christ Doe",
-      sport: "Football",
-      specialization: "Intermediate",
-      description: "Lorem ipsum...",
-    },
-    {
-      username: "Tom Doe",
-      sport: "Basketball",
-      specialization: "Advanced",
-      description: "Lorem ipsum...",
-    },
-    {
-      username: "John Doe",
-      sport: "Football",
-      specialization: "Intermediate",
-      description: "Lorem ipsum...",
-    },
-    {
-      username: "Robert Doe",
-      sport: "Basketball",
-      specialization: "Advanced",
-      description: "Lorem ipsum...",
-    },
-    {
-      username: "Christ Doe",
-      sport: "Football",
-      specialization: "Intermediate",
-      description: "Lorem ipsum...",
-    },
-  ];
+  const [coaches, setCoaches] = useState([]);
+  const [athletes, setAthletes] = useState([]);
+  const [pageLoading, setPageLoading] = useState(true);
+  useEffect(() => {
+    let cancelled = false;
+    const fetchData = async () => {
+      setPageLoading(true);
+      try {
+        const [coachData, athleteData] = await Promise.all([
+          axiosInstant
+            .get("/coaches")
+            .then((response) => response.data)
+            .catch((error) => {
+              console.error("Error fetching coaches:", error);
+              return [];
+            }),
+          axiosInstant
+            .get("/athletes")
+            .then((response) => response.data)
+            .catch((error) => {
+              console.error("Error fetching athletes:", error);
+              return [];
+            }),
+        ]);
 
+        if (cancelled) return;
+
+        setCoaches(coachData);
+        setAthletes(athleteData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        if (!cancelled) {
+          setPageLoading(false);
+        }
+      }
+    };
+    fetchData();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  console.log(coaches);
+  console.log(athletes);
   const rowperpage = 6;
-  const totalPages = Math.ceil(userdata.length / rowperpage);
+  const totalPages = Math.ceil(coaches.length / rowperpage);
   const [currentPage, setCurrentPage] = useState(0);
-
   const startindex = currentPage * rowperpage;
-  const endindex = Math.min(startindex + rowperpage, userdata.length);
+  const endindex = Math.min(startindex + rowperpage, coaches.length);
+
+  const totalPages2 = Math.ceil(athletes.length / rowperpage);
+  const [currentPage2, setCurrentPage2] = useState(0);
+  const startindex2 = currentPage * rowperpage;
+  const endindex2 = Math.min(startindex2 + rowperpage, athletes.length);
+
+  if (pageLoading) {
+    return (
+      <div className="flex min-h-screen flex-col justify-center items-center w-full bg-background">
+        <KineticDotsLoader />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col justify-between min-h-screen h-full w-full bg-background pt-28">
@@ -80,16 +93,16 @@ function Career() {
               every step of your athletic journey.
             </p>
           </div>
-          {userdata.length > 0 && (
+          {coaches.length > 0 && (
             <div className="flex flex-col items-center rounded-md mt-2 w-full">
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-fit p-4 bg-muted/50 rounded-xl mt-4">
-                {userdata.slice(startindex, endindex).map((user, index) => (
-                  <Card
-                    key={index}
-                    username={user.username}
-                    sport={user.sport}
-                    specialization={user.specialization}
-                    description={user.description}
+                {coaches.slice(startindex, endindex).map((user, index) => (
+                  <Card2
+                    key={user?.id || index}
+                    user={user}
+                    handleclick={() => {
+                      console.log("Connect with", user?.user?.name);
+                    }}
                   />
                 ))}
               </div>
@@ -118,7 +131,7 @@ function Career() {
                       }
                       onClick={() =>
                         setCurrentPage((prev) =>
-                          Math.min(totalPages - 1, prev + 1)
+                          Math.min(totalPages - 1, prev + 1),
                         )
                       }
                     />
@@ -127,7 +140,7 @@ function Career() {
               </Pagination>
             </div>
           )}
-          {userdata.length == 0 && (
+          {coaches.length == 0 && (
             <div className="flex flex-col justify-center items-center mt-6 bg-destructive p-10 rounded-xl md:w-[30rem] h-[25rem]">
               <img src={no_data} alt="no data" className="size-32" />
 
@@ -169,15 +182,11 @@ function Career() {
             </p>
           </div>
 
-          {userdata.length > 0 && (
+          {athletes.length > 0 && (
             <div className=" p-2 rounded-md mt-4">
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 p-4 bg-muted/50 rounded-xl">
-                {userdata.slice(startindex, endindex).map((user, index) => (
-                  <Card
-                    key={index}
-                    username={user.username}
-                    sport={user.sport}
-                  />
+                {athletes.slice(startindex2, endindex2).map((user) => (
+                  <Card2 key={user?.id} user={user} />
                 ))}
               </div>
 
@@ -186,12 +195,12 @@ function Career() {
                   <PaginationItem>
                     <PaginationPrevious
                       className={
-                        currentPage === 0
+                        currentPage2 === 0
                           ? "pointer-events-none opacity-50 font-semibold text-slate-50 "
                           : "text-slate-50 hover:bg-white hover:text-black"
                       }
                       onClick={() =>
-                        setCurrentPage((prev) => Math.max(0, prev - 1))
+                        setCurrentPage2((prev) => Math.max(0, prev - 1))
                       }
                     />
                   </PaginationItem>
@@ -199,13 +208,13 @@ function Career() {
                   <PaginationItem>
                     <PaginationNext
                       className={
-                        currentPage >= totalPages - 1
+                        currentPage2 >= totalPages2 - 1
                           ? "pointer-events-none opacity-50 font-semibold text-slate-50"
                           : "text-slate-50 hover:bg-white hover:text-black"
                       }
                       onClick={() =>
-                        setCurrentPage((prev) =>
-                          Math.min(totalPages - 1, prev + 1)
+                        setCurrentPage2((prev) =>
+                          Math.min(totalPages - 1, prev + 1),
                         )
                       }
                     />
@@ -214,7 +223,7 @@ function Career() {
               </Pagination>
             </div>
           )}
-          {userdata.length == 0 && (
+          {athletes.length == 0 && (
             <div className="flex flex-col justify-center items-center mt-6 bg-destructive p-10 rounded-xl md:w-[30rem] h-[25rem]">
               <img src={no_data} alt="no data" className="size-32" />
 
