@@ -1,3 +1,6 @@
+import dns from "node:dns";
+dns.setDefaultResultOrder("ipv4first");
+
 import "dotenv/config";
 import "module-alias/register";
 import express from "express";
