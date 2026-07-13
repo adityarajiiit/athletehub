@@ -358,7 +358,7 @@ function Finance() {
                     transactions.
                   </p>
                 </div>
-                <div className="flex gap-4 justify-center items-center">
+                <div className="flex flex-wrap gap-4 justify-center items-center">
                   <button
                     className="btn btn-info  text-info-content border-0 rounded-full pl-1 mt-4 "
                     onClick={() =>
