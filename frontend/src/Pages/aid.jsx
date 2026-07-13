@@ -250,28 +250,28 @@ function Aid() {
                               </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4 w-full">
-                              <div className="form-control w-full">
+                              <div className="form-control w-full shrink">
                                 <label className="label font-medium text-sm">
-                                  Start time(from):
+                                  Start (from):
                                 </label>
                                 <input
                                   type="time"
                                   value={startTime}
                                   onChange={(e) => setStartTime(e.target.value)}
                                   required
-                                  className="input input-bordered"
+                                  className="input input-bordered w-full shrink"
                                 />
                               </div>
-                              <div className="form-control w-full">
+                              <div className="form-control w-full shrink">
                                 <label className="label font-medium text-sm">
-                                  End time(till):
+                                  End(till):
                                 </label>
                                 <input
                                   type="time"
                                   value={endTime}
                                   onChange={(e) => setEndTime(e.target.value)}
                                   required
-                                  className="input input-bordered"
+                                  className="input input-bordered w-full shrink"
                                 />
                               </div>
                             </div>

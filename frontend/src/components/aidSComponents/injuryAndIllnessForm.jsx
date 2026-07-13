@@ -440,7 +440,7 @@ function InjuryAndIllnessForm() {
 
               <div className="grid grid-cols-2 gap-x-2 w-full">
                 <div className="flex flex-col mb-3">
-                  <label className="label font-medium text-sm">
+                  <label className="label font-medium text-sm line-clamp-1">
                     Personal program:
                   </label>
                   <input
