@@ -29,6 +29,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { useNavigate } from "react-router-dom";
 import { Component } from "./glowButton";
 import { IoNotifications } from "react-icons/io5";
+import AnimatedThemeToggler from "./themeToggle";
 function Header() {
   const { user, checkAuth, logout } = useAuthStore();
   useEffect(() => {
@@ -39,7 +40,7 @@ function Header() {
   const navigate = useNavigate();
   return (
     <header className=" h-30 mt-0 w-full flex flex-col items-center  top-0 fixed z-50 bg-muted/90">
-      <div className="w-full h-10 bg-base-200 flex justify-end items-center gap-4 px-6 font-inter">
+      <div className="w-full h-10 flex justify-end items-center gap-4 px-6 font-inter bg-background">
         <p className="uppercase px-4 border-r-2 text-sm text-secondary border-accent font-bold">
           athletehub
         </p>
@@ -51,14 +52,14 @@ function Header() {
         </p>
       </div>
       <nav className=" w-full flex flex-row items-center justify-between h-14">
-        <div className="h-[6.6rem] w-48 flex flex-row justify-center items-center absolute left-0 top-0 bg-destructive custom-shape">
+        <div className="h-[6.6rem] w-48 flex flex-row justify-center items-center absolute left-0 top-0 bg-primary-foreground custom-shape">
           <img src={logo} alt="logo" className="h-28 mr-8" />
         </div>
         <div className="flex flex-row w-full lg:justify-center justify-end items-center">
           <div className="flex flex-row items-center justify-end w-full h-20 ">
             <ul className="hidden lg:flex  flex-row pr-4 items-center justify-center gap-x-4 lg:gap-x-6 w-full ml-40">
               <Link
-                className="text-base font-semibold text-accent-foreground hover:text-accent font-poppins uppercase "
+                className="text-base font-semibold hover:text-primary font-poppins uppercase"
                 to="/"
               >
                 Home
@@ -66,28 +67,28 @@ function Header() {
               <NavigationMenu className="z-50">
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="bg-transparent  text-white font-semibold text-base hover:text-accent uppercase">
+                    <NavigationMenuTrigger className="bg-transparent font-semibold text-base  uppercase hover:text-primary">
                       Career
                     </NavigationMenuTrigger>
                     {category === "Athlete" && (
                       <NavigationMenuContent className="flex p-1 flex-col bg-background pr-[5px] rounded-lg border-none">
-                        <NavigationMenuLink className="p-2 text-start text-accent-foreground  font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
+                        <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                           <Link to="/career">Mentors</Link>
                         </NavigationMenuLink>
-                        <NavigationMenuLink className="p-2 text-start text-accent-foreground  font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
+                        <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                           <Link to="/career">Events</Link>
                         </NavigationMenuLink>
-                        <NavigationMenuLink className="p-2 text-start  text-accent-foreground font-semibold   mb-[1px] hover:bg-muted hover:rounded-md">
+                        <NavigationMenuLink className="p-2 text-start   font-semibold   mb-[1px] hover:bg-muted hover:rounded-md">
                           <Link to="/career">Athletes</Link>
                         </NavigationMenuLink>
                       </NavigationMenuContent>
                     )}
                     {category === "Doctor" && (
                       <NavigationMenuContent className="flex p-1 flex-col bg-background pr-[5px] rounded-lg border-none">
-                        <NavigationMenuLink className="p-2 text-start text-accent-foreground  font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
+                        <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                           <Link to="/career-doc">Appointments</Link>
                         </NavigationMenuLink>
-                        <NavigationMenuLink className="p-2 text-start text-accent-foreground  font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
+                        <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                           <Link to="/career-doc">Athletes</Link>
                         </NavigationMenuLink>
                       </NavigationMenuContent>
@@ -95,26 +96,26 @@ function Header() {
 
                     {category === "Organisation" && (
                       <NavigationMenuContent className="flex p-1 flex-col bg-background pr-[5px] rounded-lg border-none">
-                        <NavigationMenuLink className="p-2 text-start text-accent-foreground  font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
+                        <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                           <Link to="/org">Athletes</Link>
                         </NavigationMenuLink>
-                        <NavigationMenuLink className="p-2 text-start text-accent-foreground  font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
+                        <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                           <Link to="/org">Coaches</Link>
                         </NavigationMenuLink>
-                        <NavigationMenuLink className="p-2 text-start text-accent-foreground  font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
+                        <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                           <Link to="/org">Doctors</Link>
                         </NavigationMenuLink>
-                        <NavigationMenuLink className="p-2 text-start text-accent-foreground  font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
+                        <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                           <Link to="/org">Events</Link>
                         </NavigationMenuLink>
                       </NavigationMenuContent>
                     )}
                     {category === "Coach" && (
                       <NavigationMenuContent className="flex p-1 flex-col bg-background pr-[5px] rounded-lg border-none">
-                        <NavigationMenuLink className="p-2 text-start text-accent-foreground  font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
+                        <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                           <Link to="/career-coach">Requests</Link>
                         </NavigationMenuLink>
-                        <NavigationMenuLink className="p-2 text-start text-accent-foreground  font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
+                        <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                           <Link to="/career-coach">Athletes</Link>
                         </NavigationMenuLink>
                       </NavigationMenuContent>
@@ -127,17 +128,17 @@ function Header() {
                   <NavigationMenu className="z-50">
                     <NavigationMenuList>
                       <NavigationMenuItem>
-                        <NavigationMenuTrigger className="bg-transparent text-white font-semibold text-base hover:text-accent uppercase">
+                        <NavigationMenuTrigger className="bg-transparent  font-semibold text-base  uppercase hover:text-primary">
                           Aids
                         </NavigationMenuTrigger>
                         <NavigationMenuContent className="flex flex-col bg-background p-1 w-32 rounded-lg">
-                          <NavigationMenuLink className="p-2 text-start text-accent-foreground  font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
+                          <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                             <Link to="/aid">Medicians</Link>
                           </NavigationMenuLink>
-                          <NavigationMenuLink className="p-2 text-start  text-accent-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
+                          <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                             <Link to="/aid">Diet plan</Link>
                           </NavigationMenuLink>
-                          <NavigationMenuLink className="p-2 text-start  text-accent-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
+                          <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                             <Link to="/aid">Healthcare</Link>
                           </NavigationMenuLink>
                         </NavigationMenuContent>
@@ -145,34 +146,34 @@ function Header() {
                     </NavigationMenuList>
                   </NavigationMenu>
 
-                  <Link className="text-base font-semibold text-white hover:text-accent uppercase">
+                  <Link className="text-base font-semibold   uppercase">
                     Progress
                   </Link>
 
                   <NavigationMenu className="z-50">
                     <NavigationMenuList>
                       <NavigationMenuItem>
-                        <NavigationMenuTrigger className="bg-transparent text-white font-semibold text-base hover:text-accent uppercase font-poppins">
+                        <NavigationMenuTrigger className="bg-transparent  font-semibold text-base  uppercase hover:text-primary font-poppins">
                           Finance
                         </NavigationMenuTrigger>
                         <NavigationMenuContent className="flex flex-col bg-background p-1 pr-[6px] rounded-lg">
                           <Link
                             to="/finance"
-                            className="p-2 text-start text-accent-foreground  font-semibold  mb-[1px] hover:bg-muted hover:rounded-md"
+                            className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md"
                           >
                             {" "}
                             <NavigationMenuLink>Account</NavigationMenuLink>
                           </Link>
                           <Link
                             to="/finance"
-                            className="p-2 text-start text-accent-foreground  font-semibold  mb-[1px] hover:bg-muted hover:rounded-md"
+                            className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md"
                           >
                             {" "}
                             <NavigationMenuLink>Transaction</NavigationMenuLink>
                           </Link>
                           <Link
                             to="/finance"
-                            className="p-2 text-start text-accent-foreground  font-semibold  mb-[1px] hover:bg-muted hover:rounded-md"
+                            className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md"
                           >
                             {" "}
                             <NavigationMenuLink>Budget</NavigationMenuLink>
@@ -185,21 +186,25 @@ function Header() {
               )}
 
               <Link
-                className="text-base font-semibold text-accent-foreground hover:text-accent font-poppins uppercase  "
+                className="text-base font-semibold hover:text-primary font-poppins uppercase "
                 to="/chat"
               >
                 Chat
               </Link>
 
               <Link
-                className="text-base font-semibold text-accent-foreground hover:text-accent font-poppins uppercase "
+                className="text-base font-semibold hover:text-primary font-poppins uppercase"
                 to="/profile"
               >
                 Profile
               </Link>
             </ul>
+            <div className="mr-4">
+              <AnimatedThemeToggler />
+            </div>
+
             <IoNotifications
-              className="size-7 fill-accent mr-2"
+              className="size-7 fill-accent"
               onClick={() => navigate("/notifications")}
             />
             <div className="flex flex-row justify-end items-center px-4">
@@ -212,7 +217,7 @@ function Header() {
                 >
                   <Component
                     glowColor="#22d3ee"
-                    className="lg:flex hidden justify-center items-center p-2.5 w-30 rounded-xl mr-4 font-semibold hover:text-blue-200"
+                    className="lg:flex hidden justify-center items-center p-2.5 w-30 rounded-xl mr-4 font-semibold hover:text-primary"
                   >
                     Sign out
                   </Component>
@@ -221,7 +226,7 @@ function Header() {
                 <Link to="/sign-in">
                   <Component
                     glowColor="#22d3ee"
-                    className="lg:flex hidden justify-center items-center p-2.5 w-30 rounded-xl mr-4 font-semibold hover:text-blue-200"
+                    className="lg:flex hidden justify-center items-center p-2.5 w-30 rounded-xl mr-4 font-semibold hover:text-primary"
                   >
                     Sign in
                   </Component>
@@ -231,9 +236,9 @@ function Header() {
                 <SheetTrigger className=" lg:hidden">
                   <Component
                     glowColor="#22d3ee"
-                    className={"hover:text-blue-200 rounded-2xl !px-2.5"}
+                    className={"hover:text-primary rounded-2xl !px-2.5"}
                   >
-                    <RiMenu3Fill className="size-6 fill-white" />
+                    <RiMenu3Fill className="size-6" />
                   </Component>
                 </SheetTrigger>
                 <SheetContent className="bg-background border-none">
@@ -250,7 +255,7 @@ function Header() {
                           <h1 className="uppercase font-poppins text-2xl font-bold text-accent">
                             athletehub
                           </h1>
-                          <p className="font-inter -mt-1 text-accent-foreground font-medium text-base">
+                          <p className="font-inter -mt-1  font-medium text-base">
                             Track, Connect, Grow.
                           </p>
                         </div>
@@ -258,7 +263,7 @@ function Header() {
 
                       <ul className="flex flex-col items-start justify-center gap-x-4 lg:gap-x-5 w-full bg-muted rounded-md">
                         <Link
-                          className="font-poppins bg-transparent text-white font-semibold text-base w-full hover:no-underline hover:bg-primary p-2.5 uppercase px-6 flex justify-start"
+                          className="font-poppins bg-transparent  font-semibold text-base w-full hover:no-underline hover:bg-primary p-2.5 uppercase px-6 flex justify-start"
                           to="/"
                         >
                           Home
@@ -266,29 +271,29 @@ function Header() {
 
                         <Accordion className="z-50 w-full" collapsible>
                           <AccordionItem value="item-1">
-                            <AccordionTrigger className="font-poppins bg-transparent text-white font-semibold text-base w-full hover:no-underline hover:bg-primary p-2.5 uppercase px-6">
+                            <AccordionTrigger className="font-poppins bg-transparent  font-semibold text-base w-full hover:no-underline hover:bg-primary p-2.5 uppercase px-6">
                               Career
                             </AccordionTrigger>
 
                             {category === "Athlete" && (
-                              <AccordionContent className="flex flex-col p-1 pl-4 bg-base-200">
+                              <AccordionContent className="flex flex-col p-1 pl-4">
                                 <Link
                                   to="/career"
-                                  className="font-poppins text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                  className="font-poppins text-base font-medium p-1 flex items-center gap-2"
                                 >
                                   <PiArrowBendDownRightBold />
                                   Mentors
                                 </Link>
                                 <Link
                                   to="/career"
-                                  className="font-poppins text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                  className="font-poppins text-base font-medium p-1 flex items-center gap-2"
                                 >
                                   <PiArrowBendDownRightBold />
                                   Events
                                 </Link>
                                 <Link
                                   to="/career"
-                                  className="font-poppins text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                  className="font-poppins text-base font-medium p-1 flex items-center gap-2"
                                 >
                                   <PiArrowBendDownRightBold />
                                   Athletes
@@ -297,17 +302,17 @@ function Header() {
                             )}
 
                             {category === "Doctor" && (
-                              <AccordionContent className="flex flex-col p-1 pl-4 bg-base-200">
+                              <AccordionContent className="flex flex-col p-1 pl-4">
                                 <Link
                                   to="/career-doc"
-                                  className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                  className="text-base font-medium p-1 flex items-center gap-2"
                                 >
                                   <PiArrowBendDownRightBold />
                                   Appointments
                                 </Link>
                                 <Link
                                   to="/career-doc"
-                                  className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                  className="text-base font-medium p-1 flex items-center gap-2"
                                 >
                                   <PiArrowBendDownRightBold />
                                   Athletes
@@ -316,31 +321,31 @@ function Header() {
                             )}
 
                             {category === "Organisation" && (
-                              <AccordionContent className="flex flex-col p-1 pl-4 bg-base-200">
+                              <AccordionContent className="flex flex-col p-1 pl-4">
                                 <Link
                                   to="/org"
-                                  className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                  className="text-base font-medium p-1 flex items-center gap-2"
                                 >
                                   <PiArrowBendDownRightBold />
                                   Athletes
                                 </Link>
                                 <Link
                                   to="/org"
-                                  className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                  className="text-base font-medium p-1 flex items-center gap-2"
                                 >
                                   <PiArrowBendDownRightBold />
                                   Coaches
                                 </Link>
                                 <Link
                                   to="/org"
-                                  className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                  className="text-base font-medium p-1 flex items-center gap-2"
                                 >
                                   <PiArrowBendDownRightBold />
                                   Doctors
                                 </Link>
                                 <Link
                                   to="/org"
-                                  className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                  className="text-base font-medium p-1 flex items-center gap-2"
                                 >
                                   <PiArrowBendDownRightBold />
                                   Events
@@ -349,17 +354,17 @@ function Header() {
                             )}
 
                             {category === "Coach" && (
-                              <AccordionContent className="flex flex-col p-1 pl-4 bg-base-200">
+                              <AccordionContent className="flex flex-col p-1 pl-4">
                                 <Link
                                   to="/career-coach"
-                                  className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                  className="text-base font-medium p-1 flex items-center gap-2"
                                 >
                                   <PiArrowBendDownRightBold />
                                   Requests
                                 </Link>
                                 <Link
                                   to="/career-coach"
-                                  className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                  className="text-base font-medium p-1 flex items-center gap-2"
                                 >
                                   <PiArrowBendDownRightBold />
                                   Athletes
@@ -373,13 +378,13 @@ function Header() {
                           <div className="flex flex-col justify-center items-center w-full">
                             <Accordion className="z-50 w-full" collapsible>
                               <AccordionItem value="item-1">
-                                <AccordionTrigger className="font-poppins bg-transparent text-white font-semibold text-base w-full hover:no-underline hover:bg-primary p-2.5 uppercase px-6 ">
+                                <AccordionTrigger className="font-poppins bg-transparent  font-semibold text-base w-full hover:no-underline hover:bg-primary p-2.5 uppercase px-6 ">
                                   Aids
                                 </AccordionTrigger>
-                                <AccordionContent className="flex flex-col p-1 pl-4 bg-base-200">
+                                <AccordionContent className="flex flex-col p-1 pl-4">
                                   <Link
                                     to="/aid"
-                                    className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                    className="text-base font-medium p-1 flex items-center gap-2"
                                   >
                                     <PiArrowBendDownRightBold />
                                     Medicians
@@ -387,7 +392,7 @@ function Header() {
 
                                   <Link
                                     to="/aid"
-                                    className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                    className="text-base font-medium p-1 flex items-center gap-2"
                                   >
                                     <PiArrowBendDownRightBold />
                                     Diet plan
@@ -395,7 +400,7 @@ function Header() {
 
                                   <Link
                                     to="/aid"
-                                    className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                    className="text-base font-medium p-1 flex items-center gap-2"
                                   >
                                     <PiArrowBendDownRightBold />
                                     Healthcare
@@ -406,32 +411,32 @@ function Header() {
 
                             <Link
                               to="/progress"
-                              className="text-base font-semibold text-accent-foreground hover:text-white w-full p-2.5 hover:bg-primary uppercase px-6 flex justify-start"
+                              className="text-base font-semibold  hover: w-full p-2.5 hover:bg-primary uppercase px-6 flex justify-start"
                             >
                               Progress
                             </Link>
 
                             <Accordion className="z-50 w-full" collapsible>
                               <AccordionItem value="item-1">
-                                <AccordionTrigger className="font-poppins bg-transparent text-white font-semibold text-base w-full hover:no-underline hover:bg-primary p-2 uppercase px-6 ">
+                                <AccordionTrigger className="font-poppins bg-transparent  font-semibold text-base w-full hover:no-underline hover:bg-primary p-2 uppercase px-6 ">
                                   Finance
                                 </AccordionTrigger>
-                                <AccordionContent className="flex flex-col p-1 pl-4 bg-base-200">
+                                <AccordionContent className="flex flex-col p-1 pl-4">
                                   <Link
                                     to="/finance"
-                                    className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                    className="text-base font-medium p-1 flex items-center gap-2"
                                   >
                                     <PiArrowBendDownRightBold /> Account
                                   </Link>
                                   <Link
                                     to="/finance"
-                                    className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                    className="text-base font-medium p-1 flex items-center gap-2"
                                   >
                                     <PiArrowBendDownRightBold /> Transaction
                                   </Link>
                                   <Link
                                     to="/finance"
-                                    className="text-base text-white/70 hover:text-white font-medium p-1 flex items-center gap-2"
+                                    className="text-base font-medium p-1 flex items-center gap-2"
                                   >
                                     <PiArrowBendDownRightBold /> Budget
                                   </Link>
@@ -443,20 +448,20 @@ function Header() {
 
                         <Link
                           to="/chat"
-                          className="bg-transparent text-white font-semibold text-base w-full hover:no-underline hover:bg-primary p-2.5 uppercase px-6 flex justify-start"
+                          className="bg-transparent  font-semibold text-base w-full hover:no-underline hover:bg-primary p-2.5 uppercase px-6 flex justify-start"
                         >
                           Chat
                         </Link>
 
                         <Link
-                          className="font-poppins bg-transparent text-white font-semibold text-base w-full hover:no-underline hover:bg-primary p-2.5 uppercase px-6 flex justify-start"
+                          className="font-poppins bg-transparent  font-semibold text-base w-full hover:no-underline hover:bg-primary p-2.5 uppercase px-6 flex justify-start"
                           to="/profile"
                         >
                           Profile
                         </Link>
                         {user ? (
                           <button
-                            className="bg-transparent text-white font-semibold text-base w-full hover:no-underline hover:bg-primary p-2.5 uppercase px-6 flex justify-start"
+                            className="bg-transparent  font-semibold text-base w-full hover:no-underline hover:bg-primary p-2.5 uppercase px-6 flex justify-start"
                             onClick={() => {
                               logout();
                               navigate("/sign-in");

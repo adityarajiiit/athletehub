@@ -150,7 +150,6 @@ function Aid() {
   return (
     <div>
       <Header></Header>
-
       <div className="bg-background h-full pt-24">
         <div className="flex flex-col justify-center items-center relative">
           <img
@@ -158,7 +157,7 @@ function Aid() {
             alt=""
             className="md:flex flex-col justify-center relative  w-full md:h-[145vh] hidden object-cover xl:h-[110vh]"
           />
-          <div className="md:absolute flex flex-col justify-center items-center p-4  inset-0 bg-gradient-to-t from-base-200 to-base-200/70 w-full top-0">
+          <div className="md:absolute flex flex-col justify-center items-center p-4  inset-0 bg-gradient-to-t from-primary-foreground to-black/20 w-full top-0">
             <div className="flex flex-col xl:flex-row justify-center items-center gap-6 mt-4">
               <div className="flex flex-col justify-center items-center">
                 <h1 className="text-4xl font-bold font-poppins  xl:pr-6 xl:border-r-2 p-2 border-r-secondary uppercase">
@@ -168,7 +167,7 @@ function Aid() {
               </div>
               <p className="max-w-xl md:max-w-2xl text-center xl:text-left">
                 Contact with Doctors for treatments of any kind of injuries and
-                illness . You can chat with rhem using our chat features.{" "}
+                illness . You can chat with them using our chat features.{" "}
               </p>
             </div>
             {doctors.length > 0 && (
@@ -470,8 +469,8 @@ function Aid() {
                       <PaginationPrevious
                         className={
                           currentPage === 0
-                            ? "pointer-events-none opacity-50 font-semibold text-slate-50"
-                            : "text-slate-50 hover:bg-white hover:text-black"
+                            ? "pointer-events-none opacity-50 font-semibold text-accent"
+                            : "text-accent text-primary"
                         }
                         onClick={() =>
                           setCurrentPage((prev) => Math.max(0, prev - 1))
@@ -483,8 +482,8 @@ function Aid() {
                       <PaginationNext
                         className={
                           currentPage >= totalPages - 1
-                            ? "pointer-events-none opacity-50 font-semibold text-slate-50"
-                            : "text-slate-50 hover:bg-white hover:text-black"
+                            ? "pointer-events-none opacity-50 font-semibold text-accent"
+                            : "text-accent text-primary"
                         }
                         onClick={() =>
                           setCurrentPage((prev) =>
@@ -517,7 +516,7 @@ function Aid() {
             alt=""
             className="w-full flex h-[105vh] md:h-[115vh]"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-base-200 to-base-200/40  pl-4 w-full flex flex-col items-center p-4  top-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary-foreground to-black/20  pl-4 w-full flex flex-col items-center p-4  top-0">
             <div className="flex flex-col xl:flex-row justify-center items-center gap-6 mt-4">
               <div className="flex flex-col justify-center items-center">
                 <h1 className="text-4xl font-bold font-poppins  xl:pr-6 xl:border-r-2 p-2 border-r-secondary uppercase text-center xl:text-left">
@@ -534,7 +533,7 @@ function Aid() {
               </p>
             </div>
             <button
-              className="btn btn-info bg-primary text-info-content border-0 rounded-full pl-1 mt-4 "
+              className="btn btn-info text-info-content border-0 rounded-full pl-1 mt-4 "
               onClick={() =>
                 document.getElementById("my_health_data").showModal()
               }

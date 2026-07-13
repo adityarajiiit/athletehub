@@ -6,7 +6,7 @@ import logo from "/logo.png";
 function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="flex flex-col  justify-center  items-center  w-full bg-destructive p-6 pt-16">
+    <footer className="flex flex-col  justify-center  items-center  w-full bg-primary-foreground p-6 pt-16">
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[auto_auto_auto_auto] gap-6 w-full ">
         <div>
           <div className="flex flex-row justify-start items-center gap-4">

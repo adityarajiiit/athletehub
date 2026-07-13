@@ -64,7 +64,7 @@ function Profile() {
       <Header></Header>
       <div className="pt-28 w-full">
         <div className="flex  flex-col justify-center items-start w-full p-4">
-          <div className="p-5 bg-destructive rounded-xl w-full">
+          <div className="p-5 bg-primary-foreground rounded-xl w-full">
             <div className="grid grid-cols-1 md:grid-cols-7 w-full">
               <div className="p-4 flex flex-col justify-center items-start col-span-4">
                 <h1 className="text-2xl font-poppins font-bold">
@@ -143,12 +143,12 @@ function Profile() {
                   <p className="text-base font-semibold text-accent">
                     Sport Experience
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     <span className="font-semibold">Sport : </span>
                     {user?.athlete?.sport || "N/A"}
                   </p>
 
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     {" "}
                     <span className="font-semibold">Date of Birth : </span>
                     {new Date(user?.athlete?.dateOfBirth).toDateString() ||
@@ -159,12 +159,12 @@ function Profile() {
                   <p className="text-base font-semibold text-accent">
                     Physical Information
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     <span className="font-semibold">Weight : </span>
                     {user?.athlete?.weight || "N/A"} kg
                   </p>
 
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     {" "}
                     <span className="font-semibold">Height : </span>
                     {user?.athlete?.height || "N/A"}
@@ -174,12 +174,12 @@ function Profile() {
                   <p className="text-base font-semibold text-accent">
                     Location
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     <span className="font-semibold">Country : </span>
                     {user?.athlete?.location?.country || "N/A"}
                   </p>
 
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     {" "}
                     <span className="font-semibold">State : </span>
                     {user?.athlete?.location?.state || "N/A"}
@@ -193,7 +193,7 @@ function Profile() {
                   <p className="text-base font-semibold text-accent">
                     Sport Experience:
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive line">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground line">
                     <span className="font-semibold line-clamp-1">
                       {" "}
                       Specialization :{" "}
@@ -202,7 +202,7 @@ function Profile() {
                       </span>
                     </span>
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     {" "}
                     <span className="font-semibold">Exp (yrs) : </span>
                     {user?.doctor?.experienceYears || "N/A"}
@@ -212,12 +212,12 @@ function Profile() {
                   <p className="text-base font-semibold text-accent">
                     Location :
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     <span className="font-semibold">Country : </span>
                     {user?.doctor?.location?.country || "N/A"}
                   </p>
 
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     {" "}
                     <span className="font-semibold">State : </span>
                     {user?.doctor?.location?.state || "N/A"}
@@ -228,16 +228,16 @@ function Profile() {
                   <p className="text-base font-semibold text-accent">
                     Education :
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     <span className="font-semibold">College : </span>
                     {user?.doctor?.college || "N/A"}
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     {" "}
                     <span className="font-semibold">Degree : </span>
                     {user?.doctor?.degree || "N/A"}
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     {" "}
                     <span className="font-semibold">course duration: </span>
                     {user?.doctor?.year || "N/A"} years
@@ -248,14 +248,14 @@ function Profile() {
                   <p className="text-base font-semibold text-accent">
                     Availability :
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     <span className="font-semibold">
                       {" "}
                       Availability in a week :{" "}
                     </span>
                     {user?.doctor?.availability?.day || "N/A"} days
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     <span className="font-semibold">Available from : </span>
                     {new Date(
                       user?.doctor?.availability?.startTime,
@@ -265,7 +265,7 @@ function Profile() {
                     }) || "N/A"}
                   </p>
 
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     {" "}
                     <span className="font-semibold">End time : </span>
                     {new Date(
@@ -285,16 +285,16 @@ function Profile() {
                   <p className="text-base font-semibold text-accent">
                     Sport Experience:
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     <span className="font-semibold"> Sport : </span>
                     {user?.coach?.sport || "N/A"}
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     <span className="font-semibold"> Specialization : </span>
                     {user?.coach?.specialization || "N/A"}
                   </p>
 
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     {" "}
                     <span className="font-semibold">Exp (yrs) : </span>
                     {user?.coach?.experienceYears || "N/A"}
@@ -304,7 +304,7 @@ function Profile() {
                   <p className="text-base font-semibold text-accent">
                     Availability :
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     <span className="font-semibold">
                       {" "}
                       Availability in a week :{" "}
@@ -312,7 +312,7 @@ function Profile() {
                     {user?.coach?.availability?.day || "N/A"} days
                   </p>
                   <div className="flex flex-row gap-x-4">
-                    <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive w-full">
+                    <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground w-full">
                       <span className="font-semibold">Available from : </span>
                       {user?.coach?.availability?.startTime
                         ? new Date(
@@ -324,7 +324,7 @@ function Profile() {
                         : "N/A"}
                     </p>
                   </div>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     {" "}
                     <span className="font-semibold">End time : </span>
                     {user?.coach?.availability?.endTime
@@ -341,12 +341,12 @@ function Profile() {
                   <p className="text-base font-semibold text-accent">
                     Location :
                   </p>
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     <span className="font-semibold">Country : </span>
                     {user?.coach?.location?.country || "N/A"}
                   </p>
 
-                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-destructive">
+                  <p className="input input-bordered rounded-full flex justify-center items-center gap-2 bg-primary-foreground">
                     {" "}
                     <span className="font-semibold">State : </span>
                     {user?.coach?.location?.state || "N/A"}
@@ -376,7 +376,7 @@ function Profile() {
             </div>
             <div>
               <button
-                className="btn btn-info bg-primary text-info-content border-0 rounded-full pl-1 mt-4 "
+                className="btn btn-info text-info-content border-0 rounded-full pl-1 mt-4 "
                 onClick={() =>
                   document.getElementById("my_modal_3").showModal()
                 }

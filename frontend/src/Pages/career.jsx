@@ -113,8 +113,8 @@ function Career() {
                     <PaginationPrevious
                       className={
                         currentPage === 0
-                          ? "pointer-events-none opacity-50 font-semibold text-slate-50 "
-                          : "text-slate-50 hover:bg-white hover:text-black"
+                          ? "pointer-events-none opacity-50 font-semibold text-accent "
+                          : "text-accent text-primary"
                       }
                       onClick={() =>
                         setCurrentPage((prev) => Math.max(0, prev - 1))
@@ -126,8 +126,8 @@ function Career() {
                     <PaginationNext
                       className={
                         currentPage >= totalPages - 1
-                          ? "pointer-events-none opacity-50 font-semibold text-slate-50"
-                          : "text-slate-50 hover:bg-white hover:text-black"
+                          ? "pointer-events-none opacity-50 font-semibold text-accent"
+                          : "text-accent text-primary"
                       }
                       onClick={() =>
                         setCurrentPage((prev) =>
@@ -196,8 +196,8 @@ function Career() {
                     <PaginationPrevious
                       className={
                         currentPage2 === 0
-                          ? "pointer-events-none opacity-50 font-semibold text-slate-50 "
-                          : "text-slate-50 hover:bg-white hover:text-black"
+                          ? "pointer-events-none opacity-50 font-semibold text-accent "
+                          : "text-accent text-primary"
                       }
                       onClick={() =>
                         setCurrentPage2((prev) => Math.max(0, prev - 1))
@@ -209,8 +209,8 @@ function Career() {
                     <PaginationNext
                       className={
                         currentPage2 >= totalPages2 - 1
-                          ? "pointer-events-none opacity-50 font-semibold text-slate-50"
-                          : "text-slate-50 hover:bg-white hover:text-black"
+                          ? "pointer-events-none opacity-50 font-semibold text-accent"
+                          : "text-accent text-primary"
                       }
                       onClick={() =>
                         setCurrentPage2((prev) =>

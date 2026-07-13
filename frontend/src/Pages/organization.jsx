@@ -161,7 +161,7 @@ function Organization() {
                         <PaginationPrevious
                           className={
                             currentPage2 === 0
-                              ? "pointer-events-none opacity-50 font-semibold text-slate-50"
+                              ? "pointer-events-none opacity-50 font-semibold text-accent"
                               : "text-accent-foreground hover:bg-accent hover:text-black"
                           }
                           onClick={() =>
@@ -185,12 +185,12 @@ function Organization() {
                         <PaginationNext
                           className={
                             currentPage2 >= totalPages2 - 1
-                              ? "pointer-events-none opacity-50 font-semibold text-slate-50"
+                              ? "pointer-events-none opacity-50 font-semibold text-accent"
                               : "text-accent-foreground hover:bg-accent hover:text-black"
                           }
                           onClick={() =>
                             setCurrentPage2((prev) =>
-                              Math.min(totalPages2 - 1, prev + 1)
+                              Math.min(totalPages2 - 1, prev + 1),
                             )
                           }
                         />
@@ -223,7 +223,8 @@ function Organization() {
               <hr className="h-0 border-2 border-secondary w-20 rounded-full mt-2 " />{" "}
               <p className="text-accent max-w-lg mt-4 font-poppins">
                 Here is a comprehensive list of all coaches that have joined
-                your organization, ensuring you stay organized and up to date.{" "}
+                your organization, ensuring you stay organized and up to
+                date.{" "}
               </p>
               {coaches.length > 0 && (
                 <div className="bg-muted/50 p-4 rounded-xl mt-2 w-fit xl:col-span-4">
@@ -243,7 +244,7 @@ function Organization() {
                         <PaginationPrevious
                           className={
                             currentPage === 0
-                              ? "pointer-events-none opacity-50 font-semibold text-slate-50"
+                              ? "pointer-events-none opacity-50 font-semibold text-accent"
                               : "text-accent-foreground hover:bg-accent hover:text-black"
                           }
                           onClick={() =>
@@ -267,12 +268,12 @@ function Organization() {
                         <PaginationNext
                           className={
                             currentPage >= totalPages1 - 1
-                              ? "pointer-events-none opacity-50 font-semibold text-slate-50"
+                              ? "pointer-events-none opacity-50 font-semibold text-accent"
                               : "text-accent-foreground hover:bg-accent hover:text-black"
                           }
                           onClick={() =>
                             setCurrentPage((prev) =>
-                              Math.min(totalPages1 - 1, prev + 1)
+                              Math.min(totalPages1 - 1, prev + 1),
                             )
                           }
                         />
@@ -305,7 +306,8 @@ function Organization() {
               <hr className="h-0 border-2 border-secondary w-20 rounded-full mt-2 " />{" "}
               <p className="text-accent max-w-lg mt-4 font-poppins">
                 Here is a comprehensive list of all doctors that have joined
-                your organization, ensuring you stay organized and up to date.{" "}
+                your organization, ensuring you stay organized and up to
+                date.{" "}
               </p>
               {doctors.length > 0 && (
                 <div className="bg-muted/50 p-4 rounded-xl mt-2 w-fit xl:col-span-4">
@@ -327,7 +329,7 @@ function Organization() {
                         <PaginationPrevious
                           className={
                             currentPage3 === 0
-                              ? "pointer-events-none opacity-50 font-semibold text-slate-50"
+                              ? "pointer-events-none opacity-50 font-semibold text-accent"
                               : "text-accent-foreground hover:bg-accent hover:text-black"
                           }
                           onClick={() =>
@@ -351,12 +353,12 @@ function Organization() {
                         <PaginationNext
                           className={
                             currentPage3 >= totalPages3 - 1
-                              ? "pointer-events-none opacity-50 font-semibold text-slate-50"
+                              ? "pointer-events-none opacity-50 font-semibold text-accent"
                               : "text-accent-foreground hover:bg-accent hover:text-black"
                           }
                           onClick={() =>
                             setCurrentPage3((prev) =>
-                              Math.min(totalPages3 - 1, prev + 1)
+                              Math.min(totalPages3 - 1, prev + 1),
                             )
                           }
                         />

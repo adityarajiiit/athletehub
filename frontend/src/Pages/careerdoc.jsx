@@ -5,14 +5,6 @@ import { useState } from "react";
 import no_data from "/no-data.png";
 import { Carousel, CarouselCard } from "@/shadcnComponents/ui/carousel";
 import appointmentImg from "/appointment.jpg";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/shadcnComponents/ui/pagination";
-import Card2 from "@/components/ProfileCard";
 import Appointmentcard from "@/components/appointmentcard";
 import ClinicalNotes from "@/components/aidSComponents/clinicalNotesForm";
 import { axiosInstant } from "@/lib/axiosInstance";
@@ -86,11 +78,9 @@ function Careerdoc() {
       <div className="flex flex-col justify-center items-center mt-28 w-full">
         <div className="flex flex-col justify-center items-start w-full">
           <div className="flex flex-col items-start justify-start p-4 w-full">
-            <h1 className="text-4xl font-bold font-poppins text-white">
-              APPOINTMENTS
-            </h1>
+            <h1 className="text-4xl font-bold font-poppins ">APPOINTMENTS</h1>
             <hr className="h-0 border-2 border-secondary w-20 rounded-full mt-2 " />
-            <p className="text-white max-w-lg mt-4">
+            <p className=" max-w-lg mt-4">
               Here is a comprehensive list of all your scheduled appointments
               with athletes, ensuring you stay organized and up to date.{" "}
             </p>

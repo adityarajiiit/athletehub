@@ -20,9 +20,9 @@ async function analyzeBillFromUrl(imageUrl) {
               "type": "debit or credit",
               "amount": "numeric string e.g. 250.00 , must be a string as per model's response format",
               "description": "brief description",
-              "date": "ISO 8601 format",
+              "date": "ISO 8601 format if available, else return today's date in ISO 8601 format",
               "category": "Food | Transport | Shopping | Entertainment | Health | Utilities | Other",
-              "status": "completed or pending"
+              "status": "completed or pending depending on the transaction status else return 'completed' if not available"
             }`,
           },
         ],

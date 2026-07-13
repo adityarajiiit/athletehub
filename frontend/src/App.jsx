@@ -58,7 +58,7 @@ export default function App() {
           alt="hero"
           className="w-screen h-full min-h-[55vh] max-h-[85vh] object-cover relative rounded-xl md:rounded-2xl lg:rounded-4xl"
         />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white  w-full  flex flex-col justify-center items-start  mt-12 pl-4 lg:pl-8 xl:pl-12">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2   w-full  flex flex-col justify-center items-start  mt-12 pl-4 lg:pl-8 xl:pl-12">
           <div className="flex flex-col justify-center items-start xl:max-w-4xl md:max-w-2xl sm:max-w-2xl max-w-sm gap-2">
             <button className="hidden bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px font-semibold leading-6  text-white md:inline-block">
               <span className="absolute inset-0 overflow-hidden rounded-full">

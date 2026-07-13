@@ -81,14 +81,14 @@ export const Carousel = ({ items, initialScroll = 0 }) => {
         >
           <div
             className={cn(
-              "absolute right-0 z-[1000] h-auto w-[5%] overflow-hidden bg-gradient-to-l"
+              "absolute right-0 z-[1000] h-auto w-[5%] overflow-hidden bg-gradient-to-l",
             )}
           ></div>
 
           <div
             className={cn(
               "flex flex-row justify-start gap-4 pl-4",
-              "mx-auto max-w-full"
+              "mx-auto max-w-full",
             )}
           >
             {items.map((item, index) => (
@@ -189,20 +189,20 @@ export const CarouselCard = ({ card, index, layout = false }) => {
               className="relative z-[60] mx-auto my-10 h-fit md:max-w-5xl rounded-3xl  p-4 font-sans md:p-10 bg-base-300"
             >
               <button
-                className="sticky top-4 right-0 ml-auto flex h-8 w-8 items-center justify-center rounded-full bg-white "
+                className="sticky top-4 right-0 ml-auto flex h-8 w-8 items-center justify-center rounded-full  "
                 onClick={handleClose}
               >
                 <IoClose className="h-6 w-6 text-neutral-900" />
               </button>
               <motion.p
                 layoutId={layout ? `category-${card.title}` : undefined}
-                className="text-base font-semibold text-white"
+                className="text-base font-semibold"
               >
                 {card.category}
               </motion.p>
               <motion.p
                 layoutId={layout ? `title-${card.title}` : undefined}
-                className="mt-4 text-2xl font-semibold  md:text-4xl text-white"
+                className="mt-4 text-2xl font-semibold  md:text-4xl text-accent"
               >
                 {card.title}
               </motion.p>
@@ -249,7 +249,7 @@ export const BlurImage = ({ height, width, src, className, alt, ...rest }) => {
       className={cn(
         "h-full w-full transition duration-300",
         isLoading ? "blur-sm" : "blur-0",
-        className
+        className,
       )}
       onLoad={() => setLoading(false)}
       src={src}

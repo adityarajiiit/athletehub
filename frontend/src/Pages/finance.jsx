@@ -283,13 +283,8 @@ function Finance() {
       <Header></Header>
       <div className="w-full h-full min-h-screen pt-24">
         <div className="flex flex-col xl:flex-row">
-          <div className="flex flex-col justify-center relative">
-            <img
-              src={economy}
-              alt="hero"
-              className="w-screen object-cover h-[95vh] md:h-[100vh]"
-            />
-            <div className="absolute flex flex-col w-full h-full inset-0 bg-gradient-to-t xl:bg-gradient-to-l from-base-300 to-base-300/40 justify-start p-4 items-start">
+          <div className="flex flex-col justify-center w-full">
+            <div className="flex flex-col w-full h-full justify-start p-4 items-start">
               <div className="flex flex-col justify-center items-start  w-full">
                 <div className="flex flex-col items-start  mt-2 pl-4 justify-center mb-2">
                   <div className="flex flex-col justify-center items-start  gap-6 mt-4">
@@ -307,7 +302,7 @@ function Finance() {
                     </p>
                   </div>
                   <button
-                    className="btn btn-info bg-primary text-info-content border-0 rounded-full pl-1 mt-4 "
+                    className="btn btn-info text-info-content border-0 rounded-full pl-1 mt-4 "
                     onClick={() =>
                       document.getElementById("my_account_data").showModal()
                     }
@@ -346,139 +341,127 @@ function Finance() {
               </div>
             </div>
           </div>
-          <div className="relative">
-            <img
-              src={calc}
-              alt=""
-              className="w-screen object-cover h-[90vh] md:h-[100vh]"
-            />
-            <div className="absolute flex flex-col w-full h-full  inset-0 bg-gradient-to-b xl:bg-gradient-to-l from-base-300 via-base-300/70 to-base-300 justify-start items-end xl:items-start p-4">
-              <div className="flex flex-col gap-2 ">
-                <div className="flex flex-col justify-center items-start w-full">
-                  <div className="flex flex-col justify-center items-start  gap-6 mt-4">
-                    <div className="flex flex-col justify-center items-start">
-                      <h1 className="text-4xl font-bold font-poppins  border-r-secondary uppercase">
-                        TRANSACTION <br className="lg:hidden" />
-                        DETAILS
-                      </h1>
-                      <hr className="h-0 border-2 border-secondary w-20 rounded-full mt-2 " />
-                    </div>
-                    <p className="max-w-lg ">
-                      You can add record of your transactions ie. all your
-                      expenses and incomes and check previously added
-                      transactions.
-                    </p>
+          <div className="flex flex-col w-full h-full justify-start items-end xl:items-start p-4">
+            <div className="flex flex-col gap-2 ">
+              <div className="flex flex-col justify-center items-start w-full">
+                <div className="flex flex-col justify-center items-start  gap-6 mt-4">
+                  <div className="flex flex-col justify-center items-start">
+                    <h1 className="text-4xl font-bold font-poppins  border-r-secondary uppercase">
+                      TRANSACTION <br className="lg:hidden" />
+                      DETAILS
+                    </h1>
+                    <hr className="h-0 border-2 border-secondary w-20 rounded-full mt-2 " />
                   </div>
-                  <div className="flex gap-4 justify-center items-center">
-                    <button
-                      className="btn btn-info bg-primary text-info-content border-0 rounded-full pl-1 mt-4 "
-                      onClick={() =>
-                        document
-                          .getElementById("my_transaction_form")
-                          .showModal()
-                      }
-                    >
-                      <IoIosAddCircle className="size-10" />
-                      Add Transaction
-                    </button>
-                    <dialog id="my_transaction_form" className="modal">
-                      <div className="modal-box">
-                        <form method="dialog">
-                          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                            <CgClose className="size-5" />
-                          </button>
-                        </form>
-                        <p className="text-sm font-inter font-medium">
-                          Press ESC key or click on ✕ button to close
-                        </p>
-                        <TransactionForm />
-                      </div>
-                    </dialog>
-                    <form
-                      onSubmit={handleFileSubmit}
-                      className="flex items-center mt-4"
-                    >
-                      <input
-                        type="file"
-                        ref={inputRef}
-                        className="hidden"
-                        onChange={handleFileChange}
-                      ></input>
-                      <button
-                        type="button"
-                        className="btn btn-info bg-primary text-info-content border-0 rounded-full pl-1.5 flex"
-                        onClick={handlefileupload}
-                      >
-                        <IoCloudUpload className="fill-primary size-9 rounded-full bg-info-content p-2" />
-                        <span className="max-w-24 line-clamp-1">
-                          {file ? file.name : "Upload File"}
-                        </span>
-                      </button>
-                      <button
-                        type="submit"
-                        disabled={!file || loading}
-                        className="btn btn-info relative right-2  rounded-full p-3 min-h-9 h-10 disabled:bg-gray-400 disabled:text-gray-700"
-                      >
-                        {loading ? (
-                          <IsSubmitting />
-                        ) : (
-                          <FaArrowRight className="size-4" />
-                        )}
-                      </button>
-                    </form>
-                  </div>
-                  {transactions.length == 0 && (
-                    <div className="flex flex-col justify-center items-center mt-6 backdrop-blur-sm p-10 rounded-xl md:w-[30rem] h-[25rem] bg-[rgba(40,40,40,0.70)]  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] border border-[rgba(255,255,255,0.10)]">
-                      <img src={no_data} alt="no data" className="size-32" />
-
-                      <h1 className="text-2xl font-semibold font-poppins text-center uppercase">
-                        No data found
-                      </h1>
-                      <h1 className="text-base italic text-accent-foreground font-base text-center mt-2">
-                        Currently no transaction available...
-                      </h1>
-                    </div>
-                  )}
+                  <p className="max-w-lg ">
+                    You can add record of your transactions ie. all your
+                    expenses and incomes and check previously added
+                    transactions.
+                  </p>
                 </div>
+                <div className="flex gap-4 justify-center items-center">
+                  <button
+                    className="btn btn-info  text-info-content border-0 rounded-full pl-1 mt-4 "
+                    onClick={() =>
+                      document.getElementById("my_transaction_form").showModal()
+                    }
+                  >
+                    <IoIosAddCircle className="size-10" />
+                    Add Transaction
+                  </button>
+                  <dialog id="my_transaction_form" className="modal">
+                    <div className="modal-box">
+                      <form method="dialog">
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                          <CgClose className="size-5" />
+                        </button>
+                      </form>
+                      <p className="text-sm font-inter font-medium">
+                        Press ESC key or click on ✕ button to close
+                      </p>
+                      <TransactionForm />
+                    </div>
+                  </dialog>
+                  <form
+                    onSubmit={handleFileSubmit}
+                    className="flex items-center mt-4"
+                  >
+                    <input
+                      type="file"
+                      ref={inputRef}
+                      className="hidden"
+                      onChange={handleFileChange}
+                    ></input>
+                    <button
+                      type="button"
+                      className="btn btn-info  text-info-content border-0 rounded-full pl-1.5 flex"
+                      onClick={handlefileupload}
+                    >
+                      <IoCloudUpload className="fill-primary-foreground size-9 rounded-full bg-info-content p-2" />
+                      <span className="max-w-24 line-clamp-1">
+                        {file ? file.name : "Upload File"}
+                      </span>
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={!file || loading}
+                      className="btn btn-info relative right-2  rounded-full p-3 min-h-9 h-10 disabled:bg-gray-400 disabled:text-gray-700"
+                    >
+                      {loading ? (
+                        <IsSubmitting />
+                      ) : (
+                        <FaArrowRight className="size-4" />
+                      )}
+                    </button>
+                  </form>
+                </div>
+                {transactions.length == 0 && (
+                  <div className="flex flex-col justify-center items-center mt-6 backdrop-blur-sm p-10 rounded-xl md:w-[30rem] h-[25rem] bg-[rgba(40,40,40,0.70)]  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] border border-[rgba(255,255,255,0.10)]">
+                    <img src={no_data} alt="no data" className="size-32" />
+
+                    <h1 className="text-2xl font-semibold font-poppins text-center uppercase">
+                      No data found
+                    </h1>
+                    <h1 className="text-base italic text-accent-foreground font-base text-center mt-2">
+                      Currently no transaction available...
+                    </h1>
+                  </div>
+                )}
               </div>
-              {transactions.length > 0 && <Carousel items={Transactioncards} />}
             </div>
+            {transactions.length > 0 && <Carousel items={Transactioncards} />}
           </div>
         </div>
-        <div className="relative">
-          <img src={economy} alt="" className=" h-[50vh] w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-base-300 to-base-300/40 flex items-center justify-center md:justify-start">
-            <div className="flex flex-col items-start  mt-2 pl-8 justify-center mb-2">
-              <div className="flex flex-col justify-center items-start  gap-6 mt-4">
-                <div className="flex flex-col justify-center items-start">
-                  <h1 className="text-4xl font-bold font-poppins  border-r-secondary uppercase">
-                    MONTHLY <br className="lg:hidden" />
-                    BUDGETS
-                  </h1>
-                  <hr className="h-0 border-2 border-secondary w-20 rounded-full mt-2 " />
-                </div>
-                <p className="max-w-xl ">
-                  You can keep hold of your monthly budget and monitor your
-                  budget.You will get notification when when your budget came to
-                  80% of the allocated amount.
-                </p>
+        <div className="flex items-center justify-center md:justify-start">
+          <div className="flex flex-col items-start  mt-2 pl-8 justify-center mb-2">
+            <div className="flex flex-col justify-center items-start  gap-6 mt-4">
+              <div className="flex flex-col justify-center items-start">
+                <h1 className="text-4xl font-bold font-poppins  border-r-secondary uppercase">
+                  MONTHLY <br className="lg:hidden" />
+                  BUDGETS
+                </h1>
+                <hr className="h-0 border-2 border-secondary w-20 rounded-full mt-2 " />
               </div>
-              <input
-                type="range"
-                max={10000}
-                min={0}
-                step={50}
-                className="range range-info mt-4 w-80"
-                value={monthlybudget}
-                onChange={(e) => {
-                  setmonthlybudget(e.target.value);
-                }}
-              ></input>
-              <p className="text-secondary font-semibold text-base font-poppins mt-4">
-                Monthly Budget
+              <p className="max-w-xl ">
+                You can keep hold of your monthly budget and monitor your
+                budget.You will get notification when when your budget came to
+                80% of the allocated amount.
               </p>
-              <span className="text-2xl font-semibold">₹{monthlybudget}</span>
             </div>
+            <input
+              type="range"
+              max={10000}
+              min={0}
+              step={50}
+              className="range range-info mt-4 w-80"
+              value={monthlybudget}
+              onChange={(e) => {
+                setmonthlybudget(e.target.value);
+              }}
+            ></input>
+            <p className="text-secondary font-semibold text-base font-poppins mt-4">
+              Monthly Budget
+            </p>
+            <span className="text-2xl font-semibold">₹{monthlybudget}</span>
           </div>
         </div>
       </div>

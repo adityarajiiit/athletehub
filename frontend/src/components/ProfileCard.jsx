@@ -21,15 +21,15 @@ function Card2({ user, handleclick }) {
               alt="profile"
               className="size-16 sm:h-28 sm:w-28 bg-slate-400 rounded-full z-10 absolute -top-3 left-3 sm:left-0 object-center object-cover"
             />{" "}
-            <div className="flex flex-col  bg-base-100 p-4 rounded-lg sm:ml-10 pl-[6.5rem] pt-6 sm:pt-0 relative w-full">
-              <p className="w-fit h-fit  text-white text-xl font-semibold font-poppins mb-1">
-                {user?.user?.name}
+            <div className="flex flex-col  bg-base-100 p-4 rounded-lg sm:ml-10 pl-[6.5rem] pt-6 sm:pt-2 relative w-full min-h-24">
+              <p className="w-fit h-fit text-xl font-semibold font-poppins mb-1 text-foreground">
+                {user?.user?.name || "N/A"}
               </p>
 
               <CardDescription className="flex flex-col gap-y-1">
                 {(user?.user?.role === "Athlete" ||
                   user?.user?.role === "Coach") && (
-                  <p className="flex items-center gap-1 text-white  text-sm font-medium font-inter">
+                  <p className="flex items-center gap-1   text-sm font-medium font-inter">
                     <MdOutlineSportsVolleyball className="size-4" />
                     {user?.sport}
                   </p>
@@ -37,19 +37,19 @@ function Card2({ user, handleclick }) {
 
                 {(user?.user?.role === "Doctor" ||
                   user?.user?.role === "Coach") && (
-                  <span className="flex items-center gap-2 text-white font-medium text-sm  font-poppins">
+                  <span className="flex items-center gap-2  font-medium text-sm  font-poppins">
                     {user?.user?.role === "Doctor" ? (
                       <FaUserDoctor className="size-3.5" />
                     ) : (
                       <FaUserTie className="size-3.5" />
                     )}{" "}
                     <span className="line-clamp-1">
-                      {user?.specialization}{" "}
+                      {user?.specialization || "N/A"}{" "}
                     </span>
                   </span>
                 )}
 
-                <p className="flex  gap-1 text-white font-medium text-sm font-poppins">
+                <p className="flex  gap-1  font-medium text-sm font-poppins">
                   <FaMapPin className="inline size-4" />{" "}
                   <span className="line-clamp-1">
                     {user?.location?.state || "Undefinded"} ,{" "}
@@ -66,7 +66,7 @@ function Card2({ user, handleclick }) {
             <BsArrowUpRightCircleFill className="size-7" />
           </button>
           <button
-            className="flex justify-between items-center  glass text-accent-foreground  text-base rounded-full w-40 p-1.5 font-semibold font-poppins gap-3"
+            className="flex justify-between items-center  glass text-foreground rounded-full w-40 p-1.5 font-semibold font-poppins gap-3"
             onClick={handleclick}
           >
             <span className="pl-4">Connect</span>
