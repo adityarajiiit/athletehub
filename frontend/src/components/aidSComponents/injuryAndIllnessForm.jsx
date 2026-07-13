@@ -222,7 +222,7 @@ function InjuryAndIllnessForm() {
                   </div>
                 </div>
               )}
-              <div className="grid grid-cols-2 gap-2 w-full">
+              <div className="flex gap-2 w-full shrink">
                 {troubletype === "Injury" && (
                   <div className="flex flex-col mb-3 w-full">
                     <label className="label font-medium text-sm">Injury:</label>
@@ -392,7 +392,7 @@ function InjuryAndIllnessForm() {
                   />
                 </div>
               </div>
-              <div className="flex gap-2 w-full items-center shrink">
+              <div className="grid grid-cols-1 gap-2 w-full">
                 <div className="flex flex-col mb-3 w-full">
                   <label className="label font-medium text-sm">
                     Training status:
@@ -431,10 +431,10 @@ function InjuryAndIllnessForm() {
                     }
                     className="checkbox checkbox-primary"
                   />
-                  <label className="label font-medium text-sm line-clamp-2">
-                    Are you recovered from{" "}
+                  <span className="label font-medium text-sm line-clamp-2">
+                    recovered from{" "}
                     {troubletype === "Injury" ? "injury" : "illness"}?
-                  </label>
+                  </span>
                 </div>
               </div>
 

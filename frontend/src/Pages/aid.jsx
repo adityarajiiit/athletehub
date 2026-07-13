@@ -249,8 +249,8 @@ function Aid() {
                                 </select>
                               </div>
                             </div>
-                            <div className="grid grid-cols-2 gap-2 w-full">
-                              <div className="flex flex-col mb-3">
+                            <div className="grid grid-cols-2 gap-4 w-full">
+                              <div className="form-control w-full">
                                 <label className="label font-medium text-sm">
                                   Start time(from):
                                 </label>
@@ -262,7 +262,7 @@ function Aid() {
                                   className="input input-bordered"
                                 />
                               </div>
-                              <div className="flex flex-col mb-3">
+                              <div className="form-control w-full">
                                 <label className="label font-medium text-sm">
                                   End time(till):
                                 </label>
