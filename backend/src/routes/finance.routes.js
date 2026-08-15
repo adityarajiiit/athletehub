@@ -14,7 +14,7 @@ router.delete(
   financeController.deleteAccount,
 );
 router.delete(
-  "/transactions/:accountId",
+  "/transactions/:transactionId",
   protectRoutes,
   financeController.deleteTransaction,
 );

@@ -233,7 +233,25 @@ function Finance() {
             </tbody>
           </table>
           <div className="flex justify-center items-center gap-2 mt-4">
-            <button className="btn btn-error">Delete</button>
+            <button
+              className="btn btn-error"
+              onClick={async (e) => {
+                e.preventDefault();
+                setLoading(true);
+                try {
+                  const response = await axiosInstant.delete(
+                    `/finance/transactions/${transaction.id}`,
+                  );
+                  toast.success("Transaction deleted successfully");
+                  navigate(0);
+                } catch (error) {
+                  console.error("Error deleting transaction:", error);
+                  toast.error("Failed to delete transaction");
+                }
+              }}
+            >
+              {loading ? <IsSubmitting /> : "Delete"}
+            </button>
           </div>
         </div>
       ),
