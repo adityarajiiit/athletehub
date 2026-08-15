@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import Header from "@/components/navbar";
-import Footer from "@/components/footer";
+import Header from "@/components/ui/navbar";
+import Footer from "@/components/ui/footer";
 import { useState } from "react";
 import no_data from "/no-data.png";
 import { Carousel, CarouselCard } from "@/shadcnComponents/ui/carousel";
@@ -8,7 +8,7 @@ import appointmentImg from "/appointment.jpg";
 import Appointmentcard from "@/components/appointmentcard";
 import ClinicalNotes from "@/components/aidSComponents/clinicalNotesForm";
 import { axiosInstant } from "@/lib/axiosInstance";
-import KineticDotsLoader from "@/components/loading";
+import KineticDotsLoader from "@/components/ui/loading";
 function Careerdoc() {
   const [appointment, setAppointments] = useState([]);
   const [pageLoading, setPageLoading] = useState(true);

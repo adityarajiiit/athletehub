@@ -6,7 +6,7 @@ import { sportActivities } from "@/constants/data";
 import { sportMechanisms } from "@/constants/data";
 import { axiosInstant } from "@/lib/axiosInstance";
 import toast from "react-hot-toast";
-import IsSubmitting from "../isSubmitting";
+import IsSubmitting from "../ui/isSubmitting";
 import { useNavigate } from "react-router-dom";
 function InjuryAndIllnessForm() {
   const [troubletype, setTroubleType] = useState("");

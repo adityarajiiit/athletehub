@@ -14,6 +14,9 @@ import financeRoutes from "./routes/finance.routes.js";
 import messageRoutes from "./routes/message.route.js";
 import appointmentRoutes from "./routes/appointment.routes.js";
 import { server, app } from "./lib/socket.js";
+import fitnessRoutes from "./routes/fitness.routes.js";
+import profileRoutes from "./routes/profile.routes.js";
+
 const PORT = process.env.PORT || 4000;
 app.use(express.json({ limit: "20mb" }));
 app.use(cookieParser());
@@ -32,6 +35,8 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/onboard", onboardRoutes);
 app.use("/api", careerroutes);
+app.use("/api", profileRoutes);
+app.use("/api/fitness", fitnessRoutes);
 app.use("/api/aid", aidRoutes);
 app.use("/api/finance", financeRoutes);
 app.use("/api/message", messageRoutes);

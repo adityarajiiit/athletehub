@@ -3,7 +3,7 @@ import { useChatStore } from "@/store/useChatStore";
 import ChatHeaders from "./chatHeader";
 import MessageInput from "./MessageInput";
 import { useAuthStore } from "@/store/useAuthStore";
-import KineticDotsLoader from "@/components/loading";
+import KineticDotsLoader from "@/components/ui/loading";
 
 function Chat() {
   const {

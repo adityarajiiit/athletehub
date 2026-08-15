@@ -3,7 +3,7 @@ import { useState } from "react";
 import { expenses } from "@/constants/data";
 import { axiosInstant } from "@/lib/axiosInstance";
 import toast from "react-hot-toast";
-import IsSubmitting from "../isSubmitting";
+import IsSubmitting from "../ui/isSubmitting";
 function TransactionForm() {
   const [formData, setFormData] = useState({
     type: "",

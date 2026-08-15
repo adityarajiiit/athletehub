@@ -95,7 +95,6 @@ const SignUp = () => {
               <option value="Athlete">Athlete</option>
               <option value="Doctor">Doctor</option>
               <option value="Coach">Coach</option>
-              <option value="Organization">Organization</option>
             </select>
           </div>
           <button type="submit" className="mt-8 btn btn-info w-full">

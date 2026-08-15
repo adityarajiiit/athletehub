@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FileUpload } from "@/shadcnComponents/ui/file-upload";
 import onboard from "/onBoard.png";
-import Header from "@/components/navbar";
+import Header from "@/components/ui/navbar";
 import { axiosInstant } from "@/lib/axiosInstance";
 import { useAuthStore } from "@/store/useAuthStore";
 import toast from "react-hot-toast";

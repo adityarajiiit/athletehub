@@ -2,7 +2,7 @@ import { axiosInstant } from "@/lib/axiosInstance";
 import React from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import IsSubmitting from "../isSubmitting";
+import IsSubmitting from "../ui/isSubmitting";
 import { useNavigate } from "react-router-dom";
 function AccountForm() {
   const [formData, setFormData] = useState({

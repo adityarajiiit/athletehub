@@ -10,7 +10,11 @@ import { FaMapPin } from "react-icons/fa";
 import { FaUserDoctor } from "react-icons/fa6";
 import { FaUserTie } from "react-icons/fa";
 import { MdOutlineSportsVolleyball } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+
 function Card2({ user, handleclick }) {
+  const navigate = useNavigate();
+
   return (
     <Card className="bg-base-300 shadow-md shadow-slate-50/10  flex flex-col justify-center items-center border-secondary/50 p-2 shrink-0">
       <CardHeader className="flex items-center w-full">
@@ -61,7 +65,10 @@ function Card2({ user, handleclick }) {
           </div>
         </CardTitle>
         <div className="flex gap-3 justify-center items-center w-full pt-8 ">
-          <button className="flex justify-between items-center  glass text-accent-foreground bg-muted/80 text-base rounded-full w-40 p-1.5 font-semibold font-poppins gap-3">
+          <button
+            className="flex justify-between items-center  glass text-accent-foreground bg-muted/80 text-base rounded-full w-40 p-1.5 font-semibold font-poppins gap-3"
+            onClick={() => navigate(`/profile/${user?.userId}`)}
+          >
             <p className="pl-4">Profile</p>
             <BsArrowUpRightCircleFill className="size-7" />
           </button>

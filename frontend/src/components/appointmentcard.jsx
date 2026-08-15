@@ -3,7 +3,7 @@ import { BellRing } from "lucide-react";
 import { axiosInstant } from "@/lib/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import IsSubmitting from "./isSubmitting";
+import IsSubmitting from "./ui/isSubmitting";
 function Appointmentcard({ props, handleclick }) {
   const navigate = useNavigate();
   const [loading, setloading] = useState(false);

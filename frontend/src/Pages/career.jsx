@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Header from "@/components/navbar";
-import Footer from "@/components/footer";
+import Header from "@/components/ui/navbar";
+import Footer from "@/components/ui/footer";
 import Card2 from "@/components/ProfileCard";
 import {
   Pagination,
@@ -11,11 +11,14 @@ import {
 } from "@/shadcnComponents/ui/pagination";
 import no_data from "/no-data.png";
 import { axiosInstant } from "@/lib/axiosInstance";
-import KineticDotsLoader from "@/components/loading";
+import KineticDotsLoader from "@/components/ui/loading";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 function Career() {
   const [coaches, setCoaches] = useState([]);
   const [athletes, setAthletes] = useState([]);
   const [pageLoading, setPageLoading] = useState(true);
+  const navigate = useNavigate();
   useEffect(() => {
     let cancelled = false;
     const fetchData = async () => {
@@ -101,7 +104,7 @@ function Career() {
                     key={user?.id || index}
                     user={user}
                     handleclick={() => {
-                      console.log("Connect with", user?.user?.name);
+                      toast.error("Feature not available yet");
                     }}
                   />
                 ))}
@@ -186,7 +189,11 @@ function Career() {
             <div className=" p-2 rounded-md mt-4">
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 p-4 bg-muted/50 rounded-xl">
                 {athletes.slice(startindex2, endindex2).map((user) => (
-                  <Card2 key={user?.id} user={user} />
+                  <Card2
+                    key={user?.id}
+                    user={user}
+                    handleclick={() => navigate("/chat")}
+                  />
                 ))}
               </div>
 

@@ -19,6 +19,7 @@ const protectRoutes = async (req, res, next) => {
         athlete: {
           include: {
             location: true,
+            achievements: true,
           },
         },
         coach: {
@@ -45,7 +46,6 @@ const protectRoutes = async (req, res, next) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
     req.user = user;
-    console.log("Authenticated user:", user);
     next();
   } catch (error) {
     res.status(401).json({ message: "Unauthorized", error: error.message });

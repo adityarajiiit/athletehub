@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
 import { Navigate } from "react-router-dom";
-import KineticDotsLoader from "./loading";
+import KineticDotsLoader from "./ui/loading";
 
 function PublicRoute({ children }) {
   const { user, isAuthLoading, checkAuth } = useAuthStore();

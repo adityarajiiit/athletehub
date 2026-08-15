@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import NotificationList from "@/components/notificationComponent/notificationList";
-import Header from "@/components/navbar";
-import Footer from "@/components/footer";
+import Header from "@/components/ui/navbar";
+import Footer from "@/components/ui/footer";
 import { useNotificationStore } from "@/store/useNotificationStore";
 import no_data from "/no-data.png";
-import KineticDotsLoader from "@/components/loading";
+import KineticDotsLoader from "@/components/ui/loading";
 function Notification() {
   const {
     loading,

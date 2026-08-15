@@ -1,7 +1,7 @@
-import Header from "./components/navbar";
-import Footer from "./components/footer";
+import Header from "./components/ui/navbar";
+import Footer from "./components/ui/footer";
 import hero from "/herobg.png";
-import { ArrowBigRight, ArrowBigRightDashIcon } from "lucide-react";
+import { ArrowBigRight } from "lucide-react";
 import { HoverBorderGradient } from "./shadcnComponents/ui/border-gradient";
 import { GiPayMoney } from "react-icons/gi";
 import { GiHealthNormal } from "react-icons/gi";

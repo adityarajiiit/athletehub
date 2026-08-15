@@ -1,7 +1,7 @@
 import React from "react";
 import InjuryAndIllnessForm from "@/components/aidSComponents/injuryAndIllnessForm";
 import { CgClose } from "react-icons/cg";
-import IsSubmitting from "../isSubmitting";
+import IsSubmitting from "../ui/isSubmitting";
 import toast from "react-hot-toast";
 import { axiosInstant } from "@/lib/axiosInstance";
 import { useNavigate } from "react-router-dom";

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import Header from "@/components/navbar";
-import Footer from "@/components/footer";
+import Header from "@/components/ui/navbar";
+import Footer from "@/components/ui/footer";
 import economy from "@/assets/finance.jpg";
 import { useState } from "react";
 import { IoIosAddCircle } from "react-icons/io";
@@ -14,12 +14,11 @@ import no_data from "/no-data.png";
 import TransactionForm from "@/components/financeComponent/transactionForm";
 import { axiosInstant } from "@/lib/axiosInstance";
 import toast from "react-hot-toast";
-import IsSubmitting from "@/components/isSubmitting";
+import IsSubmitting from "@/components/ui/isSubmitting";
 import { useNavigate } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa6";
-import KineticDotsLoader from "@/components/loading";
+import KineticDotsLoader from "@/components/ui/loading";
 function Finance() {
-  const [monthlybudget, setmonthlybudget] = useState(0);
   const [account, setAccountData] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -145,8 +144,6 @@ function Finance() {
                 <td>{3}</td>
                 <td className="font-semibold text-secondary">Type </td>
                 <td>{accountData.type}</td>
-                <td className="font-semibold text-secondary">Balance </td>
-                <td>{accountData.balance}</td>
               </tr>
             </tbody>
           </table>
@@ -236,27 +233,8 @@ function Finance() {
             </tbody>
           </table>
           <div className="flex justify-center items-center gap-2 mt-4">
-            <button
-              className="btn px-6 btn-neutral"
-              onClick={() => document.getElementById("my_modal_3").showModal()}
-            >
-              Edit
-            </button>
             <button className="btn btn-error">Delete</button>
           </div>
-          <dialog id="my_modal_3" className="modal">
-            <div className="modal-box">
-              <form method="dialog">
-                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                  <CgClose className="size-5" />
-                </button>
-              </form>
-              <p className="text-sm font-inter font-medium">
-                Press ESC key or click on ✕ button to close
-              </p>
-              <TransactionForm />
-            </div>
-          </dialog>
         </div>
       ),
     })),
@@ -282,7 +260,7 @@ function Finance() {
     <div>
       <Header></Header>
       <div className="w-full h-full min-h-screen pt-24">
-        <div className="flex flex-col xl:flex-row">
+        <div className="flex flex-col">
           <div className="flex flex-col justify-center w-full">
             <div className="flex flex-col w-full h-full justify-start p-4 items-start">
               <div className="flex flex-col justify-center items-start  w-full">
@@ -341,7 +319,7 @@ function Finance() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col w-full h-full justify-start items-end xl:items-start p-4">
+          <div className="flex flex-col h-full justify-start items-end xl:items-start p-4">
             <div className="flex flex-col gap-2 ">
               <div className="flex flex-col justify-center items-start w-full">
                 <div className="flex flex-col justify-center items-start  gap-6 mt-4">
@@ -429,39 +407,6 @@ function Finance() {
               </div>
             </div>
             {transactions.length > 0 && <Carousel items={Transactioncards} />}
-          </div>
-        </div>
-        <div className="flex items-center justify-center md:justify-start">
-          <div className="flex flex-col items-start  mt-2 pl-8 justify-center mb-2">
-            <div className="flex flex-col justify-center items-start  gap-6 mt-4">
-              <div className="flex flex-col justify-center items-start">
-                <h1 className="text-4xl font-bold font-poppins  border-r-secondary uppercase">
-                  MONTHLY <br className="lg:hidden" />
-                  BUDGETS
-                </h1>
-                <hr className="h-0 border-2 border-secondary w-20 rounded-full mt-2 " />
-              </div>
-              <p className="max-w-xl ">
-                You can keep hold of your monthly budget and monitor your
-                budget.You will get notification when when your budget came to
-                80% of the allocated amount.
-              </p>
-            </div>
-            <input
-              type="range"
-              max={10000}
-              min={0}
-              step={50}
-              className="range range-info mt-4 w-80"
-              value={monthlybudget}
-              onChange={(e) => {
-                setmonthlybudget(e.target.value);
-              }}
-            ></input>
-            <p className="text-secondary font-semibold text-base font-poppins mt-4">
-              Monthly Budget
-            </p>
-            <span className="text-2xl font-semibold">₹{monthlybudget}</span>
           </div>
         </div>
       </div>

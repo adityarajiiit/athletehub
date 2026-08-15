@@ -19,6 +19,7 @@ import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/protectedRoutes.jsx";
 import PublicRoute from "./components/publicRoute.jsx";
 import Notification from "./Pages/notification.jsx";
+import Training from "./Pages/training.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -129,6 +130,22 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Notification />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/training",
+    element: (
+      <ProtectedRoute>
+        <Training />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/profile/:id",
+    element: (
+      <ProtectedRoute>
+        <Profile />
       </ProtectedRoute>
     ),
   },

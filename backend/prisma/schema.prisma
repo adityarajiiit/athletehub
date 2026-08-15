@@ -27,23 +27,25 @@ model User {
 }
 
 model Athlete {
-  id           String        @id @default(uuid())
-  userId       String        @unique
-  dateOfBirth  DateTime
-  sport        String
-  gender       Gender
-  height       String
-  weight       Float
-  locationId   String?       @unique
-  image        String?
-  account      Account[]
-  achievements Achievement[]
-  appointments Appointment[]
-  location     Location?     @relation(fields: [locationId], references: [id])
-  user         User          @relation(fields: [userId], references: [id])
-  illnesses    Illness[]
-  injuries     Injry[]
-  transactions Transaction[]
+  id               String        @id @default(uuid())
+  userId           String        @unique
+  dateOfBirth      DateTime
+  sport            String
+  gender           Gender
+  height           String
+  weight           Float
+  locationId       String?       @unique
+  image            String?
+  account          Account[]
+  achievements     Achievement[]
+  appointments     Appointment[]
+  location         Location?     @relation(fields: [locationId], references: [id])
+  user             User          @relation(fields: [userId], references: [id])
+  fitnessAccount   FitnessAccount?
+  dailyActivities  DailyActivity[]
+  illnesses        Illness[]
+  injuries         Injry[]
+  transactions     Transaction[]
 }
 
 model Coach {
@@ -121,6 +123,40 @@ model Achievement {
   athlete     Athlete  @relation(fields: [athleteId], references: [id])
 }
 
+model FitnessAccount {
+  id            String    @id @default(uuid())
+  athleteId     String    @unique
+  athlete       Athlete   @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  provider      FitnessProvider @default(GoogleFit)
+  accessToken   String
+  refreshToken  String
+  expiresAt     DateTime
+  providerEmail String?
+  connectedAt   DateTime  @default(now())
+  lastSyncedAt  DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model DailyActivity {
+  id           String   @id @default(uuid())
+  athleteId    String
+  athlete      Athlete  @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  date         DateTime 
+  steps        Int      @default(0)
+  calories     Float    @default(0) 
+  source       FitnessProvider @default(GoogleFit)
+  syncedAt     DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  @@unique([athleteId, date])
+  @@index([athleteId, date])
+}
+
+enum FitnessProvider {
+  GoogleFit
+  Fitbit
+}
 model Injry {
   id              String   @id @default(uuid())
   type            String

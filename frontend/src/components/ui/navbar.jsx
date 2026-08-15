@@ -24,7 +24,7 @@ import {
 import { PiArrowBendDownRightBold } from "react-icons/pi";
 import { FaUserClock } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useNavigate } from "react-router-dom";
 import { Component } from "./glowButton";
@@ -75,10 +75,7 @@ function Header() {
                         <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                           <Link to="/career">Mentors</Link>
                         </NavigationMenuLink>
-                        <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
-                          <Link to="/career">Events</Link>
-                        </NavigationMenuLink>
-                        <NavigationMenuLink className="p-2 text-start   font-semibold   mb-[1px] hover:bg-muted hover:rounded-md">
+                        <NavigationMenuLink className="p-2 text-start text-foreground font-semibold   mb-[1px] hover:bg-muted hover:rounded-md">
                           <Link to="/career">Athletes</Link>
                         </NavigationMenuLink>
                       </NavigationMenuContent>
@@ -87,9 +84,6 @@ function Header() {
                       <NavigationMenuContent className="flex p-1 flex-col bg-background pr-[5px] rounded-lg border-none">
                         <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                           <Link to="/career-doc">Appointments</Link>
-                        </NavigationMenuLink>
-                        <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
-                          <Link to="/career-doc">Athletes</Link>
                         </NavigationMenuLink>
                       </NavigationMenuContent>
                     )}
@@ -136,9 +130,6 @@ function Header() {
                             <Link to="/aid">Medicians</Link>
                           </NavigationMenuLink>
                           <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
-                            <Link to="/aid">Diet plan</Link>
-                          </NavigationMenuLink>
-                          <NavigationMenuLink className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md">
                             <Link to="/aid">Healthcare</Link>
                           </NavigationMenuLink>
                         </NavigationMenuContent>
@@ -146,8 +137,11 @@ function Header() {
                     </NavigationMenuList>
                   </NavigationMenu>
 
-                  <Link className="text-base font-semibold   uppercase">
-                    Progress
+                  <Link
+                    to={"/training"}
+                    className="text-base font-semibold uppercase"
+                  >
+                    Training
                   </Link>
 
                   <NavigationMenu className="z-50">
@@ -170,13 +164,6 @@ function Header() {
                           >
                             {" "}
                             <NavigationMenuLink>Transaction</NavigationMenuLink>
-                          </Link>
-                          <Link
-                            to="/finance"
-                            className="p-2 text-start text-foreground font-semibold  mb-[1px] hover:bg-muted hover:rounded-md"
-                          >
-                            {" "}
-                            <NavigationMenuLink>Budget</NavigationMenuLink>
                           </Link>
                         </NavigationMenuContent>
                       </NavigationMenuItem>
@@ -284,13 +271,7 @@ function Header() {
                                   <PiArrowBendDownRightBold />
                                   Mentors
                                 </Link>
-                                <Link
-                                  to="/career"
-                                  className="font-poppins text-base font-medium p-1 flex items-center gap-2"
-                                >
-                                  <PiArrowBendDownRightBold />
-                                  Events
-                                </Link>
+
                                 <Link
                                   to="/career"
                                   className="font-poppins text-base font-medium p-1 flex items-center gap-2"
@@ -309,13 +290,6 @@ function Header() {
                                 >
                                   <PiArrowBendDownRightBold />
                                   Appointments
-                                </Link>
-                                <Link
-                                  to="/career-doc"
-                                  className="text-base font-medium p-1 flex items-center gap-2"
-                                >
-                                  <PiArrowBendDownRightBold />
-                                  Athletes
                                 </Link>
                               </AccordionContent>
                             )}
@@ -395,14 +369,6 @@ function Header() {
                                     className="text-base font-medium p-1 flex items-center gap-2"
                                   >
                                     <PiArrowBendDownRightBold />
-                                    Diet plan
-                                  </Link>
-
-                                  <Link
-                                    to="/aid"
-                                    className="text-base font-medium p-1 flex items-center gap-2"
-                                  >
-                                    <PiArrowBendDownRightBold />
                                     Healthcare
                                   </Link>
                                 </AccordionContent>
@@ -410,10 +376,10 @@ function Header() {
                             </Accordion>
 
                             <Link
-                              to="/progress"
+                              to="/training"
                               className="text-base font-semibold  hover: w-full p-2.5 hover:bg-primary uppercase px-6 flex justify-start"
                             >
-                              Progress
+                              Training
                             </Link>
 
                             <Accordion className="z-50 w-full" collapsible>
@@ -433,12 +399,6 @@ function Header() {
                                     className="text-base font-medium p-1 flex items-center gap-2"
                                   >
                                     <PiArrowBendDownRightBold /> Transaction
-                                  </Link>
-                                  <Link
-                                    to="/finance"
-                                    className="text-base font-medium p-1 flex items-center gap-2"
-                                  >
-                                    <PiArrowBendDownRightBold /> Budget
                                   </Link>
                                 </AccordionContent>
                               </AccordionItem>

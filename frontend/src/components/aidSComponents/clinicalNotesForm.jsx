@@ -4,7 +4,7 @@ import { tasksforrecovery } from "@/constants/data";
 import { axiosInstant } from "@/lib/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import IsSubmitting from "../isSubmitting";
+import IsSubmitting from "../ui/isSubmitting";
 function ClinicalNotes({ appointmentId }) {
   const [task, settask] = useState("");
   const [subjective, setsubjective] = useState("");

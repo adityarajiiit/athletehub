@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import Header from "@/components/navbar";
+import Header from "@/components/ui/navbar";
 import Card from "@/components/ProfileCard";
-import Footer from "@/components/footer";
+import Footer from "@/components/ui/footer";
 import { useState } from "react";
 import { injuryData } from "@/constants/data";
 import medical from "@/assets/medical.jpg";
@@ -13,7 +13,7 @@ import { Carousel, CarouselCard } from "@/shadcnComponents/ui/carousel";
 import InjuryData from "@/components/aidSComponents/injuryData";
 import Illnessdata from "@/components/aidSComponents/Illnessdata";
 import { illnessesByCategory } from "@/constants/data";
-import IsSubmitting from "@/components/isSubmitting";
+import IsSubmitting from "@/components/ui/isSubmitting";
 import {
   Pagination,
   PaginationContent,
@@ -26,7 +26,7 @@ import illnessImage from "/illness.jpg";
 import InjuryAndIllnessForm from "@/components/aidSComponents/injuryAndIllnessForm";
 import { axiosInstant } from "@/lib/axiosInstance";
 import toast from "react-hot-toast";
-import KineticDotsLoader from "@/components/loading";
+import KineticDotsLoader from "@/components/ui/loading";
 function Aid() {
   const [doctors, setDoctors] = useState([]);
   const [pageLoading, setPageLoading] = useState(true);
