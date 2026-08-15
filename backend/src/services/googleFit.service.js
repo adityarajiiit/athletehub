@@ -88,7 +88,6 @@ export async function handleCallback(code, athleteId) {
   return profile.email;
 }
 
-// ── 3. get a valid (auto-refreshed) client for an athlete ──
 async function getAuthedClientForAthlete(athleteId) {
   const account = await prisma.fitnessAccount.findUnique({
     where: { athleteId },

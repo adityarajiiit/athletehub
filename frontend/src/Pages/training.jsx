@@ -20,8 +20,8 @@ import { FaShoePrints, FaFire } from "react-icons/fa";
 import { SiGooglefit } from "react-icons/si";
 import { useSearchParams } from "react-router-dom";
 import IsSubmitting from "@/components/ui/isSubmitting";
-const STEP_GOAL = 10000;
-const CALORIE_GOAL = 2500;
+const STEP_GOAL = 8000;
+const CALORIE_GOAL = 1200;
 
 function Training() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -129,9 +129,9 @@ function Training() {
             </p>
           </div>
 
-          <div className="mt-6 w-full max-w-3xl bg-muted/50 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="mt-6 w-full max-w-3xl bg-primary-foreground rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <SiGooglefit className="size-8 text-info" />
+              <SiGooglefit className="size-8 text-secondary" />
               <div>
                 <p className="font-poppins font-semibold">
                   {status.connected
@@ -139,7 +139,7 @@ function Training() {
                     : "Google Fit not connected"}
                 </p>
                 {status.connected && (
-                  <p className="text-sm text-accent-foreground">
+                  <p className="text-sm text-accent">
                     {status.email}
                     {status.lastSyncedAt &&
                       ` · last synced ${new Date(status.lastSyncedAt).toLocaleString()}`}
@@ -187,17 +187,17 @@ function Training() {
 
           {status.connected && (
             <>
-              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-8 bg-muted/50 rounded-xl p-8 w-full max-w-2xl">
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-8 bg-primary-foreground rounded-xl p-8 w-full max-w-2xl">
                 <div className="flex flex-col items-center gap-2">
                   <AnimatedCircularProgressBar
                     max={STEP_GOAL}
                     min={0}
                     value={today.steps}
-                    gaugePrimaryColor="hsl(var(--info))"
+                    gaugePrimaryColor="hsl(var(--secondary))"
                     gaugeSecondaryColor="rgba(255,255,255,0.1)"
                   />
                   <div className="flex items-center gap-2 mt-2">
-                    <FaShoePrints className="text-info" />
+                    <FaShoePrints className="text-secondary" />
                     <span className="font-poppins font-medium">
                       {today.steps.toLocaleString()} /{" "}
                       {STEP_GOAL.toLocaleString()} steps
@@ -221,25 +221,46 @@ function Training() {
                 </div>
               </div>
 
-              {/* Trend charts */}
               <div className="mt-8 w-full max-w-4xl bg-muted/50 rounded-xl p-6">
                 <h2 className="font-poppins font-semibold text-lg mb-4">
                   Steps — last 30 days
                 </h2>
                 <ResponsiveContainer width="100%" height={260}>
                   <LineChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.5} />
                     <XAxis
                       dataKey="date"
                       fontSize={12}
                       interval="preserveStartEnd"
+                      stroke="hsl(var(--secondary))"
+                      tick={{ fill: "hsl(var(--secondary))" }}
+                      axisLine={{ stroke: "hsl(var(--secondary))" }}
+                      tickLine={{ stroke: "hsl(var(--secondary))" }}
                     />
-                    <YAxis fontSize={12} />
-                    <Tooltip />
+                    <YAxis
+                      fontSize={12}
+                      stroke="hsl(var(--secondary))"
+                      tick={{ fill: "hsl(var(--secondary))" }}
+                      axisLine={{ stroke: "hsl(var(--secondary))" }}
+                      tickLine={{ stroke: "hsl(var(--secondary))" }}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "hsl(var(--primary-foreground))",
+                        border: "none",
+                        borderRadius: "0.5rem",
+                      }}
+                      labelStyle={{
+                        color: "hsl(var(--secondary))",
+                      }}
+                      itemStyle={{
+                        color: "hsl(var(--secondary))",
+                      }}
+                    />
                     <Line
                       type="monotone"
                       dataKey="steps"
-                      stroke="hsl(var(--info))"
+                      stroke="hsl(var(--secondary))"
                       strokeWidth={2}
                       dot={false}
                     />
@@ -253,18 +274,37 @@ function Training() {
                 </h2>
                 <ResponsiveContainer width="100%" height={260}>
                   <BarChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.5} />
                     <XAxis
                       dataKey="date"
                       fontSize={12}
                       interval="preserveStartEnd"
+                      stroke="hsl(var(--secondary))"
+                      tick={{ fill: "hsl(var(--secondary))" }}
+                      axisLine={{ stroke: "hsl(var(--secondary))" }}
+                      tickLine={{ stroke: "hsl(var(--secondary))" }}
                     />
-                    <YAxis fontSize={12} />
-                    <Tooltip />
+                    <YAxis
+                      fontSize={12}
+                      stroke="hsl(var(--secondary))"
+                      tick={{ fill: "hsl(var(--secondary))" }}
+                      axisLine={{ stroke: "hsl(var(--secondary))" }}
+                      tickLine={{ stroke: "hsl(var(--secondary))" }}
+                    />
+                    <Tooltip
+                      cursor={false}
+                      contentStyle={{
+                        backgroundColor: "hsl(var(--primary-foreground))",
+                        border: "none",
+                        borderRadius: "0.5rem",
+                      }}
+                      labelStyle={{ color: "hsl(var(--secondary))" }}
+                      itemStyle={{ color: "hsl(var(--secondary))" }}
+                    />
                     <Bar
                       dataKey="calories"
                       fill="hsl(var(--secondary))"
-                      radius={[4, 4, 0, 0]}
+                      radius={[8, 8, 0, 0]}
                     />
                   </BarChart>
                 </ResponsiveContainer>

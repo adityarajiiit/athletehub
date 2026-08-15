@@ -2,7 +2,7 @@ import * as googleFitService from "../services/googleFit.service.js";
 import prisma from "../lib/prisma.js";
 import crypto from "crypto";
 
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+const FRONTEND_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
 function signState(athleteId) {
   const hmac = crypto
