@@ -470,7 +470,7 @@ function Aid() {
                         className={
                           currentPage === 0
                             ? "pointer-events-none opacity-50 font-semibold text-accent"
-                            : "text-accent text-primary"
+                            : " text-primary"
                         }
                         onClick={() =>
                           setCurrentPage((prev) => Math.max(0, prev - 1))
@@ -483,7 +483,7 @@ function Aid() {
                         className={
                           currentPage >= totalPages - 1
                             ? "pointer-events-none opacity-50 font-semibold text-accent"
-                            : "text-accent text-primary"
+                            : "text-primary"
                         }
                         onClick={() =>
                           setCurrentPage((prev) =>
